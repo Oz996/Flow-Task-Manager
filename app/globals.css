@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --main-color: 240, 2%, 18%;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -65,5 +69,11 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+  .flex-centered {
+    @apply flex items-center justify-center;
   }
 }
