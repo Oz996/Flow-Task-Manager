@@ -24,7 +24,10 @@ const config = {
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
-        main: "hsl(var(--main-color))",
+        main: {
+          DEFAULT: "hsl(var(--main))",
+          light: "hsl(var(--main-light))",
+        },
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
