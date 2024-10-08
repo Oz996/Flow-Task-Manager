@@ -1,5 +1,4 @@
 "use client";
-
 import { useSidebar } from "@/hooks/useSidebar";
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -10,6 +9,7 @@ export default function Sidebar() {
     <AnimatePresence>
       {sidebarOpen && (
         <motion.aside
+          aria-expanded={sidebarOpen}
           className="bg-main mt-[3rem] h-screen"
           initial={{ width: 0 }}
           animate={{ width: "16rem" }}

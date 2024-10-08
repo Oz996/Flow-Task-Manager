@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/header/header";
 import SidebarContextProvider from "@/context/sidebar-context";
 import { Metadata } from "next";
+import Sidebar from "@/components/sidebar/sidebar";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -33,6 +34,7 @@ export default function RootLayout({
         >
           <SidebarContextProvider>
             <Header />
+            <Sidebar />
             <main>{children}</main>
           </SidebarContextProvider>
         </ThemeProvider>

@@ -9,9 +9,8 @@ export default function SidebarButton() {
 
   return (
     <Button
+      aria-label={sidebarOpen ? "Close sidebar" : "Expand sidebar"}
       className="bg-transparent p-1 hover:bg-main-light"
-      aria-label={sidebarOpen ? "Closoe sidebar" : "Expand sidebar"}
-      aria-expanded={sidebarOpen}
       onClick={() => setSidebarOpen(!sidebarOpen)}
     >
       <Menu size={28} />
