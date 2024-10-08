@@ -3,7 +3,7 @@ import SidebarButton from "./sidebar-button";
 
 export default function Header() {
   return (
-    <header className="w-screen h-[3rem] bg-main absolute left-0 top-0">
+    <header className="w-screen h-[3rem] bg-main absolute left-0 top-0 border-b-main-light border-b">
       <div className="container flex justify-between items-center h-full">
         <SidebarButton />
         <Searchbar />
