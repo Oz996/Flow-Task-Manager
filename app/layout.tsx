@@ -34,8 +34,10 @@ export default function RootLayout({
         >
           <SidebarContextProvider>
             <Header />
-            <Sidebar />
-            <main>{children}</main>
+            <main className="flex">
+              <Sidebar />
+              {children}
+            </main>
           </SidebarContextProvider>
         </ThemeProvider>
       </body>

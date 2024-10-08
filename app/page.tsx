@@ -1,9 +1,7 @@
-import Sidebar from "@/components/sidebar/sidebar";
-
 export default async function Index() {
   return (
-    <>
-      <div></div>
-    </>
+    <section className="block w-screen px-8">
+      <h1 className="font-bold text-xl pt-20">Home</h1>
+    </section>
   );
 }
