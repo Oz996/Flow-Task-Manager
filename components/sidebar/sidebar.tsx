@@ -16,7 +16,7 @@ export default function Sidebar() {
           aria-expanded={sidebarOpen}
           className="bg-main pt-12 h-screen"
           initial={{ width: 0 }}
-          animate={{ width: "16rem" }}
+          animate={{ width: "18.5rem" }}
           exit={{ width: 0 }}
           transition={{ duration: 0.3 }}
         >

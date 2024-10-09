@@ -1,9 +1,9 @@
 import { createClient } from "@/lib/supabase/server";
 import Searchbar from "./searchbar";
 import SidebarButton from "./sidebar-button";
-import { Settings2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import ConfigSheet from "./config-sheet";
 
 export default async function Header() {
   const {
@@ -23,7 +23,7 @@ export default async function Header() {
               <Link href="/sign-in">Sign in</Link>
             </Button>
           )}
-          <Settings2 size={20} className="text-white" />
+          <ConfigSheet />
         </div>
       </div>
     </header>
