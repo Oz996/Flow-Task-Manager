@@ -5,6 +5,7 @@ import Header from "@/components/header/header";
 import SidebarContextProvider from "@/context/sidebar-context";
 import { Metadata } from "next";
 import Sidebar from "@/components/sidebar/sidebar";
+import MainLayout from "./main-layout";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -34,10 +35,8 @@ export default function RootLayout({
         >
           <SidebarContextProvider>
             <Header />
-            <main className="flex">
-              <Sidebar />
-              {children}
-            </main>
+            <Sidebar />
+            <MainLayout>{children}</MainLayout>
           </SidebarContextProvider>
         </ThemeProvider>
       </body>

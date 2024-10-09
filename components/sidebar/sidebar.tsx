@@ -14,19 +14,19 @@ export default function Sidebar() {
         <motion.aside
           key="sidebar"
           aria-expanded={sidebarOpen}
-          className="bg-main pt-12 h-screen"
-          initial={{ width: 0 }}
-          animate={{ width: "18.5rem" }}
-          exit={{ width: 0 }}
-          transition={{ duration: 0.3 }}
+          className="bg-main fixed w-[18.5rem] left-0 bottom-0 top-12 h-screen"
+          initial={{ left: "-18.5rem" }}
+          animate={{ left: 0 }}
+          exit={{ left: "-18.5rem" }}
+          transition={{ duration: 0.2, ease: "linear" }}
         >
           <motion.div
             key="sidebar-content"
             className="overflow-hidden text-nowrap"
-            initial={{ opacity: 0, x: "-100%" }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: "-100%" }}
-            transition={{ duration: 0.15 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.1, ease: "linear" }}
           >
             <nav className="py-5 border-b border-b-main-light">
               <ul className="flex flex-col text-white text-sm px-4">
