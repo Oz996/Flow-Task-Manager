@@ -13,7 +13,7 @@ export default function SidebarButton() {
       className="bg-transparent p-1 hover:bg-main-light"
       onClick={() => setSidebarOpen(!sidebarOpen)}
     >
-      <Menu size={28} />
+      <Menu size={22} />
     </Button>
   );
 }

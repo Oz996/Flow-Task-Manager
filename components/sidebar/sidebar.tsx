@@ -22,7 +22,7 @@ export default function Sidebar() {
         >
           <motion.div
             key="sidebar-content"
-            className="overflow-hidden text-nowrap"
+            className="overflow-ellipsis text-nowrap"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}

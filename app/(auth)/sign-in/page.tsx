@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export default function Login() {
   return (
-    <form className="flex-1 flex flex-col min-w-64">
+    <form className="flex flex-col">
       <h1 className="text-2xl font-medium">Sign in</h1>
       <p className="text-sm text-foreground">
         Don't have an account?{" "}
@@ -19,12 +19,6 @@ export default function Login() {
         <Input name="email" placeholder="you@example.com" required />
         <div className="flex justify-between items-center">
           <Label htmlFor="password">Password</Label>
-          <Link
-            className="text-xs text-foreground underline"
-            href="/forgot-password"
-          >
-            Forgot Password?
-          </Link>
         </div>
         <Input
           type="password"

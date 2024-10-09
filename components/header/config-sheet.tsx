@@ -13,7 +13,7 @@ export default function ConfigSheet() {
     <Sheet>
       <SheetTrigger asChild>
         <Button className="bg-transparent py-1 px-2">
-          <Settings2 size={20} className="text-white" />
+          <Settings2 size={22} className="text-white" />
         </Button>
       </SheetTrigger>
       <SheetContent>

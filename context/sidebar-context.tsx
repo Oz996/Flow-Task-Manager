@@ -13,7 +13,7 @@ interface SidebarContextInterface {
 }
 
 const intialState = {
-  sidebarOpen: false,
+  sidebarOpen: true,
   setSidebarOpen: () => null,
 };
 
