@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import FormError from "../components/form-error";
+import RequiredLabel from "@/components/required-label";
 
 export default function Signup({
   searchParams,
@@ -21,13 +22,15 @@ export default function Signup({
           </Link>
         </p>
         <div className="flex flex-col gap-2 [&>input]:mb-3 mt-8">
-          <Label htmlFor="email">Email</Label>
+          <RequiredLabel htmlFor="email">Email</RequiredLabel>
           <Input name="email" placeholder="you@example.com" />
-          <Label htmlFor="username">Username</Label>
+          <RequiredLabel htmlFor="username">Username</RequiredLabel>
           <Input name="username" placeholder="Your username" />
-          <Label htmlFor="password">Password</Label>
+          <Label htmlFor="username">Profile Picture</Label>
+          <Input name="picture" type="file" />
+          <RequiredLabel htmlFor="password">Password</RequiredLabel>
           <Input type="password" name="password" placeholder="Your password" />
-          <Label htmlFor="password">Confirm Password</Label>
+          <RequiredLabel htmlFor="password">Confirm Password</RequiredLabel>
           <Input
             type="password"
             name="confirm-password"

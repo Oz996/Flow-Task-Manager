@@ -18,10 +18,10 @@ export const signUpAction = async (formData: FormData) => {
     );
   }
 
-  if (password.length < 6) {
+  if (username.length <= 2) {
     return encodedNavigation(
       "sign-up",
-      "Password has to be atleast 6 characters"
+      "Username must be at least 3 characters"
     );
   }
 
