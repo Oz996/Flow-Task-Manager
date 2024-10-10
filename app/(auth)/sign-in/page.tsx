@@ -3,8 +3,13 @@ import { SubmitButton } from "@/components/submit-button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
+import FormError from "../components/form-error";
 
-export default function Login() {
+export default function Login({
+  searchParams,
+}: {
+  searchParams: { error: string };
+}) {
   return (
     <form className="flex flex-col">
       <h1 className="text-2xl font-medium">Sign in</h1>
@@ -16,16 +21,12 @@ export default function Login() {
       </p>
       <div className="flex flex-col gap-2 [&>input]:mb-3 mt-8">
         <Label htmlFor="email">Email</Label>
-        <Input name="email" placeholder="you@example.com" required />
+        <Input name="email" placeholder="you@example.com" />
         <div className="flex justify-between items-center">
           <Label htmlFor="password">Password</Label>
         </div>
-        <Input
-          type="password"
-          name="password"
-          placeholder="Your password"
-          required
-        />
+        <Input type="password" name="password" placeholder="Your password" />
+        <FormError error={searchParams.error} />
         <SubmitButton formAction={signInAction}>Sign in</SubmitButton>
       </div>
     </form>

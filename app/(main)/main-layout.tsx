@@ -8,7 +8,7 @@ export default function MainLayout({ children }: { children: ReactNode }) {
 
   return (
     <main
-      className={`pt-20 ease-linear duration-200 ${sidebarOpen ? "ml-[18.5rem]" : "ml-0"}`}
+      className={`pt-20 ease-linear duration-200 ${sidebarOpen ? "pl-[18.5rem]" : "pl-0"}`}
     >
       {children}
     </main>
