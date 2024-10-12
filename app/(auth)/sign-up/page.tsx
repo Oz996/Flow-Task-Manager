@@ -23,17 +23,25 @@ export default function Signup({
         </p>
         <div className="flex flex-col gap-2 [&>input]:mb-3 mt-8">
           <RequiredLabel htmlFor="email">Email</RequiredLabel>
-          <Input name="email" placeholder="you@example.com" />
+          <Input name="email" id="email" placeholder="you@example.com" />
           <RequiredLabel htmlFor="username">Username</RequiredLabel>
-          <Input name="username" placeholder="Your username" />
-          <Label htmlFor="username">Profile Picture</Label>
-          <Input name="picture" type="file" />
+          <Input name="username" id="username" placeholder="Your username" />
+          <Label htmlFor="picture">Profile Picture</Label>
+          <Input name="picture" id="picture" type="file" accept="image/*" />
           <RequiredLabel htmlFor="password">Password</RequiredLabel>
-          <Input type="password" name="password" placeholder="Your password" />
-          <RequiredLabel htmlFor="password">Confirm Password</RequiredLabel>
+          <Input
+            type="password"
+            name="password"
+            id="password"
+            placeholder="Your password"
+          />
+          <RequiredLabel htmlFor="confirm-password">
+            Confirm Password
+          </RequiredLabel>
           <Input
             type="password"
             name="confirm-password"
+            id="confirm-password"
             placeholder="Confirm password"
           />
           <FormError error={searchParams.error} />

@@ -9,6 +9,7 @@ export const signUpAction = async (formData: FormData) => {
   const username = formData.get("username")?.toString();
   const password = formData.get("password")?.toString();
   const cPassword = formData.get("confirm-password")?.toString();
+  const picture = formData.get("picture") as File | null;
   const supabase = createClient();
 
   if (!email || !username || !password) {
@@ -29,7 +30,7 @@ export const signUpAction = async (formData: FormData) => {
     return encodedNavigation("sign-up", "Passwords do not match");
   }
 
-  const { error } = await supabase.auth.signUp({
+  const { error, data } = await supabase.auth.signUp({
     email,
     password,
     options: {
@@ -37,6 +38,33 @@ export const signUpAction = async (formData: FormData) => {
         email,
         username,
       },
+    },
+  });
+
+  // Handle profile picture upload if provided
+  // Using user Id as the image name to connect the user to the image
+  let pictureUrl = null;
+  if (picture) {
+    const fileExt = picture?.name.split(".").pop();
+    const filePath = `public/${data?.user?.id}.${fileExt}`;
+
+    const { error } = await supabase.storage
+      .from("avatars")
+      .upload(filePath, picture, {
+        cacheControl: "3600",
+      });
+
+    if (error) {
+      console.error(error.message);
+      return encodedNavigation("sign-up", "Image upload failed");
+    }
+
+    pictureUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/avatars/public/${filePath}`;
+  }
+
+  const {} = await supabase.auth.updateUser({
+    data: {
+      avatar_url: pictureUrl,
     },
   });
 
