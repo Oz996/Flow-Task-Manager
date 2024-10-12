@@ -30,6 +30,30 @@ export const signUpAction = async (formData: FormData) => {
     return encodedNavigation("sign-up", "Passwords do not match");
   }
 
+  // Handle profile picture upload if provided
+  // Using user Id as the image name to connect the user to the image
+  const generateAvatarUrl = async () => {
+    if (picture) {
+      const fileExt = picture.name.split(".").pop();
+      const filePath = `public/${crypto.randomUUID()}.${fileExt}`;
+
+      const { error } = await supabase.storage
+        .from("avatars")
+        .upload(filePath, picture, {
+          cacheControl: "3600",
+        });
+
+      if (error) {
+        console.error(error.message);
+      }
+
+      return `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/avatars/${filePath}`;
+    }
+    return null;
+  };
+
+  const avatarUrl = await generateAvatarUrl();
+
   const { error, data } = await supabase.auth.signUp({
     email,
     password,
@@ -37,43 +61,18 @@ export const signUpAction = async (formData: FormData) => {
       data: {
         email,
         username,
+        avatar_url: avatarUrl,
       },
     },
   });
 
-  // Handle profile picture upload if provided
-  // Using user Id as the image name to connect the user to the image
-  let pictureUrl = null;
-  if (picture) {
-    const fileExt = picture?.name.split(".").pop();
-    const filePath = `public/${data?.user?.id}.${fileExt}`;
-
-    const { error } = await supabase.storage
-      .from("avatars")
-      .upload(filePath, picture, {
-        cacheControl: "3600",
-      });
-
-    if (error) {
-      console.error(error.message);
-      return encodedNavigation("sign-up", "Image upload failed");
-    }
-
-    pictureUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/avatars/public/${filePath}`;
-  }
-
-  const {} = await supabase.auth.updateUser({
-    data: {
-      avatar_url: pictureUrl,
-    },
-  });
-
+  console.log("User Metadata:", data.user?.user_metadata);
   if (error) {
     console.error(error.message);
     return encodedNavigation("sign-up", error.message);
-  } else {
-    return redirect("/home");
   }
+
+  return redirect("/home");
 };
 
 export const signInAction = async (formData: FormData) => {
