@@ -27,7 +27,6 @@ export default async function HeaderAvatar() {
     return data?.avatar_url;
   };
 
-  console.log("user", user);
   const avatar = await getAvatarUrl(user?.id as string);
 
   return (
