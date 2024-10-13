@@ -1,14 +1,12 @@
-import { createClient } from "@/lib/supabase/server";
 import Searchbar from "./searchbar";
 import SidebarButton from "./sidebar-button";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import ConfigSheet from "./config-sheet";
+import { userSession } from "@/lib/supabase/user-session";
 
 export default async function Header() {
-  const {
-    data: { user },
-  } = await createClient().auth.getUser();
+  const user = await userSession();
 
   return (
     <header className="w-screen h-12 bg-main fixed left-0 top-0 border-b-main-light border-b">
@@ -16,9 +14,7 @@ export default async function Header() {
         <SidebarButton />
         <Searchbar />
         <div className="flex gap-1 items-center">
-          {user ? (
-            <div className="size-8 rounded-full bg-main-light" />
-          ) : (
+          {!user && (
             <Button asChild>
               <Link href="/sign-in">Sign in</Link>
             </Button>
