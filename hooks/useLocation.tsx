@@ -4,14 +4,14 @@ import { useEffect, useState } from "react";
 export function useLocation() {
   const [url, setUrl] = useState<URL>();
 
+  const router = useRouter();
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       const currentUrl = new URL(window.location.href);
       setUrl(currentUrl);
     }
   }, []);
-
-  const router = useRouter();
 
   function openAddModal() {
     url?.searchParams.set("modal", "true");

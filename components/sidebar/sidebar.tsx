@@ -2,7 +2,7 @@ import { CircleCheck, House } from "lucide-react";
 import Link from "next/link";
 import SidebarContainer from "./sidebar-container";
 import ModalButton from "./modal-button";
-import ProjectModal from "../project-modal";
+import ProjectModal from "../modals/project-modal";
 
 export default function Sidebar() {
   const iconSize = 18;
