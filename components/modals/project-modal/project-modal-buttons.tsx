@@ -8,27 +8,37 @@ import {
 } from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
 import { initialSections } from "./project-modal-form";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, RefObject, SetStateAction, useState } from "react";
 import { Section } from "@/lib/types";
 import classNames from "classnames";
 
 interface ProjectModalButtonsProps {
+  inputRef: RefObject<HTMLInputElement>;
   setSections: Dispatch<SetStateAction<Section[]>>;
 }
 
 export default function ProjectModalButtons({
+  inputRef,
   setSections,
 }: ProjectModalButtonsProps) {
   const [active, setActive] = useState(1);
 
+  function focusInput() {
+    if (inputRef.current?.value === "") {
+      inputRef.current.focus();
+    }
+  }
+
   function setInitialState() {
     setSections([initialSections]);
     setActive(1);
+    focusInput();
   }
 
   function setTemplateState() {
     setSections(projectTemplate);
     setActive(2);
+    focusInput();
   }
 
   return (

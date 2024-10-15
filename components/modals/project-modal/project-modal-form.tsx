@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { SubmitButton } from "../../submit-button";
@@ -14,11 +14,15 @@ export const initialSections: Section = {
   created_at: "",
   name: "",
 };
-
 export default function ProjectModalForm() {
   const [sections, setSections] = useState<Section[]>([initialSections]);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const sectionsLimit = sections.length > 4;
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
 
   function addSection() {
     if (sectionsLimit) return;
@@ -35,7 +39,6 @@ export default function ProjectModalForm() {
   function handleChange(
     e: ChangeEvent<HTMLInputElement>,
     id: string,
-    name: string,
     index: number
   ) {
     const newName = e.target.value;
@@ -57,15 +60,15 @@ export default function ProjectModalForm() {
     setSections(newTasks);
   }
 
-  console.log(sections);
   return (
     <form>
       <div className="flex flex-col gap-2">
-        <ProjectModalButtons setSections={setSections} />
+        <ProjectModalButtons inputRef={inputRef} setSections={setSections} />
         <Label htmlFor="project-name" className="text-sm">
           Project Name
         </Label>
         <Input
+          ref={inputRef}
           name="project-name"
           id="project-name"
           placeholder="Project name"
@@ -83,7 +86,7 @@ export default function ProjectModalForm() {
               id={section.id}
               placeholder="Section name"
               value={section.name}
-              onChange={(e) => handleChange(e, section.id, section.name, index)}
+              onChange={(e) => handleChange(e, section.id, index)}
             />
             {sections.length > 1 && (
               <Button
