@@ -1,37 +1,55 @@
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { SubmitButton } from "../submit-button";
+import { SubmitButton } from "../../submit-button";
 import { createProjectAction } from "@/app/(main)/actions";
-import { Task } from "@/lib/types";
+import { Section } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
-import { projectTemplate } from "@/lib/constants";
 
-const initialTasks: Task = {
+import ProjectModalButtons from "./project-modal-buttons";
+
+export const initialSections: Section = {
   id: crypto.randomUUID(),
   created_at: "",
-  edited_at: "",
   name: "",
 };
 
 export default function ProjectModalForm() {
-  const [formData, setFormData] = useState({});
-  const [sections, setSections] = useState<Task[]>([initialTasks]);
+  const [sections, setSections] = useState<Section[]>([initialSections]);
 
   const sectionsLimit = sections.length > 4;
 
-  function addTask() {
+  function addSection() {
     if (sectionsLimit) return;
     setSections((prevTasks) => [
       ...prevTasks,
       {
         id: crypto.randomUUID(),
         created_at: "",
-        edited_at: "",
         name: "",
       },
     ]);
+  }
+
+  function handleChange(
+    e: ChangeEvent<HTMLInputElement>,
+    id: string,
+    name: string,
+    index: number
+  ) {
+    const newName = e.target.value;
+
+    const newSectionObject = {
+      id,
+      created_at: "",
+      name: newName,
+    };
+
+    const sectionsArray = [...sections];
+    sectionsArray[index] = newSectionObject;
+
+    setSections(sectionsArray);
   }
 
   function removeSection(id: string) {
@@ -43,9 +61,7 @@ export default function ProjectModalForm() {
   return (
     <form>
       <div className="flex flex-col gap-2">
-        <Button type="button" onClick={() => setSections(projectTemplate)}>
-          template
-        </Button>
+        <ProjectModalButtons setSections={setSections} />
         <Label htmlFor="project-name" className="text-sm">
           Project Name
         </Label>
@@ -56,7 +72,7 @@ export default function ProjectModalForm() {
         />
       </div>
 
-      {sections.map((section) => (
+      {sections.map((section, index) => (
         <div className="flex flex-col gap-2 mt-2">
           <Label htmlFor={section.id} className="text-sm">
             Section Name
@@ -66,6 +82,8 @@ export default function ProjectModalForm() {
               name="section-name"
               id={section.id}
               placeholder="Section name"
+              value={section.name}
+              onChange={(e) => handleChange(e, section.id, section.name, index)}
             />
             {sections.length > 1 && (
               <Button
@@ -81,7 +99,7 @@ export default function ProjectModalForm() {
       ))}
 
       <div className="w-full flex flex-col gap-2 mt-5">
-        <Button type="button" disabled={sectionsLimit} onClick={addTask}>
+        <Button type="button" disabled={sectionsLimit} onClick={addSection}>
           + Add Section{" "}
         </Button>
         <SubmitButton formAction={createProjectAction}>Submit</SubmitButton>

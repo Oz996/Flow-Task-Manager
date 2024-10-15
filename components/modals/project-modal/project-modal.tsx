@@ -18,7 +18,9 @@ export default function ProjectModal() {
     <ModalContainer>
       <DialogContent className="sm:max-w-[30rem] p-8">
         <DialogHeader>
-          <DialogTitle>{addModal ? "Add Project" : "Edit Project"}</DialogTitle>
+          <DialogTitle>
+            {addModal ? "Create Project" : "Edit Project"}
+          </DialogTitle>
         </DialogHeader>
         <ProjectModalForm />
       </DialogContent>
