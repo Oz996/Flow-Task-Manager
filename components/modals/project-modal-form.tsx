@@ -6,6 +6,7 @@ import { createProjectAction } from "@/app/(main)/actions";
 import { Task } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
+import { projectTemplate } from "@/lib/constants";
 
 const initialTasks: Task = {
   id: crypto.randomUUID(),
@@ -38,10 +39,16 @@ export default function ProjectModalForm() {
     setSections(newTasks);
   }
 
+  console.log(sections);
   return (
-    <form className="space-y-2">
+    <form>
       <div className="flex flex-col gap-2">
-        <Label htmlFor="project-name">Project Name</Label>
+        <Button type="button" onClick={() => setSections(projectTemplate)}>
+          template
+        </Button>
+        <Label htmlFor="project-name" className="text-sm">
+          Project Name
+        </Label>
         <Input
           name="project-name"
           id="project-name"
@@ -50,8 +57,10 @@ export default function ProjectModalForm() {
       </div>
 
       {sections.map((section) => (
-        <div className="flex flex-col gap-2">
-          <Label htmlFor={section.id}>Section Name</Label>
+        <div className="flex flex-col gap-2 mt-2">
+          <Label htmlFor={section.id} className="text-sm">
+            Section Name
+          </Label>
           <div className="flex gap-2">
             <Input
               name="section-name"
@@ -71,9 +80,9 @@ export default function ProjectModalForm() {
         </div>
       ))}
 
-      <div className="w-full flex flex-col gap-2 mt-2">
+      <div className="w-full flex flex-col gap-2 mt-5">
         <Button type="button" disabled={sectionsLimit} onClick={addTask}>
-          + Add Task{" "}
+          + Add Section{" "}
         </Button>
         <SubmitButton formAction={createProjectAction}>Submit</SubmitButton>
       </div>
