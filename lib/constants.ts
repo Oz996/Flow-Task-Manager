@@ -1,20 +1,19 @@
-export const projectTemplate = [
+import { Section } from "./types";
+
+export const projectTemplate: Section[] = [
   {
     id: crypto.randomUUID(),
     created_at: "",
-    edited_at: "",
     name: "To do",
   },
   {
     id: crypto.randomUUID(),
     created_at: "",
-    edited_at: "",
     name: "Doing",
   },
   {
     id: crypto.randomUUID(),
     created_at: "",
-    edited_at: "",
     name: "Completed",
   },
 ];

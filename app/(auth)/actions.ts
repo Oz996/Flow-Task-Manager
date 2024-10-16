@@ -39,9 +39,7 @@ export const signUpAction = async (formData: FormData) => {
 
       const { error } = await supabase.storage
         .from("avatars")
-        .upload(filePath, picture, {
-          cacheControl: "3600",
-        });
+        .upload(filePath, picture);
 
       if (error) {
         console.error(error.message);

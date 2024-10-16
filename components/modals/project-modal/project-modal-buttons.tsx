@@ -7,10 +7,10 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
-import { initialSections } from "./project-modal-form";
 import { Dispatch, RefObject, SetStateAction, useState } from "react";
 import { Section } from "@/lib/types";
 import classNames from "classnames";
+import { generateSection } from "@/lib/utils";
 
 interface ProjectModalButtonsProps {
   inputRef: RefObject<HTMLInputElement>;
@@ -30,7 +30,7 @@ export default function ProjectModalButtons({
   }
 
   function setInitialState() {
-    setSections([initialSections]);
+    setSections([generateSection()]);
     setActive(1);
     focusInput();
   }

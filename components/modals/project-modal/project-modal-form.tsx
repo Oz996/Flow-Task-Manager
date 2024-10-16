@@ -6,20 +6,15 @@ import { createProjectAction } from "@/app/(main)/actions";
 import { Section } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
-
 import ProjectModalButtons from "./project-modal-buttons";
 import { ProjectSchema } from "@/lib/schemas";
 import FormError from "@/app/(auth)/components/form-error";
 import { ZodError, ZodIssue } from "zod";
 import { useLocation } from "@/hooks/useLocation";
+import { generateSection } from "@/lib/utils";
 
-export const initialSections: Section = {
-  id: crypto.randomUUID(),
-  created_at: "",
-  name: "",
-};
 export default function ProjectModalForm() {
-  const [sections, setSections] = useState<Section[]>([initialSections]);
+  const [sections, setSections] = useState<Section[]>([generateSection()]);
   const [errors, setErrors] = useState<ZodIssue[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -32,14 +27,7 @@ export default function ProjectModalForm() {
 
   function addSection() {
     if (sectionsLimit) return;
-    setSections((prevTasks) => [
-      ...prevTasks,
-      {
-        id: crypto.randomUUID(),
-        created_at: "",
-        name: "",
-      },
-    ]);
+    setSections((prevTasks) => [...prevTasks, generateSection()]);
   }
 
   function handleChange(
@@ -76,7 +64,6 @@ export default function ProjectModalForm() {
       closeModal();
     } catch (error) {
       if (error instanceof ZodError) {
-        console.error(error);
         setErrors(error.errors);
       }
     }
@@ -97,7 +84,7 @@ export default function ProjectModalForm() {
         />
       </div>
       {sections.map((section, index) => (
-        <div className="flex flex-col gap-2 mt-2">
+        <div className="flex flex-col gap-2 mt-2" key={section.id}>
           <Label htmlFor={section.id} className="text-sm">
             Section Name
           </Label>
@@ -124,8 +111,8 @@ export default function ProjectModalForm() {
 
       {errors.length > 0 && (
         <div className="flex flex-col gap-1 mt-5">
-          {errors.map((error) => (
-            <FormError error={error?.message} />
+          {errors.map((error, index) => (
+            <FormError error={error?.message} key={index} />
           ))}
         </div>
       )}
