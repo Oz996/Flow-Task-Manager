@@ -8,6 +8,10 @@ import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
 
 import ProjectModalButtons from "./project-modal-buttons";
+import { ProjectSchema } from "@/lib/schemas";
+import FormError from "@/app/(auth)/components/form-error";
+import { ZodError, ZodIssue } from "zod";
+import { useLocation } from "@/hooks/useLocation";
 
 export const initialSections: Section = {
   id: crypto.randomUUID(),
@@ -16,8 +20,10 @@ export const initialSections: Section = {
 };
 export default function ProjectModalForm() {
   const [sections, setSections] = useState<Section[]>([initialSections]);
+  const [errors, setErrors] = useState<ZodIssue[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const { closeModal } = useLocation();
   const sectionsLimit = sections.length > 4;
 
   useEffect(() => {
@@ -60,6 +66,22 @@ export default function ProjectModalForm() {
     setSections(newTasks);
   }
 
+  async function formAction(formData: FormData) {
+    const projectName = formData.get("project-name")?.toString();
+    const sectionNames = formData.getAll("section-name");
+
+    try {
+      ProjectSchema.parse({ projectName, sectionNames });
+      await createProjectAction(formData);
+      closeModal();
+    } catch (error) {
+      if (error instanceof ZodError) {
+        console.error(error);
+        setErrors(error.errors);
+      }
+    }
+  }
+
   return (
     <form>
       <div className="flex flex-col gap-2">
@@ -74,7 +96,6 @@ export default function ProjectModalForm() {
           placeholder="Project name"
         />
       </div>
-
       {sections.map((section, index) => (
         <div className="flex flex-col gap-2 mt-2">
           <Label htmlFor={section.id} className="text-sm">
@@ -101,11 +122,26 @@ export default function ProjectModalForm() {
         </div>
       ))}
 
-      <div className="w-full flex flex-col gap-2 mt-5">
-        <Button type="button" disabled={sectionsLimit} onClick={addSection}>
+      {errors.length > 0 && (
+        <div className="flex flex-col gap-1 mt-5">
+          {errors.map((error) => (
+            <FormError error={error?.message} />
+          ))}
+        </div>
+      )}
+
+      <div className="w-full flex flex-col gap-3 mt-5">
+        <Button
+          type="button"
+          disabled={sectionsLimit}
+          onClick={addSection}
+          className="rounded-full"
+        >
           + Add Section{" "}
         </Button>
-        <SubmitButton formAction={createProjectAction}>Submit</SubmitButton>
+        <SubmitButton formAction={formAction} className="rounded-full">
+          Submit
+        </SubmitButton>
       </div>
     </form>
   );
