@@ -1,8 +1,8 @@
 import { CircleCheck, House } from "lucide-react";
 import Link from "next/link";
 import SidebarContainer from "./sidebar-container";
-import ModalButton from "./modal-button";
 import ProjectModal from "../modals/project-modal/project-modal";
+import SidebarProjects from "./sidebar-projects";
 
 export default function Sidebar() {
   const iconSize = 18;
@@ -31,13 +31,7 @@ export default function Sidebar() {
           </li>
         </ul>
       </nav>
-      <nav className="py-5 px-4">
-        <div className="flex justify-between items-center font-semibold px-3">
-          <h2>Projects</h2>
-          <ModalButton />
-        </div>
-        <ul></ul>
-      </nav>
+      <SidebarProjects />
       <ProjectModal />
     </SidebarContainer>
   );
