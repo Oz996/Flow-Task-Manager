@@ -7,7 +7,13 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
-import { Dispatch, RefObject, SetStateAction, useState } from "react";
+import {
+  Dispatch,
+  ReactNode,
+  RefObject,
+  SetStateAction,
+  useState,
+} from "react";
 import { Section } from "@/lib/types";
 import classNames from "classnames";
 import { generateSection } from "@/lib/utils";
@@ -43,56 +49,68 @@ export default function ProjectModalButtons({
 
   return (
     <div className="flex gap-2 mb-5">
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button
-              type="button"
-              onClick={setInitialState}
-              className={classNames({
-                "size-24 bg-transparent hover:bg-transparent shadow": true,
-                "border border-blue-400": active === 1,
-              })}
-            >
-              <Image
-                width={50}
-                height={50}
-                alt=""
-                src={"/clipboard.svg"}
-                className="object-cover"
-              />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent side="bottom" className="bg-main text-white">
-            <p>Blank project</p>
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button
-              type="button"
-              onClick={setTemplateState}
-              className={classNames({
-                "size-24 bg-transparent hover:bg-transparent shadow": true,
-                "border border-blue-400": active === 2,
-              })}
-            >
-              <Image
-                width={50}
-                height={50}
-                alt=""
-                src={"/rocket.svg"}
-                className="object-cover"
-              />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent side="bottom" className="bg-main text-white">
-            <p>Use a template</p>
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
+      <ProjectModalTooltip
+        trigger={
+          <Button
+            type="button"
+            onClick={setInitialState}
+            className={classNames({
+              "size-24 bg-transparent hover:bg-transparent shadow": true,
+              "border border-blue-400": active === 1,
+            })}
+          >
+            <Image
+              width={50}
+              height={50}
+              alt=""
+              src={"/clipboard.svg"}
+              className="object-cover"
+            />
+          </Button>
+        }
+        content={<p>Blank project</p>}
+      />
+
+      <ProjectModalTooltip
+        trigger={
+          <Button
+            type="button"
+            onClick={setTemplateState}
+            className={classNames({
+              "size-24 bg-transparent hover:bg-transparent shadow": true,
+              "border border-blue-400": active === 2,
+            })}
+          >
+            <Image
+              width={50}
+              height={50}
+              alt=""
+              src={"/rocket.svg"}
+              className="object-cover"
+            />
+          </Button>
+        }
+        content={<p>Use a template</p>}
+      />
     </div>
   );
+
+  function ProjectModalTooltip({
+    trigger,
+    content,
+  }: {
+    trigger: ReactNode;
+    content: ReactNode;
+  }) {
+    return (
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>{trigger}</TooltipTrigger>
+          <TooltipContent side="bottom" className="bg-main text-white">
+            {content}
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+    );
+  }
 }

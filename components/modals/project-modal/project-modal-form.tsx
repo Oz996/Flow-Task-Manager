@@ -12,6 +12,7 @@ import FormError from "@/app/(auth)/components/form-error";
 import { ZodError, ZodIssue } from "zod";
 import { useLocation } from "@/hooks/useLocation";
 import { generateSection } from "@/lib/utils";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function ProjectModalForm() {
   const [sections, setSections] = useState<Section[]>([generateSection()]);
@@ -83,8 +84,14 @@ export default function ProjectModalForm() {
           placeholder="Project name"
         />
       </div>
+
       {sections.map((section, index) => (
-        <div className="flex flex-col gap-2 mt-2" key={section.id}>
+        <motion.div
+          className="flex flex-col gap-2 mt-2"
+          key={section.id}
+          initial={sections.length > 1 && { x: -45, opacity: 0 }}
+          animate={sections.length > 1 && { x: 0, opacity: 1 }}
+        >
           <Label htmlFor={section.id} className="text-sm">
             Section Name
           </Label>
@@ -106,7 +113,7 @@ export default function ProjectModalForm() {
               </Button>
             )}
           </div>
-        </div>
+        </motion.div>
       ))}
 
       {errors.length > 0 && (
