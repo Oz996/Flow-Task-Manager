@@ -12,7 +12,7 @@ import FormError from "@/app/(auth)/components/form-error";
 import { ZodError, ZodIssue } from "zod";
 import { useLocation } from "@/hooks/useLocation";
 import { generateSection } from "@/lib/utils";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 
 export default function ProjectModalForm() {
   const [sections, setSections] = useState<Section[]>([generateSection()]);
@@ -131,7 +131,7 @@ export default function ProjectModalForm() {
           onClick={addSection}
           className="rounded-full"
         >
-          + Add Section{" "}
+          + Add Section
         </Button>
         <SubmitButton formAction={formAction} className="rounded-full">
           Submit

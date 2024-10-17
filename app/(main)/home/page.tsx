@@ -17,9 +17,8 @@ export default async function Home() {
 
   function message() {
     if (time < 12) return "Good morning";
-    if (time >= 12) return "Good afternoon";
-    if (time >= 17) return "Good evening";
-    if (time >= 23) return "Good night";
+    else if (time >= 17 && time < 0) return "Good evening";
+    else return "Good afternoon";
   }
 
   const dateToDisplay = `${day}, ${month}`;

@@ -5,7 +5,6 @@ import { Menu } from "lucide-react";
 
 export default function SidebarButton() {
   const { sidebarOpen, setSidebarOpen } = useSidebar();
-  console.log("sidebarOpen", sidebarOpen);
 
   return (
     <Button

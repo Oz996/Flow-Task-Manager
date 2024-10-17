@@ -9,7 +9,7 @@ export default async function SidebarProjects() {
 
   return (
     <nav className="py-5 px-4">
-      <div className="flex justify-between items-center font-semibold">
+      <div className="flex justify-between items-center font-semibold px-3">
         <h2>Projects</h2>
         <ModalButton />
       </div>
