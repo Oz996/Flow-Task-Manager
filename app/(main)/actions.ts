@@ -8,10 +8,10 @@ export async function createProjectAction(formData: FormData) {
   const sectionNames = formData.getAll("section-name");
   const supabase = createClient();
 
-  try {
-    ProjectSchema.parse({ projectName, sectionNames });
-  } catch (error) {
-    throw error;
+  const result = ProjectSchema.safeParse({ projectName, sectionNames });
+
+  if (!result.success) {
+    return console.error(result.error);
   }
 
   const { data, error } = await supabase

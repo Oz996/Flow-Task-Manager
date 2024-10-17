@@ -16,7 +16,7 @@ import { motion } from "framer-motion";
 
 export default function ProjectModalForm() {
   const [sections, setSections] = useState<Section[]>([generateSection()]);
-  const [errors, setErrors] = useState<ZodIssue[]>([]);
+  const [errors, setErrors] = useState<ZodError>();
   const inputRef = useRef<HTMLInputElement>(null);
 
   const { closeModal } = useLocation();
@@ -36,12 +36,10 @@ export default function ProjectModalForm() {
     id: string,
     index: number
   ) {
-    const newName = e.target.value;
-
     const newSectionObject = {
       id,
       created_at: "",
-      name: newName,
+      name: e.target.value,
     };
 
     const sectionsArray = [...sections];
@@ -59,14 +57,14 @@ export default function ProjectModalForm() {
     const projectName = formData.get("project-name")?.toString();
     const sectionNames = formData.getAll("section-name");
 
-    try {
-      ProjectSchema.parse({ projectName, sectionNames });
+    const result = ProjectSchema.safeParse({ projectName, sectionNames });
+
+    if (!result.success) {
+      setErrors(result.error);
+      console.log("errr", result.error.errors);
+    } else {
       await createProjectAction(formData);
       closeModal();
-    } catch (error) {
-      if (error instanceof ZodError) {
-        setErrors(error.errors);
-      }
     }
   }
 
@@ -116,9 +114,9 @@ export default function ProjectModalForm() {
         </motion.div>
       ))}
 
-      {errors.length > 0 && (
+      {errors && (
         <div className="flex flex-col gap-1 mt-5">
-          {errors.map((error, index) => (
+          {errors.errors.map((error, index) => (
             <FormError error={error?.message} key={index} />
           ))}
         </div>
