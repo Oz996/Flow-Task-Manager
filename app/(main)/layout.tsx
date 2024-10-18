@@ -5,6 +5,7 @@ import SidebarContextProvider from "@/context/sidebar-context";
 import { Metadata } from "next";
 import Sidebar from "@/components/sidebar/sidebar";
 import MainLayout from "./main-layout";
+import ViewModeContextProvider from "@/context/view-mode-context";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -23,9 +24,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <html lang="en" className={plusJakarta.className} suppressHydrationWarning>
       <body className="bg-background text-foreground">
         <SidebarContextProvider>
-          <Header />
-          <Sidebar />
-          <MainLayout>{children}</MainLayout>
+          <ViewModeContextProvider>
+            <Header />
+            <Sidebar />
+            <MainLayout>{children}</MainLayout>
+          </ViewModeContextProvider>
         </SidebarContextProvider>
       </body>
     </html>

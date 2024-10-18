@@ -12,7 +12,7 @@ interface SidebarContextInterface {
   setSidebarOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-const intialState = {
+const intialState: SidebarContextInterface = {
   sidebarOpen: true,
   setSidebarOpen: () => null,
 };
@@ -26,6 +26,7 @@ export default function SidebarContextProvider({
   children: ReactNode;
 }) {
   const [sidebarOpen, setSidebarOpen] = useState(true);
+
   return (
     <SidebarContext.Provider value={{ sidebarOpen, setSidebarOpen }}>
       {children}
