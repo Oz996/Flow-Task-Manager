@@ -1,7 +1,7 @@
 "use client";
 import { Section } from "@/lib/types";
 import { Plus } from "lucide-react";
-import React, { useEffect, useRef, useState } from "react";
+import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import SectionPopover from "./section-popover";
 
 interface SectionsGridProps {
@@ -44,6 +44,10 @@ export default function SectionsGrid({ sections }: SectionsGridProps) {
     setEditingSectionValue(name);
   }
 
+  function handleChange(e: ChangeEvent<HTMLInputElement>) {
+    setEditingSectionValue(e.target.value);
+  }
+
   return (
     <>
       <div className="grid grid-cols-5 gap-5 mt-5 pt-5 border-t border-t-main-light">
@@ -51,11 +55,14 @@ export default function SectionsGrid({ sections }: SectionsGridProps) {
           <div key={section.id} className="min-w-[15rem]">
             <div className="flex justify-between">
               {editingSectionId === section.id ? (
-                <input
-                  type="text"
-                  ref={sectionInputRef}
-                  value={editingSectionValue}
-                />
+                <form>
+                  <input
+                    type="text"
+                    ref={sectionInputRef}
+                    value={editingSectionValue}
+                    onChange={handleChange}
+                  />
+                </form>
               ) : (
                 <span className="font-semibold">{section.name}</span>
               )}

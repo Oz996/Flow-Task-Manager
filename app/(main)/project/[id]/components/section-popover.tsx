@@ -36,7 +36,7 @@ export default function SectionPopover({
         </div>
         <div className="p-1 flex items-center gap-2 text-red-500">
           <Trash2 size={iconSize} />
-          <span>Rename section</span>
+          <span>Delete section</span>
         </div>
       </PopoverContent>
     </Popover>

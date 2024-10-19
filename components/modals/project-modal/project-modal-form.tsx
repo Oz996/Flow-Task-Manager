@@ -9,17 +9,17 @@ import { X } from "lucide-react";
 import ProjectModalButtons from "./project-modal-buttons";
 import { ProjectSchema } from "@/lib/schemas";
 import FormError from "@/app/(auth)/components/form-error";
-import { ZodError, ZodIssue } from "zod";
-import { useLocation } from "@/hooks/useLocation";
+import { ZodError } from "zod";
 import { generateSection } from "@/lib/utils";
 import { motion } from "framer-motion";
+import { useModal } from "@/hooks/useModal";
 
 export default function ProjectModalForm() {
   const [sections, setSections] = useState<Section[]>([generateSection()]);
   const [errors, setErrors] = useState<ZodError>();
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const { closeModal } = useLocation();
+  const { closeModal } = useModal();
   const sectionsLimit = sections.length > 4;
 
   useEffect(() => {
