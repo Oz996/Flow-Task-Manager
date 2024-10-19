@@ -1,5 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
-import { Project } from "@/lib/types";
+import { Project, Section } from "@/lib/types";
 import React from "react";
 import LayoutSelect from "./components/layout-select";
 
@@ -25,13 +25,19 @@ export default async function ProjectPage({
   params: { id: string };
 }) {
   const supabase = createClient();
-  const { data, error } = await supabase
+
+  // fetching project and sections
+  const { data: projectData, error: projectError } = await supabase
     .from("projects")
-    .select()
+    .select(`id, name, sections (id, name)`)
     .eq("id", params.id)
     .single();
 
-  const project: Project = data;
+  const project: any = projectData;
+
+  console.log("project", project);
+
+  // fetching sections related to project
 
   return (
     <section className="px-8">

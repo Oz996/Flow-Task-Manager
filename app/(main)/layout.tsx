@@ -1,4 +1,3 @@
-import { Plus_Jakarta_Sans } from "next/font/google";
 import "@/app/globals.css";
 import Header from "@/components/header/header";
 import SidebarContextProvider from "@/context/sidebar-context";
@@ -17,20 +16,14 @@ export const metadata: Metadata = {
   description: "Manage tasks with your team easily using Flow",
 };
 
-const plusJakarta = Plus_Jakarta_Sans({ subsets: ["latin"], display: "swap" });
-
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={plusJakarta.className} suppressHydrationWarning>
-      <body className="bg-background text-foreground">
-        <SidebarContextProvider>
-          <ViewModeContextProvider>
-            <Header />
-            <Sidebar />
-            <MainLayout>{children}</MainLayout>
-          </ViewModeContextProvider>
-        </SidebarContextProvider>
-      </body>
-    </html>
+    <SidebarContextProvider>
+      <ViewModeContextProvider>
+        <Header />
+        <Sidebar />
+        <MainLayout>{children}</MainLayout>
+      </ViewModeContextProvider>
+    </SidebarContextProvider>
   );
 }

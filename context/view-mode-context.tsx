@@ -4,6 +4,7 @@ import React, {
   Dispatch,
   ReactNode,
   SetStateAction,
+  useEffect,
   useState,
 } from "react";
 
@@ -14,8 +15,10 @@ interface ViewModeContextInterface {
   setViewMode: Dispatch<SetStateAction<ViewModeType>>;
 }
 
+const localViewMode = localStorage.getItem("viewMode") as ViewModeType;
+
 const initialState: ViewModeContextInterface = {
-  viewMode: "board",
+  viewMode: localViewMode ?? "board",
   setViewMode: () => null,
 };
 
@@ -27,7 +30,11 @@ export default function ViewModeContextProvider({
 }: {
   children: ReactNode;
 }) {
-  const [viewMode, setViewMode] = useState<ViewModeType>("board");
+  const [viewMode, setViewMode] = useState<ViewModeType>(localViewMode);
+
+  useEffect(() => {
+    localStorage.setItem("viewMode", viewMode);
+  }, [viewMode]);
 
   return (
     <ViewModeContext.Provider value={{ viewMode, setViewMode }}>

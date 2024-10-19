@@ -20,15 +20,17 @@ export default function LayoutSelect() {
   }
 
   return (
-    <Select onValueChange={handleViewMode}>
+    <Select onValueChange={handleViewMode} value={viewMode}>
       <SelectTrigger className="w-[5rem]">
-        <SelectValue placeholder={viewMode} />
+        <SelectValue />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
           <SelectLabel>View mode</SelectLabel>
           {viewModeOptions.map((option) => (
-            <SelectItem value={option.value}>{option.name}</SelectItem>
+            <SelectItem key={option.value} value={option.value}>
+              {option.name}
+            </SelectItem>
           ))}
         </SelectGroup>
       </SelectContent>
