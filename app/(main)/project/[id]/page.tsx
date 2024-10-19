@@ -42,8 +42,6 @@ export default async function ProjectPage({
 
   console.log("project", project);
 
-  // fetching sections related to project
-
   return (
     <section className="px-8">
       <h1 className="font-bold text-xl">{project.name}</h1>
