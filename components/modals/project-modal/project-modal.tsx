@@ -5,7 +5,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useSearchParams } from "next/navigation";
-import ModalContainer from "./modal-container";
+import ModalContainer from "../modal-container";
 import ProjectModalForm from "./project-modal-form";
 
 export default function ProjectModal() {

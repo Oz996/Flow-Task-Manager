@@ -1,7 +1,8 @@
 import { createClient } from "@/lib/supabase/server";
-import { Project, Section } from "@/lib/types";
+import { Project } from "@/lib/types";
 import React from "react";
 import LayoutSelect from "./components/layout-select";
+import SectionsGrid from "./components/sections-grid";
 
 export async function generateMetadata({ params }: { params: { id: string } }) {
   const supabase = createClient();
@@ -29,11 +30,15 @@ export default async function ProjectPage({
   // fetching project and sections
   const { data: projectData, error: projectError } = await supabase
     .from("projects")
-    .select(`id, name, sections (id, name)`)
+    .select(`id, name, edited_at, created_at, sections (id, name, created_at)`)
     .eq("id", params.id)
     .single();
 
-  const project: any = projectData;
+  if (projectError) return null;
+
+  const project: Project = projectData;
+
+  const sections = project?.sections;
 
   console.log("project", project);
 
@@ -43,6 +48,7 @@ export default async function ProjectPage({
     <section className="px-8">
       <h1 className="font-bold text-xl">{project.name}</h1>
       <LayoutSelect />
+      {sections && <SectionsGrid sections={sections} />}
     </section>
   );
 }
