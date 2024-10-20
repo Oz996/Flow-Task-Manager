@@ -3,6 +3,8 @@ import { Section } from "@/lib/types";
 import { Plus } from "lucide-react";
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import SectionPopover from "./section-popover";
+import TaskModal from "@/components/modals/task-modal/task-modal";
+import { useModal } from "@/hooks/useModal";
 
 interface SectionsGridProps {
   sections: Section[];
@@ -12,6 +14,8 @@ export default function SectionsGrid({ sections }: SectionsGridProps) {
   const [editingSectionId, setEditingSectionId] = useState("");
   const [editingSectionValue, setEditingSectionValue] = useState("");
   const iconSize = 18;
+
+  const { openCreateTaskModal } = useModal();
 
   const sectionInputRef = useRef<HTMLInputElement>(null);
 
@@ -67,7 +71,10 @@ export default function SectionsGrid({ sections }: SectionsGridProps) {
                 <span className="font-semibold">{section.name}</span>
               )}
               <div className="flex gap-3">
-                <button className="p-1 hover:bg-transparent/10 duration-200 rounded-lg text-main-light">
+                <button
+                  className="p-1 hover:bg-transparent/10 duration-200 rounded-lg text-main-light"
+                  onClick={openCreateTaskModal}
+                >
                   <Plus size={iconSize} />
                 </button>
                 <SectionPopover
@@ -80,6 +87,7 @@ export default function SectionsGrid({ sections }: SectionsGridProps) {
             </div>
           </div>
         ))}
+        <TaskModal />
       </div>
     </>
   );

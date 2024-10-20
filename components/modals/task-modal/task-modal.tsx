@@ -4,29 +4,25 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { useSearchParams } from "next/navigation";
 import ModalContainer from "../modal-container";
-import ProjectModalForm from "./project-modal-form";
+import { useSearchParams } from "next/navigation";
 
-export default function ProjectModal() {
+export default function TaskModal() {
   const searchParams = useSearchParams();
 
   const type = searchParams.get("type");
   const action = searchParams.get("action");
 
-  const projectModal = type === "project";
+  const taskModal = type === "task";
   const addModal = action === "add";
 
-  if (projectModal)
+  if (taskModal)
     return (
       <ModalContainer>
         <DialogContent className="sm:max-w-[30rem] p-8">
           <DialogHeader>
-            <DialogTitle>
-              {addModal ? "Create Project" : "Edit Project"}
-            </DialogTitle>
+            <DialogTitle>{addModal ? "Create Task" : "Edit Task"}</DialogTitle>
           </DialogHeader>
-          <ProjectModalForm />
         </DialogContent>
       </ModalContainer>
     );

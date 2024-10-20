@@ -1,6 +1,6 @@
 "use server";
 
-import { ProjectSchema } from "@/lib/schemas";
+import { ProjectSchema, TaskSchema } from "@/lib/schemas";
 import { createClient } from "@/lib/supabase/server";
 
 export async function createProjectAction(formData: FormData) {
@@ -28,6 +28,38 @@ export async function createProjectAction(formData: FormData) {
         {
           name,
           project_id: data?.id,
+        },
+      ]);
+      if (error) console.error(error);
+    }
+  }
+}
+
+export async function createTaskAction(formData: FormData) {
+  const taskName = formData.get("task-name")?.toString();
+  const subtaskNames = formData.getAll("subtask-name");
+  const supabase = createClient();
+
+  const result = TaskSchema.safeParse({ taskName, subtaskNames });
+
+  if (!result.success) {
+    return console.error(result.error);
+  }
+
+  const { data, error } = await supabase
+    .from("tasks")
+    .insert([{ name: taskName }])
+    .select("id")
+    .single();
+
+  if (error) console.error(error);
+
+  if (subtaskNames) {
+    for (const name of subtaskNames) {
+      const { error } = await supabase.from("subtasks").insert([
+        {
+          name,
+          section_id: data?.id,
         },
       ]);
       if (error) console.error(error);
