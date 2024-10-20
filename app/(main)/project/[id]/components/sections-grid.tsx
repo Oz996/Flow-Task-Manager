@@ -5,6 +5,7 @@ import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import SectionPopover from "./section-popover";
 import TaskModal from "@/components/modals/task-modal/task-modal";
 import { useModal } from "@/hooks/useModal";
+import NewSectionDiv from "./new-section-div";
 
 interface SectionsGridProps {
   sections: Section[];
@@ -87,6 +88,7 @@ export default function SectionsGrid({ sections }: SectionsGridProps) {
             </div>
           </div>
         ))}
+        <NewSectionDiv iconSize={iconSize} />
         <TaskModal />
       </div>
     </>
