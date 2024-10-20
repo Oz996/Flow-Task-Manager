@@ -6,6 +6,7 @@ import {
 } from "@/components/ui/dialog";
 import ModalContainer from "../modal-container";
 import { useSearchParams } from "next/navigation";
+import TaskModalForm from "./task-modal-form";
 
 export default function TaskModal() {
   const searchParams = useSearchParams();
@@ -23,6 +24,7 @@ export default function TaskModal() {
           <DialogHeader>
             <DialogTitle>{addModal ? "Create Task" : "Edit Task"}</DialogTitle>
           </DialogHeader>
+          <TaskModalForm />
         </DialogContent>
       </ModalContainer>
     );

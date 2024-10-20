@@ -16,10 +16,11 @@ export function useModal() {
 
   // task modals
 
-  function openCreateTaskModal() {
+  function openCreateTaskModal(id: string) {
     url?.searchParams.set("modal", "true");
     url?.searchParams.set("type", "task");
     url?.searchParams.set("action", "add");
+    url?.searchParams.set("id", id);
     return router.push(url?.toString() as string, { scroll: false });
   }
 
@@ -27,6 +28,7 @@ export function useModal() {
     url?.searchParams.delete("modal");
     url?.searchParams.delete("type");
     url?.searchParams.delete("action");
+    url?.searchParams.delete("id");
     return router.push(url?.toString() as string, { scroll: false });
   }
 

@@ -60,12 +60,13 @@ export default function SectionsGrid({ sections }: SectionsGridProps) {
           <div key={section.id} className="min-w-[15rem]">
             <div className="flex justify-between">
               {editingSectionId === section.id ? (
-                <form>
+                <form className="w-full">
                   <input
                     type="text"
                     ref={sectionInputRef}
                     value={editingSectionValue}
                     onChange={handleChange}
+                    className="w-full"
                   />
                 </form>
               ) : (
@@ -74,7 +75,7 @@ export default function SectionsGrid({ sections }: SectionsGridProps) {
               <div className="flex gap-3">
                 <button
                   className="p-1 hover:bg-transparent/10 duration-200 rounded-lg text-main-light"
-                  onClick={openCreateTaskModal}
+                  onClick={() => openCreateTaskModal(section.id)}
                 >
                   <Plus size={iconSize} />
                 </button>

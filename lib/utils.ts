@@ -1,7 +1,7 @@
 import { clsx, type ClassValue } from "clsx";
 import { redirect } from "next/navigation";
 import { twMerge } from "tailwind-merge";
-import { Section } from "./types";
+import { Section, Subtask } from "./types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -15,6 +15,15 @@ export function generateSection(): Section {
   return {
     id: crypto.randomUUID(),
     created_at: "",
+    name: "",
+  };
+}
+
+export function generateSubtask(): Subtask {
+  return {
+    id: crypto.randomUUID(),
+    created_at: "",
+    edited_at: "",
     name: "",
   };
 }

@@ -30,7 +30,9 @@ export default async function ProjectPage({
   // fetching project and sections
   const { data: projectData, error: projectError } = await supabase
     .from("projects")
-    .select(`id, name, edited_at, created_at, sections (id, name, created_at)`)
+    .select(
+      `id, name, edited_at, created_at, sections (id, name, created_at, tasks (id, name, created_at, edited_at))`
+    )
     .eq("id", params.id)
     .single();
 

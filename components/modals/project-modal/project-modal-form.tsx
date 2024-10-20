@@ -36,7 +36,7 @@ export default function ProjectModalForm() {
     id: string,
     index: number
   ) {
-    const newSectionObject = {
+    const newSectionObject: Section = {
       id,
       created_at: "",
       name: e.target.value,
@@ -61,7 +61,7 @@ export default function ProjectModalForm() {
 
     if (!result.success) {
       setErrors(result.error);
-      console.log("errr", result.error.errors);
+      console.log(result.error.errors);
     } else {
       await createProjectAction(formData);
       closeModal();

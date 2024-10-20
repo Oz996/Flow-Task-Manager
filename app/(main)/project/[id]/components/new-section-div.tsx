@@ -53,7 +53,7 @@ export default function NewSectionDiv({ iconSize }: NewSectionDivProps) {
 
   if (addMode)
     return (
-      <form action={formAction}>
+      <form action={formAction} className="w-full">
         <label htmlFor="new-section" className="sr-only">
           Section name
         </label>
@@ -65,6 +65,7 @@ export default function NewSectionDiv({ iconSize }: NewSectionDivProps) {
           value={sectionValue}
           onChange={handleChange}
           placeholder="Section name"
+          className="w-full"
         />
       </form>
     );

@@ -49,7 +49,7 @@ export async function createSectionAction(id: string, formData: FormData) {
   revalidatePath("/project");
 }
 
-export async function createTaskAction(formData: FormData) {
+export async function createTaskAction(id: string, formData: FormData) {
   const taskName = formData.get("task-name")?.toString();
   const subtaskNames = formData.getAll("subtask-name");
   const supabase = createClient();
@@ -62,7 +62,7 @@ export async function createTaskAction(formData: FormData) {
 
   const { data, error } = await supabase
     .from("tasks")
-    .insert([{ name: taskName }])
+    .insert([{ name: taskName, section_id: id }])
     .select("id")
     .single();
 

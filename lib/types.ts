@@ -4,6 +4,7 @@ export interface Task {
   edited_at: string;
   name: string;
   description?: string;
+  subtasks?: Subtask[];
 }
 
 export interface Project {
@@ -19,4 +20,11 @@ export interface Section {
   created_at: string;
   name: string;
   tasks?: Task[];
+}
+
+export interface Subtask {
+  id: string;
+  created_at: string;
+  edited_at: string;
+  name: string;
 }
