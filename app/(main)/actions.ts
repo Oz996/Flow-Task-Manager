@@ -52,9 +52,14 @@ export async function createSectionAction(id: string, formData: FormData) {
 export async function createTaskAction(id: string, formData: FormData) {
   const taskName = formData.get("task-name")?.toString();
   const subtaskNames = formData.getAll("subtask-name");
+  const taskDescription = formData.get("description")?.toString();
   const supabase = createClient();
 
-  const result = TaskSchema.safeParse({ taskName, subtaskNames });
+  const result = TaskSchema.safeParse({
+    taskName,
+    subtaskNames,
+    taskDescription,
+  });
 
   if (!result.success) {
     return console.error(result.error);
@@ -62,13 +67,19 @@ export async function createTaskAction(id: string, formData: FormData) {
 
   const { data, error } = await supabase
     .from("tasks")
-    .insert([{ name: taskName, section_id: id }])
+    .insert([
+      {
+        name: taskName,
+        description: taskDescription,
+        section_id: id,
+      },
+    ])
     .select("id")
     .single();
 
   if (error) console.error(error);
 
-  if (subtaskNames) {
+  if (subtaskNames.length > 0) {
     for (const name of subtaskNames) {
       const { error } = await supabase.from("subtasks").insert([
         {
@@ -78,5 +89,6 @@ export async function createTaskAction(id: string, formData: FormData) {
       ]);
       if (error) console.error(error);
     }
+    revalidatePath("/project");
   }
 }

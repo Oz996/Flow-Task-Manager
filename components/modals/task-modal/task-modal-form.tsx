@@ -12,6 +12,8 @@ import { ZodError } from "zod";
 import { motion } from "framer-motion";
 import { X } from "lucide-react";
 import { useModal } from "@/hooks/useModal";
+import FormError from "@/app/(auth)/components/form-error";
+import { Textarea } from "@/components/ui/textarea";
 
 export default function TaskModalForm() {
   const [subtasks, setSubtasks] = useState<Subtask[]>([]);
@@ -54,16 +56,21 @@ export default function TaskModalForm() {
 
   async function formAction(formData: FormData) {
     const taskName = formData.get("task-name")?.toString();
-    const subtasks = formData.getAll("subtask-name");
+    const subtaskNames = formData.getAll("subtask-name");
+    const taskDescription = formData.get("description")?.toString();
 
-    const result = TaskSchema.safeParse({ taskName, subtasks });
+    const result = TaskSchema.safeParse({
+      taskName,
+      subtaskNames,
+      taskDescription,
+    });
 
     if (!result.success) {
       setErrors(result.error);
       console.log(result.error.errors);
     } else {
       await createTaskAction(sectionId as string, formData);
-      //   closeModal()
+      closeModal();
     }
   }
 
@@ -73,6 +80,15 @@ export default function TaskModalForm() {
         <div className="flex flex-col gap-2">
           <Label htmlFor="task-name">Task name</Label>
           <Input id="task-name" name="task-name" placeholder="Task name" />
+        </div>
+
+        <div className="flex flex-col gap-2 mt-2">
+          <Label htmlFor="description">Task description (optional)</Label>
+          <Textarea
+            id="description"
+            name="description"
+            placeholder="Task description"
+          />
         </div>
 
         {subtasks.map((subtask, index) => (
@@ -88,6 +104,7 @@ export default function TaskModalForm() {
             <div className="flex gap-2">
               <Input
                 id={subtask.id}
+                name="subtask-name"
                 value={subtask.name}
                 onChange={(e) => handleChange(e, subtask.id, index)}
               />
@@ -103,6 +120,14 @@ export default function TaskModalForm() {
             </div>
           </motion.div>
         ))}
+
+        {errors && (
+          <div className="flex flex-col gap-1 mt-5">
+            {errors.errors.map((error, index) => (
+              <FormError error={error?.message} key={index} />
+            ))}
+          </div>
+        )}
 
         <div className="w-full flex flex-col gap-3 mt-5">
           <Button
