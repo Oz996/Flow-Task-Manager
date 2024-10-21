@@ -1,3 +1,4 @@
+import { assignUserAction } from "@/app/(main)/actions";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -13,11 +14,20 @@ import {
 } from "@/components/ui/tooltip";
 import { createClient } from "@/lib/supabase/client";
 import { User } from "@/lib/types";
+import classNames from "classnames";
 import { UserPlus2 } from "lucide-react";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 
-export default function TaskModalUsers() {
+interface TaskModalUsersProps {
+  assignedUsers: User[];
+  setAssignedUsers: Dispatch<SetStateAction<User[]>>;
+}
+
+export default function TaskModalUsers({
+  assignedUsers,
+  setAssignedUsers,
+}: TaskModalUsersProps) {
   const [popoverOpen, setPopoverOpen] = useState(false);
   const [userlist, setUserlist] = useState<User[]>([]);
   const supabase = createClient();
@@ -30,8 +40,26 @@ export default function TaskModalUsers() {
     fetchUsers();
   }, []);
 
+  function userAlreadyAssigned(user: User) {
+    return assignedUsers.findIndex((u) => u.id === user.id);
+  }
+
+  function removeAssignedUser(user: User) {
+    const newUsers = assignedUsers.filter((u) => u.id !== user.id);
+    setAssignedUsers(newUsers);
+    setPopoverOpen(false);
+  }
+
+  function assignUser(user: User) {
+    const assigned = userAlreadyAssigned(user);
+    if (assigned !== -1) return removeAssignedUser(user);
+
+    setAssignedUsers((prevUsers) => [...prevUsers, user]);
+    setPopoverOpen(false);
+  }
+
   return (
-    <div className="mt-2">
+    <div className="mt-2 flex items-center gap-2">
       <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
         <PopoverTrigger>
           <TooltipProvider>
@@ -53,18 +81,22 @@ export default function TaskModalUsers() {
         </PopoverTrigger>
 
         <PopoverContent align="start" className="w-[26rem] p-0">
-          <form className="p-4">
-            <div className="space-y-1">
-              <Label htmlFor="assignee">Assignee</Label>
-              <Input id="assignee" name="assignee" />
-            </div>
-          </form>
+          <div className="space-y-1 p-4">
+            <Label htmlFor="assignee">Assignee</Label>
+            <Input id="assignee" name="assignee" />
+          </div>
           <div>
             <ul className="flex flex-col gap-3 mt-2">
               {userlist.map((user) => (
                 <li
                   key={user.id}
-                  className="flex items-center gap-3 py-2 px-4 cursor-pointer hover:bg-transparent/10 duration-200 border-l-4 hover:border-l-blue-600 rounded"
+                  className={classNames({
+                    "flex items-center gap-3 py-2 px-4 cursor-pointer hover:bg-transparent/10 duration-200 border-l-4 border-l-transparent hover:border-l-blue-600 rounded":
+                      true,
+                    "border-l-4 border-l-blue-600 bg-transparent/10":
+                      userAlreadyAssigned(user) !== -1,
+                  })}
+                  onClick={() => assignUser(user)}
                 >
                   <Image
                     width={50}
@@ -81,6 +113,25 @@ export default function TaskModalUsers() {
           </div>
         </PopoverContent>
       </Popover>
+
+      {assignedUsers?.map((user) => (
+        <TooltipProvider key={user.id}>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Image
+                width={50}
+                height={50}
+                src={user.avatar_url}
+                alt="User avatar"
+                className="size-7 rounded-full"
+              />
+            </TooltipTrigger>
+            <TooltipContent className="bg-main text-white">
+              <p>{user.username}</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      ))}
     </div>
   );
 }

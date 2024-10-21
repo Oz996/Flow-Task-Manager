@@ -3,7 +3,6 @@ import { Section } from "@/lib/types";
 import { Plus } from "lucide-react";
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import SectionPopover from "./section-popover";
-import TaskModal from "@/components/modals/task-modal/task-modal";
 import { useModal } from "@/hooks/useModal";
 import NewSectionDiv from "./new-section-div";
 
@@ -90,7 +89,6 @@ export default function SectionsGrid({ sections }: SectionsGridProps) {
           </div>
         ))}
         <NewSectionDiv iconSize={iconSize} />
-        <TaskModal />
       </div>
     </>
   );

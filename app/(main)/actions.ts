@@ -2,6 +2,7 @@
 
 import { ProjectSchema, TaskSchema } from "@/lib/schemas";
 import { createClient } from "@/lib/supabase/server";
+import { User } from "@/lib/types";
 import { revalidatePath } from "next/cache";
 
 export async function createProjectAction(formData: FormData) {
@@ -49,7 +50,11 @@ export async function createSectionAction(id: string, formData: FormData) {
   revalidatePath("/project");
 }
 
-export async function createTaskAction(id: string, formData: FormData) {
+export async function createTaskAction(
+  id: string,
+  formData: FormData,
+  assignees?: User[]
+) {
   const taskName = formData.get("task-name")?.toString();
   const subtaskNames = formData.getAll("subtask-name");
   const taskDescription = formData.get("description")?.toString();
@@ -89,6 +94,22 @@ export async function createTaskAction(id: string, formData: FormData) {
       ]);
       if (error) console.error(error);
     }
-    revalidatePath("/project");
   }
+
+  if (assignees && assignees.length > 0) {
+    for (const user of assignees) {
+      await assignUserAction(user.id, data?.id);
+    }
+  }
+  revalidatePath("/project");
+}
+
+export async function assignUserAction(userId: string, taskId: string) {
+  const supabase = createClient();
+
+  const { data, error } = await supabase
+    .from("task_assignments")
+    .insert({ user_id: userId, task_id: taskId });
+
+  if (error) console.error(error);
 }

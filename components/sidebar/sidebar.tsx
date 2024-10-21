@@ -1,7 +1,6 @@
 import { CircleCheck, House } from "lucide-react";
 import Link from "next/link";
 import SidebarContainer from "./sidebar-container";
-import ProjectModal from "../modals/project-modal/project-modal";
 import SidebarProjects from "./sidebar-projects";
 
 export default function Sidebar() {
@@ -32,7 +31,6 @@ export default function Sidebar() {
         </ul>
       </nav>
       <SidebarProjects />
-      <ProjectModal />
     </SidebarContainer>
   );
 }

@@ -4,13 +4,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { TaskSchema } from "@/lib/schemas";
-import { Subtask } from "@/lib/types";
+import { Subtask, User } from "@/lib/types";
 import { generateSubtask } from "@/lib/utils";
 import { useSearchParams } from "next/navigation";
 import React, { ChangeEvent, useState } from "react";
 import { ZodError } from "zod";
 import { motion } from "framer-motion";
-import { UserPlus2, X } from "lucide-react";
+import { X } from "lucide-react";
 import { useModal } from "@/hooks/useModal";
 import FormError from "@/app/(auth)/components/form-error";
 import { Textarea } from "@/components/ui/textarea";
@@ -18,6 +18,7 @@ import TaskModalUsers from "./task-modal-users";
 
 export default function TaskModalForm() {
   const [subtasks, setSubtasks] = useState<Subtask[]>([]);
+  const [assignedUsers, setAssignedUsers] = useState<User[]>([]);
   const [errors, setErrors] = useState<ZodError>();
 
   const { closeModal } = useModal();
@@ -70,7 +71,7 @@ export default function TaskModalForm() {
       setErrors(result.error);
       console.log(result.error.errors);
     } else {
-      await createTaskAction(sectionId as string, formData);
+      await createTaskAction(sectionId as string, formData, assignedUsers);
       closeModal();
     }
   }
@@ -122,7 +123,10 @@ export default function TaskModalForm() {
           </motion.div>
         ))}
 
-        <TaskModalUsers />
+        <TaskModalUsers
+          assignedUsers={assignedUsers}
+          setAssignedUsers={setAssignedUsers}
+        />
 
         {errors && (
           <div className="flex flex-col gap-1 mt-5">

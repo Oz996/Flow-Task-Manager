@@ -5,6 +5,8 @@ import { Metadata } from "next";
 import Sidebar from "@/components/sidebar/sidebar";
 import MainLayout from "./main-layout";
 import ViewModeContextProvider from "@/context/view-mode-context";
+import ProjectModal from "@/components/modals/project-modal/project-modal";
+import TaskModal from "@/components/modals/task-modal/task-modal";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -23,6 +25,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <Header />
         <Sidebar />
         <MainLayout>{children}</MainLayout>
+        <ProjectModal />
+        <TaskModal />
       </ViewModeContextProvider>
     </SidebarContextProvider>
   );
