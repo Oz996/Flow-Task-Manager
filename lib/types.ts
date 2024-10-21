@@ -28,3 +28,10 @@ export interface Subtask {
   edited_at: string;
   name: string;
 }
+
+export interface User {
+  avatar_url: string;
+  email: string;
+  id: string;
+  username: string;
+}

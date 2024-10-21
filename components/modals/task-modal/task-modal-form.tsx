@@ -10,10 +10,11 @@ import { useSearchParams } from "next/navigation";
 import React, { ChangeEvent, useState } from "react";
 import { ZodError } from "zod";
 import { motion } from "framer-motion";
-import { X } from "lucide-react";
+import { UserPlus2, X } from "lucide-react";
 import { useModal } from "@/hooks/useModal";
 import FormError from "@/app/(auth)/components/form-error";
 import { Textarea } from "@/components/ui/textarea";
+import TaskModalUsers from "./task-modal-users";
 
 export default function TaskModalForm() {
   const [subtasks, setSubtasks] = useState<Subtask[]>([]);
@@ -120,6 +121,8 @@ export default function TaskModalForm() {
             </div>
           </motion.div>
         ))}
+
+        <TaskModalUsers />
 
         {errors && (
           <div className="flex flex-col gap-1 mt-5">
