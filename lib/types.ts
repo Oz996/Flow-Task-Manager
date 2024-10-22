@@ -5,6 +5,11 @@ export interface Task {
   name: string;
   description?: string;
   subtasks?: Subtask[];
+  task_assignments?: Profiles[];
+}
+
+interface Profiles {
+  profiles: User;
 }
 
 export interface Project {

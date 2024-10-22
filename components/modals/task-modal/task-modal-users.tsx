@@ -1,4 +1,5 @@
 import { assignUserAction } from "@/app/(main)/actions";
+import TooltipContainer from "@/components/tooltip-container";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -115,22 +116,20 @@ export default function TaskModalUsers({
       </Popover>
 
       {assignedUsers?.map((user) => (
-        <TooltipProvider key={user.id}>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Image
-                width={50}
-                height={50}
-                src={user.avatar_url}
-                alt="User avatar"
-                className="size-7 rounded-full"
-              />
-            </TooltipTrigger>
-            <TooltipContent className="bg-main text-white">
-              <p>{user.username}</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+        <TooltipContainer
+          className="bg-main text-white"
+          trigger={
+            <Image
+              width={50}
+              height={50}
+              src={user.avatar_url}
+              alt="User avatar"
+              className="size-7 rounded-full"
+            />
+          }
+        >
+          <p>{user.username}</p>
+        </TooltipContainer>
       ))}
     </div>
   );

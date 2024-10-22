@@ -31,7 +31,7 @@ export default async function ProjectPage({
   const { data: projectData, error: projectError } = await supabase
     .from("projects")
     .select(
-      `id, name, edited_at, created_at, sections (id, name, created_at, tasks (id, name, created_at, edited_at))`
+      `*, sections (*, tasks (*, subtasks (*), task_assignments ( profiles (*))))`
     )
     .eq("id", params.id)
     .single();
@@ -39,7 +39,6 @@ export default async function ProjectPage({
   if (projectError) return null;
 
   const project: Project = projectData;
-
   const sections = project?.sections;
 
   console.log("project", project);

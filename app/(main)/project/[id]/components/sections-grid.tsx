@@ -5,6 +5,7 @@ import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import SectionPopover from "./section-popover";
 import { useModal } from "@/hooks/useModal";
 import NewSectionDiv from "./new-section-div";
+import TaskCard from "./task-card";
 
 interface SectionsGridProps {
   sections: Section[];
@@ -56,7 +57,7 @@ export default function SectionsGrid({ sections }: SectionsGridProps) {
     <>
       <div className="grid grid-cols-5 gap-5 mt-5 pt-5 border-t border-t-main-light">
         {sections?.map((section) => (
-          <div key={section.id} className="min-w-[15rem]">
+          <div key={section.id} className="min-w-[15rem] flex flex-col gap-5">
             <div className="flex justify-between">
               {editingSectionId === section.id ? (
                 <form className="w-full">
@@ -86,6 +87,7 @@ export default function SectionsGrid({ sections }: SectionsGridProps) {
                 />
               </div>
             </div>
+            {section?.tasks?.map((task) => <TaskCard task={task} />)}
           </div>
         ))}
         <NewSectionDiv iconSize={iconSize} />
