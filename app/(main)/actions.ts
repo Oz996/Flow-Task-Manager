@@ -55,7 +55,7 @@ export async function createTaskAction(
   formData: FormData,
   assignees?: User[]
 ) {
-  const taskName = formData.get("task-name")?.toString();
+  const taskName = formData.get("task_name")?.toString();
   const subtaskNames = formData.getAll("subtask-name");
   const taskDescription = formData.get("description")?.toString();
   const supabase = createClient();
@@ -92,6 +92,55 @@ export async function createTaskAction(
           task_id: data?.id,
         },
       ]);
+      if (error) console.error(error);
+    }
+  }
+
+  if (assignees && assignees.length > 0) {
+    for (const user of assignees) {
+      await assignUserAction(user.id, data?.id);
+    }
+  }
+  revalidatePath("/project");
+}
+
+export async function updateTaskAction(
+  id: string,
+  formData: FormData,
+  assignees?: User[]
+) {
+  const taskName = formData.get("task_name")?.toString();
+  const subtaskNames = formData.getAll("subtask-name");
+  const taskDescription = formData.get("description")?.toString();
+  const supabase = createClient();
+
+  const result = TaskSchema.safeParse({
+    taskName,
+    subtaskNames,
+    taskDescription,
+  });
+
+  if (!result.success) {
+    return console.error(result.error);
+  }
+
+  const { data, error } = await supabase
+    .from("tasks")
+    .update({ name: taskName, description: taskDescription })
+    .eq("id", id)
+    .select("id")
+    .single();
+
+  if (error) console.error(error);
+
+  console.log("edit data", taskName, taskDescription, subtaskNames);
+
+  if (subtaskNames.length > 0) {
+    for (const name of subtaskNames) {
+      const { error } = await supabase
+        .from("subtasks")
+        .update([{ name }])
+        .eq("task_id", data?.id);
       if (error) console.error(error);
     }
   }

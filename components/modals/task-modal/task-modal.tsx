@@ -24,7 +24,7 @@ export default function TaskModal() {
           <DialogHeader>
             <DialogTitle>{addModal ? "Create Task" : "Edit Task"}</DialogTitle>
           </DialogHeader>
-          <TaskModalForm />
+          <TaskModalForm addModal={addModal} />
         </DialogContent>
       </ModalContainer>
     );

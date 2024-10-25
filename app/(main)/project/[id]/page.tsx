@@ -41,7 +41,7 @@ export default async function ProjectPage({
   const project: Project = projectData;
   const sections = project?.sections;
 
-  console.log("project", project);
+  // console.log("project", project);
 
   return (
     <section className="px-8">

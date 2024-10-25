@@ -1,4 +1,4 @@
-import { createTaskAction } from "@/app/(main)/actions";
+import { createTaskAction, updateTaskAction } from "@/app/(main)/actions";
 import { SubmitButton } from "@/components/submit-button";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,7 +7,7 @@ import { TaskSchema } from "@/lib/schemas";
 import { Subtask, User } from "@/lib/types";
 import { generateSubtask } from "@/lib/utils";
 import { useSearchParams } from "next/navigation";
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { ZodError } from "zod";
 import { motion } from "framer-motion";
 import { X } from "lucide-react";
@@ -15,18 +15,65 @@ import { useModal } from "@/hooks/useModal";
 import FormError from "@/app/(auth)/components/form-error";
 import { Textarea } from "@/components/ui/textarea";
 import TaskModalUsers from "./task-modal-users";
+import { createClient } from "@/lib/supabase/client";
 
-export default function TaskModalForm() {
+interface TaskModalFormProps {
+  addModal: boolean;
+}
+
+interface EditTaskState {
+  task_name: string;
+  description?: string;
+}
+
+export default function TaskModalForm({ addModal }: TaskModalFormProps) {
   const [subtasks, setSubtasks] = useState<Subtask[]>([]);
   const [assignedUsers, setAssignedUsers] = useState<User[]>([]);
   const [errors, setErrors] = useState<ZodError>();
 
+  const [isLoading, setIsLoading] = useState(false);
+  const [editData, setEditData] = useState<EditTaskState>({
+    task_name: "",
+    description: "",
+  });
+
   const { closeModal } = useModal();
   const searchParams = useSearchParams();
 
-  const sectionId = searchParams.get("id");
+  const id = searchParams.get("id");
 
   const subtasksLimit = subtasks.length > 5;
+
+  useEffect(() => {
+    if (!addModal) {
+      const fetchTask = async () => {
+        setIsLoading(true);
+        try {
+          const supabase = createClient();
+          const { data, error } = await supabase
+            .from("tasks")
+            .select("*, subtasks (*)")
+            .eq("id", id);
+          console.log("data", data);
+
+          if (error) return console.error(error);
+
+          const task = data[0];
+
+          setEditData({ task_name: task.name, description: task.description });
+
+          if (task.subtasks.length > 0) {
+            setSubtasks(task.subtasks);
+          }
+        } catch (error: any) {
+          console.error(error.message);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+      fetchTask();
+    }
+  }, []);
 
   function addSubtask() {
     if (subtasksLimit) return;
@@ -38,7 +85,16 @@ export default function TaskModalForm() {
     setSubtasks(newSubtasks);
   }
 
-  function handleChange(
+  function handleTaskChange(
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) {
+    return setEditData((prevData) => ({
+      ...prevData,
+      [e.target.name]: e.target.value,
+    }));
+  }
+
+  function handleSubtaskChange(
     e: ChangeEvent<HTMLInputElement>,
     id: string,
     index: number
@@ -57,8 +113,8 @@ export default function TaskModalForm() {
     setSubtasks(subtasksList);
   }
 
-  async function formAction(formData: FormData) {
-    const taskName = formData.get("task-name")?.toString();
+  async function addFormAction(formData: FormData) {
+    const taskName = formData.get("task_name")?.toString();
     const subtaskNames = formData.getAll("subtask-name");
     const taskDescription = formData.get("description")?.toString();
 
@@ -72,7 +128,27 @@ export default function TaskModalForm() {
       setErrors(result.error);
       console.log(result.error.errors);
     } else {
-      await createTaskAction(sectionId as string, formData, assignedUsers);
+      await createTaskAction(id as string, formData, assignedUsers);
+      closeModal();
+    }
+  }
+
+  async function updateFormAction(formData: FormData) {
+    const taskName = formData.get("task_name")?.toString();
+    const subtaskNames = formData.getAll("subtask-name");
+    const taskDescription = formData.get("description")?.toString();
+
+    const result = TaskSchema.safeParse({
+      taskName,
+      subtaskNames,
+      taskDescription,
+    });
+
+    if (!result.success) {
+      setErrors(result.error);
+      console.log(result.error.errors);
+    } else {
+      await updateTaskAction(id as string, formData, assignedUsers);
       closeModal();
     }
   }
@@ -82,7 +158,13 @@ export default function TaskModalForm() {
       <form>
         <div className="flex flex-col gap-2">
           <Label htmlFor="task-name">Task name</Label>
-          <Input id="task-name" name="task-name" placeholder="Task name" />
+          <Input
+            id="task-name"
+            name="task_name"
+            placeholder="Task name"
+            value={editData.task_name}
+            onChange={handleTaskChange}
+          />
         </div>
 
         <div className="flex flex-col gap-2 mt-2">
@@ -91,6 +173,8 @@ export default function TaskModalForm() {
             id="description"
             name="description"
             placeholder="Task description"
+            value={editData.description}
+            onChange={handleTaskChange}
           />
         </div>
 
@@ -109,7 +193,7 @@ export default function TaskModalForm() {
                 id={subtask.id}
                 name="subtask-name"
                 value={subtask.name}
-                onChange={(e) => handleChange(e, subtask.id, index)}
+                onChange={(e) => handleSubtaskChange(e, subtask.id, index)}
               />
               {subtasks.length > 0 && (
                 <Button
@@ -146,9 +230,18 @@ export default function TaskModalForm() {
           >
             + Add subtask
           </Button>
-          <SubmitButton formAction={formAction} className="rounded-full">
-            Submit
-          </SubmitButton>
+          {addModal ? (
+            <SubmitButton formAction={addFormAction} className="rounded-full">
+              Submit
+            </SubmitButton>
+          ) : (
+            <SubmitButton
+              formAction={updateFormAction}
+              className="rounded-full"
+            >
+              Submit
+            </SubmitButton>
+          )}
         </div>
       </form>
     </div>
