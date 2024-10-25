@@ -1,7 +1,14 @@
+import { updateSubtaskAction } from "@/app/(main)/actions";
 import TooltipContainer from "@/components/tooltip-container";
 import { Card } from "@/components/ui/card";
 import { Task } from "@/lib/types";
-import { ChevronRight, ListTree } from "lucide-react";
+import classNames from "classnames";
+import {
+  CheckCircle,
+  CheckCircle2,
+  ChevronRight,
+  ListTree,
+} from "lucide-react";
 import Image from "next/image";
 import React, { useState } from "react";
 
@@ -11,7 +18,18 @@ interface TaskCardProps {
 
 export default function TaskCard({ task }: TaskCardProps) {
   const [expanded, setExpanded] = useState(false);
+
+  const iconSize = 18;
   console.log("task", task);
+
+  function sortByDate() {
+    const subtasks = [...task?.subtasks!];
+    return subtasks.sort((a, b) => {
+      return (
+        new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+      );
+    });
+  }
 
   return (
     <Card className="flex flex-col gap-2 p-4 min-h-[8rem] rounded-lg duration-200">
@@ -24,8 +42,8 @@ export default function TaskCard({ task }: TaskCardProps) {
             className="bg-main text-white"
             trigger={
               <Image
-                width={50}
-                height={50}
+                width={100}
+                height={100}
                 src={user.profiles.avatar_url}
                 alt="User avatar"
                 className="size-7 rounded-full"
@@ -43,10 +61,13 @@ export default function TaskCard({ task }: TaskCardProps) {
             onClick={() => setExpanded(!expanded)}
           >
             <span className="text-sm">{task.subtasks?.length}</span>
-            <ListTree size={18} />
+            <ListTree size={iconSize} />
             <ChevronRight
-              size={18}
-              className={`${expanded ? "animate-accordion-down" : ""}`}
+              size={iconSize}
+              className={classNames({
+                "transition-transform ease-in-out rotate-0": true,
+                "rotate-90": expanded,
+              })}
             />
           </button>
         )}
@@ -55,8 +76,21 @@ export default function TaskCard({ task }: TaskCardProps) {
         {expanded && (
           <ul>
             {task.subtasks &&
-              task.subtasks.map((subtask) => (
-                <li key={subtask.id}>{subtask.name}</li>
+              sortByDate()?.map((subtask) => (
+                <li key={subtask.id} className="flex items-center gap-2">
+                  <button
+                    onClick={() =>
+                      updateSubtaskAction(subtask.completed, subtask.id)
+                    }
+                  >
+                    <CheckCircle2
+                      strokeWidth={1}
+                      size={iconSize + 2}
+                      className={subtask.completed ? "text-green-600" : ""}
+                    />
+                  </button>
+                  <span>{subtask.name}</span>
+                </li>
               ))}
           </ul>
         )}

@@ -3,6 +3,7 @@ export interface Task {
   created_at: string;
   edited_at: string;
   name: string;
+  completed: boolean;
   description?: string;
   subtasks?: Subtask[];
   task_assignments?: Profiles[];
@@ -32,6 +33,7 @@ export interface Subtask {
   created_at: string;
   edited_at: string;
   name: string;
+  completed: boolean;
 }
 
 export interface User {

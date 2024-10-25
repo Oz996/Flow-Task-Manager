@@ -47,6 +47,7 @@ export default function TaskModalForm() {
       id,
       created_at: "",
       edited_at: "",
+      completed: false,
       name: e.target.value,
     };
 

@@ -36,7 +36,7 @@ export default async function ProjectPage({
     .eq("id", params.id)
     .single();
 
-  if (projectError) return null;
+  if (projectError) return console.error(projectError);
 
   const project: Project = projectData;
   const sections = project?.sections;

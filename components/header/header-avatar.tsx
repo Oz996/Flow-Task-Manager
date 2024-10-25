@@ -10,24 +10,24 @@ import {
 
 export default async function HeaderAvatar() {
   const user = await userSession();
-  const supabase = createClient();
+  // const supabase = createClient();
 
-  const getAvatarUrl = async (userId: string) => {
-    const { data, error } = await supabase
-      .from("profiles")
-      .select("avatar_url")
-      .eq("id", userId)
-      .single();
+  // const getAvatarUrl = async (userId: string) => {
+  //   const { data, error } = await supabase
+  //     .from("profiles")
+  //     .select("avatar_url")
+  //     .eq("id", userId)
+  //     .single();
 
-    if (error) {
-      console.error(error.message);
-      return null;
-    }
+  //   if (error) {
+  //     console.error(error.message);
+  //     return null;
+  //   }
 
-    return data?.avatar_url;
-  };
+  //   return data?.avatar_url;
+  // };
 
-  const avatar = await getAvatarUrl(user?.id as string);
+  const avatar = user?.user_metadata?.avatar_url;
 
   return (
     <>

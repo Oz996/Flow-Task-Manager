@@ -25,5 +25,6 @@ export function generateSubtask(): Subtask {
     created_at: "",
     edited_at: "",
     name: "",
+    completed: false,
   };
 }
