@@ -1,4 +1,4 @@
-import { updateSubtaskAction } from "@/app/(main)/actions";
+import { subtaskCompletedAction } from "@/app/(main)/actions";
 import { Subtask, Task } from "@/lib/types";
 import classNames from "classnames";
 import { CheckCircle2, ChevronRight, List } from "lucide-react";
@@ -56,7 +56,7 @@ export default function TaskSubtasks({
               >
                 <button
                   onClick={() =>
-                    updateSubtaskAction(subtask.completed, subtask.id)
+                    subtaskCompletedAction(subtask.completed, subtask.id)
                   }
                 >
                   <Icon

@@ -154,11 +154,7 @@ export async function updateTaskAction(
 
   if (newSubtasks.length > 0) {
     for (const subtask of newSubtasks) {
-      const { error } = await supabase
-        .from("subtasks")
-        .insert([{ name: subtask.name, task_id: task.id }]);
-
-      if (error) console.error(error);
+      await addSubtaskAction(subtask.name, task.id);
     }
   }
 
@@ -170,12 +166,7 @@ export async function updateTaskAction(
 
   if (deleteSubtasks.length > 0) {
     for (const subtask of deleteSubtasks) {
-      const { error } = await supabase
-        .from("subtasks")
-        .delete()
-        .eq("id", subtask.id);
-
-      if (error) console.error(error);
+      await deleteSubtaskAction(subtask.id);
     }
   }
 
@@ -183,13 +174,7 @@ export async function updateTaskAction(
     for (let i = 0; i < subtaskNames.length; i++) {
       const name = subtaskNames[i];
       const id = subtaskIds[i];
-
-      const { error } = await supabase
-        .from("subtasks")
-        .update([{ name }])
-        .eq("id", id);
-
-      if (error) console.error(error);
+      await updateSubtaskAction(name as string, id);
     }
   }
 
@@ -203,13 +188,7 @@ export async function updateTaskAction(
 
   if (unassignUsers.length > 0) {
     for (const user of unassignUsers) {
-      const { error } = await supabase
-        .from("task_assignments")
-        .delete()
-        .eq("task_id", id)
-        .eq("user_id", user.id);
-
-      if (error) console.error(error);
+      await deleteUserAction(user.id, task.id);
     }
   }
 
@@ -219,6 +198,43 @@ export async function updateTaskAction(
     }
   }
   revalidatePath("/project");
+}
+
+export async function addSubtaskAction(name: string, taskId: string) {
+  const supabase = createClient();
+  const { error } = await supabase
+    .from("subtasks")
+    .insert([{ name, task_id: taskId }]);
+
+  if (error) console.error(error);
+}
+
+export async function updateSubtaskAction(name: string, id: string) {
+  const supabase = createClient();
+  const { error } = await supabase
+    .from("subtasks")
+    .update([{ name }])
+    .eq("id", id);
+
+  if (error) console.error(error);
+}
+
+export async function deleteSubtaskAction(id: string) {
+  const supabase = createClient();
+  const { error } = await supabase.from("subtasks").delete().eq("id", id);
+
+  if (error) console.error(error);
+}
+
+export async function deleteUserAction(userId: string, taskId: string) {
+  const supabase = createClient();
+  const { error } = await supabase
+    .from("task_assignments")
+    .delete()
+    .eq("task_id", taskId)
+    .eq("user_id", userId);
+
+  if (error) console.error(error);
 }
 
 export async function assignUserAction(userId: string, taskId: string) {
@@ -231,7 +247,7 @@ export async function assignUserAction(userId: string, taskId: string) {
   if (error) console.error(error);
 }
 
-export async function updateSubtaskAction(completed: boolean, id: string) {
+export async function subtaskCompletedAction(completed: boolean, id: string) {
   const supabase = createClient();
   const { error } = await supabase
     .from("subtasks")
