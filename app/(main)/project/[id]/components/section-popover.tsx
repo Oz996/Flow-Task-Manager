@@ -28,13 +28,13 @@ export default function SectionPopover({
       </PopoverTrigger>
       <PopoverContent align="start" className="w-[12rem]">
         <div
-          className="p-1 flex items-center gap-2"
+          className="p-1 flex items-center gap-2 hover:bg-slate-200 duration-200 cursor-pointer"
           onClick={() => editSection(id, name)}
         >
           <Pencil size={iconSize} />
           <span>Rename section</span>
         </div>
-        <div className="p-1 flex items-center gap-2 text-red-500">
+        <div className="p-1 flex items-center gap-2 text-red-500 hover:bg-slate-200 duration-200 cursor-pointer">
           <Trash2 size={iconSize} />
           <span>Delete section</span>
         </div>

@@ -16,8 +16,9 @@ export default function TaskModal() {
 
   const taskModal = type === "task";
   const addModal = action === "add";
+  const editModal = action === "edit";
 
-  if (taskModal)
+  if ((taskModal && addModal) || (taskModal && editModal))
     return (
       <ModalContainer>
         <DialogContent className="sm:max-w-[30rem] p-8">

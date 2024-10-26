@@ -200,17 +200,29 @@ export async function updateTaskAction(
   revalidatePath("/project");
 }
 
-export async function addSubtaskAction(name: string, taskId: string) {
+export async function deleteTaskAction(id: string) {
   const supabase = createClient();
+
+  const { error } = await supabase.from("tasks").delete().eq("id", id);
+
+  if (error) console.error(error);
+
+  revalidatePath("/project");
+}
+
+export async function addSubtaskAction(name: string, id: string) {
+  const supabase = createClient();
+
   const { error } = await supabase
     .from("subtasks")
-    .insert([{ name, task_id: taskId }]);
+    .insert([{ name, task_id: id }]);
 
   if (error) console.error(error);
 }
 
 export async function updateSubtaskAction(name: string, id: string) {
   const supabase = createClient();
+
   const { error } = await supabase
     .from("subtasks")
     .update([{ name }])
@@ -221,34 +233,37 @@ export async function updateSubtaskAction(name: string, id: string) {
 
 export async function deleteSubtaskAction(id: string) {
   const supabase = createClient();
+
   const { error } = await supabase.from("subtasks").delete().eq("id", id);
 
   if (error) console.error(error);
 }
 
-export async function deleteUserAction(userId: string, taskId: string) {
+export async function deleteUserAction(userId: string, id: string) {
   const supabase = createClient();
+
   const { error } = await supabase
     .from("task_assignments")
     .delete()
-    .eq("task_id", taskId)
+    .eq("task_id", id)
     .eq("user_id", userId);
 
   if (error) console.error(error);
 }
 
-export async function assignUserAction(userId: string, taskId: string) {
+export async function assignUserAction(userId: string, id: string) {
   const supabase = createClient();
 
   const { error } = await supabase
     .from("task_assignments")
-    .insert({ user_id: userId, task_id: taskId });
+    .insert({ user_id: userId, task_id: id });
 
   if (error) console.error(error);
 }
 
 export async function subtaskCompletedAction(completed: boolean, id: string) {
   const supabase = createClient();
+
   const { error } = await supabase
     .from("subtasks")
     .update({ completed: !completed })

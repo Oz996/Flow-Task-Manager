@@ -15,7 +15,7 @@ export default function SubtasksPopover({
   iconSize,
   id,
 }: SubtasksPopoverProps) {
-  const { openEditTaskModal } = useModal();
+  const { openEditTaskModal, openDeleteTaskModal } = useModal();
 
   return (
     <Popover>
@@ -26,13 +26,16 @@ export default function SubtasksPopover({
       </PopoverTrigger>
       <PopoverContent align="start" className="w-[12rem]">
         <div
-          className="p-1 flex items-center gap-2"
+          className="p-1 flex items-center gap-2 hover:bg-slate-200 duration-200 cursor-pointer"
           onClick={() => openEditTaskModal(id)}
         >
           <Pencil size={iconSize} />
           <span>Edit task</span>
         </div>
-        <div className="p-1 flex items-center gap-2 text-red-500">
+        <div
+          className="p-1 flex items-center gap-2 text-red-500 hover:bg-slate-200 duration-200 cursor-pointer"
+          onClick={() => openDeleteTaskModal(id)}
+        >
           <Trash2 size={iconSize} />
           <span>Delete task</span>
         </div>
