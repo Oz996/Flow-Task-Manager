@@ -200,6 +200,16 @@ export async function updateTaskAction(
   revalidatePath("/project");
 }
 
+export async function deleteSectionAction(id: string) {
+  const supabase = createClient();
+
+  const { error } = await supabase.from("sections").delete().eq("id", id);
+
+  if (error) console.error(error);
+
+  revalidatePath("/project");
+}
+
 export async function deleteTaskAction(id: string) {
   const supabase = createClient();
 

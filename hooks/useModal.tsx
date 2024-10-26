@@ -14,6 +14,16 @@ export function useModal() {
     return router.push(url?.toString() as string, { scroll: false });
   }
 
+  // section modals
+
+  function openDeleteSectionModal(id: string) {
+    url?.searchParams.set("modal", "true");
+    url?.searchParams.set("type", "section");
+    url?.searchParams.set("action", "delete");
+    url?.searchParams.set("id", id);
+    return router.push(url?.toString() as string, { scroll: false });
+  }
+
   // task modals
 
   function openCreateTaskModal(id: string) {
@@ -49,6 +59,7 @@ export function useModal() {
   }
 
   return {
+    openDeleteSectionModal,
     openCreateProjectModal,
     openCreateTaskModal,
     openDeleteTaskModal,

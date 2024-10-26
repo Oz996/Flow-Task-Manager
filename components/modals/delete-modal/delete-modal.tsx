@@ -8,7 +8,7 @@ import {
 import ModalContainer from "../modal-container";
 import { Button } from "@/components/ui/button";
 import { useSearchParams } from "next/navigation";
-import { deleteTaskAction } from "@/app/(main)/actions";
+import { deleteSectionAction, deleteTaskAction } from "@/app/(main)/actions";
 import { useModal } from "@/hooks/useModal";
 
 export default function DeleteModal() {
@@ -20,10 +20,11 @@ export default function DeleteModal() {
 
   const taskModal = type === "task";
   const deleteModal = action === "delete";
-  const id = searchParams.get("id");
+  const id = searchParams.get("id") as string;
 
   async function deleteAction() {
-    if (taskModal) await deleteTaskAction(id as string);
+    if (taskModal) await deleteTaskAction(id);
+    else await deleteSectionAction(id);
     closeModal();
   }
 
@@ -32,7 +33,9 @@ export default function DeleteModal() {
       <ModalContainer>
         <DialogContent className="sm:max-w-[20rem] p-8 space-y-2">
           <DialogHeader>
-            <DialogTitle>Are you sure?</DialogTitle>
+            <DialogTitle>
+              {taskModal ? "Delete Task?" : "Delete Section?"}
+            </DialogTitle>
           </DialogHeader>
           <p>This action is irreversible</p>
           <DialogFooter className="flex gap-2">
