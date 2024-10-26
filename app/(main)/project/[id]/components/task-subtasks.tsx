@@ -3,6 +3,8 @@ import { Subtask, Task } from "@/lib/types";
 import classNames from "classnames";
 import { CheckCircle2, ChevronRight, List } from "lucide-react";
 import React, { useState } from "react";
+import Icon from "@mdi/react";
+import { mdiCheckCircle, mdiCheckCircleOutline } from "@mdi/js";
 
 interface TaskSubtasksProps {
   subtasks: Subtask[];
@@ -48,16 +50,23 @@ export default function TaskSubtasks({
         {expanded && (
           <ul>
             {sortByDate()?.map((subtask) => (
-              <li key={subtask.id} className="flex items-center gap-2">
+              <li
+                key={subtask.id}
+                className="flex items-center gap-2 py-2 text-sm border-b border-b-gray-200"
+              >
                 <button
                   onClick={() =>
                     updateSubtaskAction(subtask.completed, subtask.id)
                   }
                 >
-                  <CheckCircle2
-                    strokeWidth={1}
-                    size={iconSize + 2}
-                    className={subtask.completed ? "text-green-600" : ""}
+                  <Icon
+                    path={
+                      subtask.completed ? mdiCheckCircle : mdiCheckCircleOutline
+                    }
+                    title="User Profile"
+                    size={0.9}
+                    color={subtask.completed ? "green" : ""}
+                    className={subtask.completed ? "" : "opacity-60"}
                   />
                 </button>
                 <span>{subtask.name}</span>

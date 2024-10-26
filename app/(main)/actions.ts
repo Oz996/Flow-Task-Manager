@@ -2,7 +2,7 @@
 
 import { ProjectSchema, TaskSchema } from "@/lib/schemas";
 import { createClient } from "@/lib/supabase/server";
-import { Subtask, User } from "@/lib/types";
+import { Profiles, Subtask, User } from "@/lib/types";
 import { revalidatePath } from "next/cache";
 
 export async function createProjectAction(formData: FormData) {
@@ -152,12 +152,14 @@ export async function updateTaskAction(
     );
   });
 
-  for (const subtask of newSubtasks) {
-    const { error } = await supabase
-      .from("subtasks")
-      .insert([{ name: subtask.name, task_id: task.id }]);
+  if (newSubtasks.length > 0) {
+    for (const subtask of newSubtasks) {
+      const { error } = await supabase
+        .from("subtasks")
+        .insert([{ name: subtask.name, task_id: task.id }]);
 
-    if (error) console.error(error);
+      if (error) console.error(error);
+    }
   }
 
   // checking for subtasks to delete
@@ -166,13 +168,15 @@ export async function updateTaskAction(
     return subtasks.findIndex((sub) => sub.id === subtask.id) === -1;
   });
 
-  for (const subtask of deleteSubtasks) {
-    const { error } = await supabase
-      .from("subtasks")
-      .delete()
-      .eq("id", subtask.id);
+  if (deleteSubtasks.length > 0) {
+    for (const subtask of deleteSubtasks) {
+      const { error } = await supabase
+        .from("subtasks")
+        .delete()
+        .eq("id", subtask.id);
 
-    if (error) console.error(error);
+      if (error) console.error(error);
+    }
   }
 
   if (subtaskNames.length > 0) {
@@ -184,6 +188,27 @@ export async function updateTaskAction(
         .from("subtasks")
         .update([{ name }])
         .eq("id", id);
+
+      if (error) console.error(error);
+    }
+  }
+
+  // checking for users to unassign
+
+  const users = task.task_assignments.map((user: Profiles) => user.profiles);
+
+  const unassignUsers = users?.filter((user: User) => {
+    return assignees?.findIndex((u) => u.id === user.id) === -1;
+  });
+
+  if (unassignUsers.length > 0) {
+    for (const user of unassignUsers) {
+      const { error } = await supabase
+        .from("task_assignments")
+        .delete()
+        .eq("task_id", id)
+        .eq("user_id", user.id);
+
       if (error) console.error(error);
     }
   }
