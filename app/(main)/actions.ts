@@ -144,6 +144,22 @@ export async function updateTaskAction(
 
   if (error) console.error(error);
 
+  // checking for newly added subtasks
+
+  const newSubtasks = subtasks.filter((subtask) => {
+    return (
+      task.subtasks.findIndex((sub: Subtask) => sub.id === subtask.id) === -1
+    );
+  });
+
+  for (const subtask of newSubtasks) {
+    const { error } = await supabase
+      .from("subtasks")
+      .insert([{ name: subtask.name, task_id: task.id }]);
+
+    if (error) console.error(error);
+  }
+
   // checking for subtasks to delete
 
   const deleteSubtasks = task.subtasks.filter((subtask: Subtask) => {
