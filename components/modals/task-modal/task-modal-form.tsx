@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { TaskSchema } from "@/lib/schemas";
-import { Subtask, User } from "@/lib/types";
+import { Profiles, Subtask, User } from "@/lib/types";
 import { generateSubtask } from "@/lib/utils";
 import { useSearchParams } from "next/navigation";
 import React, { ChangeEvent, useEffect, useState } from "react";
@@ -21,7 +21,7 @@ interface TaskModalFormProps {
   addModal: boolean;
 }
 
-interface EditTaskState {
+export interface EditTaskState {
   task_name: string;
   description?: string;
 }
@@ -44,26 +44,35 @@ export default function TaskModalForm({ addModal }: TaskModalFormProps) {
 
   const subtasksLimit = subtasks.length > 5;
 
+  console.log("subtasks", subtasks);
+  // fetch and set values if editing
+
   useEffect(() => {
     if (!addModal) {
       const fetchTask = async () => {
         setIsLoading(true);
         try {
           const supabase = createClient();
-          const { data, error } = await supabase
+          const { data: task, error } = await supabase
             .from("tasks")
-            .select("*, subtasks (*)")
-            .eq("id", id);
-          console.log("data", data);
+            .select("*, subtasks (*), task_assignments ( profiles (*))")
+            .eq("id", id)
+            .single();
+          console.log("data", task);
 
           if (error) return console.error(error);
-
-          const task = data[0];
 
           setEditData({ task_name: task.name, description: task.description });
 
           if (task.subtasks.length > 0) {
             setSubtasks(task.subtasks);
+          }
+
+          if (task.task_assignments.length > 0) {
+            const users = task.task_assignments.map(
+              (user: Profiles) => user.profiles
+            );
+            setAssignedUsers(users);
           }
         } catch (error: any) {
           console.error(error.message);
@@ -148,7 +157,7 @@ export default function TaskModalForm({ addModal }: TaskModalFormProps) {
       setErrors(result.error);
       console.log(result.error.errors);
     } else {
-      await updateTaskAction(id as string, formData, assignedUsers);
+      await updateTaskAction(id as string, formData, subtasks, assignedUsers);
       closeModal();
     }
   }

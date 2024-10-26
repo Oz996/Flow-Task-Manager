@@ -117,6 +117,7 @@ export default function TaskModalUsers({
 
       {assignedUsers?.map((user) => (
         <TooltipContainer
+          key={user.id}
           className="bg-main text-white"
           trigger={
             <Image

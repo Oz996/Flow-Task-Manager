@@ -44,7 +44,7 @@ export default async function ProjectPage({
   // console.log("project", project);
 
   return (
-    <section className="px-8">
+    <section className="w-full px-8 absolute z-0">
       <h1 className="font-bold text-xl">{project.name}</h1>
       <LayoutSelect />
       {sections && <SectionsGrid sections={sections} />}

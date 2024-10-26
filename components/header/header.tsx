@@ -9,7 +9,7 @@ export default async function Header() {
   const user = await userSession();
 
   return (
-    <header className="w-screen h-12 bg-main fixed left-0 top-0 border-b-main-light border-b">
+    <header className="w-screen h-12 bg-main fixed left-0 top-0 border-b-main-light border-b z-10">
       <div className="container flex justify-between items-center h-full">
         <SidebarButton />
         <Searchbar />

@@ -9,7 +9,7 @@ export interface Task {
   task_assignments?: Profiles[];
 }
 
-interface Profiles {
+export interface Profiles {
   profiles: User;
 }
 

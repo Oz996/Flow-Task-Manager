@@ -2,7 +2,7 @@
 
 import { ProjectSchema, TaskSchema } from "@/lib/schemas";
 import { createClient } from "@/lib/supabase/server";
-import { User } from "@/lib/types";
+import { Subtask, User } from "@/lib/types";
 import { revalidatePath } from "next/cache";
 
 export async function createProjectAction(formData: FormData) {
@@ -107,6 +107,7 @@ export async function createTaskAction(
 export async function updateTaskAction(
   id: string,
   formData: FormData,
+  subtasks: Subtask[],
   assignees?: User[]
 ) {
   const taskName = formData.get("task_name")?.toString();
@@ -124,6 +125,16 @@ export async function updateTaskAction(
     return console.error(result.error);
   }
 
+  const { data: task, error: taskError } = await supabase
+    .from("tasks")
+    .select("*, subtasks (*), task_assignments ( profiles (*))")
+    .eq("id", id)
+    .single();
+
+  if (taskError) console.error(taskError);
+
+  const subtaskIds = task.subtasks.map((subtask: Subtask) => subtask.id);
+
   const { data, error } = await supabase
     .from("tasks")
     .update({ name: taskName, description: taskDescription })
@@ -133,14 +144,30 @@ export async function updateTaskAction(
 
   if (error) console.error(error);
 
-  console.log("edit data", taskName, taskDescription, subtaskNames);
+  // checking for subtasks to delete
+
+  const deleteSubtasks = task.subtasks.filter((subtask: Subtask) => {
+    return subtasks.findIndex((sub) => sub.id === subtask.id) === -1;
+  });
+
+  for (const subtask of deleteSubtasks) {
+    const { error } = await supabase
+      .from("subtasks")
+      .delete()
+      .eq("id", subtask.id);
+
+    if (error) console.error(error);
+  }
 
   if (subtaskNames.length > 0) {
-    for (const name of subtaskNames) {
+    for (let i = 0; i < subtaskNames.length; i++) {
+      const name = subtaskNames[i];
+      const id = subtaskIds[i];
+
       const { error } = await supabase
         .from("subtasks")
         .update([{ name }])
-        .eq("task_id", data?.id);
+        .eq("id", id);
       if (error) console.error(error);
     }
   }
@@ -156,7 +183,7 @@ export async function updateTaskAction(
 export async function assignUserAction(userId: string, taskId: string) {
   const supabase = createClient();
 
-  const { data, error } = await supabase
+  const { error } = await supabase
     .from("task_assignments")
     .insert({ user_id: userId, task_id: taskId });
 
@@ -165,7 +192,6 @@ export async function assignUserAction(userId: string, taskId: string) {
 
 export async function updateSubtaskAction(completed: boolean, id: string) {
   const supabase = createClient();
-  console.log("testet", completed, id);
   const { error } = await supabase
     .from("subtasks")
     .update({ completed: !completed })
