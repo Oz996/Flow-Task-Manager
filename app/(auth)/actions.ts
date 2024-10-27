@@ -105,6 +105,7 @@ export const signOutAction = async () => {
   if (!user) return;
 
   await supabase.auth.signOut();
+  redirect("/sign-in");
 };
 
 export async function deleteUserAction(id: string) {
