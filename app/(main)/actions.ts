@@ -4,6 +4,7 @@ import { ProjectSchema, TaskSchema } from "@/lib/schemas";
 import { createClient } from "@/lib/supabase/server";
 import { Profiles, Subtask, User } from "@/lib/types";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 export async function createProjectAction(formData: FormData) {
   const projectName = formData.get("project-name")?.toString();
@@ -188,7 +189,7 @@ export async function updateTaskAction(
 
   if (unassignUsers.length > 0) {
     for (const user of unassignUsers) {
-      await deleteUserAction(user.id, task.id);
+      await removeAssigneeAction(user.id, task.id);
     }
   }
 
@@ -249,7 +250,7 @@ export async function deleteSubtaskAction(id: string) {
   if (error) console.error(error);
 }
 
-export async function deleteUserAction(userId: string, id: string) {
+export async function removeAssigneeAction(userId: string, id: string) {
   const supabase = createClient();
 
   const { error } = await supabase

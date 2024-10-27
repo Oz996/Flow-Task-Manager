@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { useSearchParams } from "next/navigation";
 import { deleteSectionAction, deleteTaskAction } from "@/app/(main)/actions";
 import { useModal } from "@/hooks/useModal";
+import { deleteUserAction } from "@/app/(auth)/actions";
 
 export default function DeleteModal() {
   const searchParams = useSearchParams();
@@ -19,12 +20,15 @@ export default function DeleteModal() {
   const action = searchParams.get("action");
 
   const taskModal = type === "task";
+  const sectionModal = type === "section";
+
   const deleteModal = action === "delete";
   const id = searchParams.get("id") as string;
 
   async function deleteAction() {
     if (taskModal) await deleteTaskAction(id);
-    else await deleteSectionAction(id);
+    else if (sectionModal) await deleteSectionAction(id);
+    else await deleteUserAction(id);
     closeModal();
   }
 
@@ -34,7 +38,11 @@ export default function DeleteModal() {
         <DialogContent className="sm:max-w-[20rem] p-8 space-y-2">
           <DialogHeader>
             <DialogTitle>
-              {taskModal ? "Delete Task?" : "Delete Section?"}
+              {taskModal
+                ? "Delete Task?"
+                : sectionModal
+                  ? "Delete Section?"
+                  : "Delete User?"}
             </DialogTitle>
           </DialogHeader>
           <p>This action is irreversible</p>

@@ -26,6 +26,16 @@ export function useModal() {
 
   // task modals
 
+  // profile modals
+
+  function openDeleteUserModal(id: string) {
+    url?.searchParams.set("modal", "true");
+    url?.searchParams.set("type", "user");
+    url?.searchParams.set("action", "delete");
+    url?.searchParams.set("id", id);
+    return router.push(url?.toString() as string, { scroll: false });
+  }
+
   function openCreateTaskModal(id: string) {
     url?.searchParams.set("modal", "true");
     url?.searchParams.set("type", "task");
@@ -61,6 +71,7 @@ export function useModal() {
   return {
     openDeleteSectionModal,
     openCreateProjectModal,
+    openDeleteUserModal,
     openCreateTaskModal,
     openDeleteTaskModal,
     openEditTaskModal,

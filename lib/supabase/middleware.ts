@@ -1,7 +1,12 @@
 import { createServerClient } from "@supabase/ssr";
 import { type NextRequest, NextResponse } from "next/server";
+import { userSession } from "./user-session";
 
 export const updateSession = async (request: NextRequest) => {
+  const user = await userSession();
+
+  console.log("useruseruser", user);
+
   try {
     let response = NextResponse.next({
       request: {
@@ -35,6 +40,14 @@ export const updateSession = async (request: NextRequest) => {
     // protected routes
     if (request.nextUrl.pathname === "/") {
       return NextResponse.redirect(new URL("/home", request.url));
+    }
+
+    if (
+      !user &&
+      request.nextUrl.pathname !== "/sign-in" &&
+      request.nextUrl.pathname !== "/sign-up"
+    ) {
+      return NextResponse.redirect(new URL("/sign-in", request.url));
     }
 
     return response;

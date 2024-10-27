@@ -8,7 +8,7 @@ export default function Sidebar() {
 
   return (
     <SidebarContainer>
-      <nav className="py-5 border-b border-b-main-light">
+      <nav className="py-5 border-b border-b-main-border">
         <ul className="flex flex-col text-sm px-4">
           <li>
             <Link

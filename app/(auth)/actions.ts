@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { userSession } from "@/lib/supabase/user-session";
 import { encodedNavigation } from "@/lib/utils";
 import { redirect } from "next/navigation";
 
@@ -105,3 +106,30 @@ export const signOutAction = async () => {
 
   await supabase.auth.signOut();
 };
+
+export async function deleteUserAction(id: string) {
+  const user = await userSession();
+
+  if (user?.id !== id) {
+    return console.error("User is not authorized to delete this account");
+  }
+
+  const supabase = createClient();
+
+  // deleting any relations to task assignments before deleting the user
+  const { error: taskError } = await supabase
+    .from("task_assignments")
+    .delete()
+    .eq("user_id", id);
+
+  if (taskError) console.error(taskError);
+
+  const { error } = await supabase.rpc("delete_user_self", { uid: id });
+
+  if (error) {
+    console.error(error);
+  } else {
+    await supabase.auth.signOut();
+    redirect("/sign-in");
+  }
+}

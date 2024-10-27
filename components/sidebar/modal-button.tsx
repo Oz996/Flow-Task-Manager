@@ -10,7 +10,7 @@ export default function ModalButton() {
 
   return (
     <Button
-      className="px-1 py-3 h-5 bg-transparent hover:bg-main-light duration-200"
+      className="px-1 py-3 h-5 text-white bg-transparent hover:bg-main-light duration-200"
       onClick={openCreateProjectModal}
     >
       <Link href="">
