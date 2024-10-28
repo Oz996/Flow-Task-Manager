@@ -1,42 +1,31 @@
-import { updateNamesAction } from "@/app/(auth)/actions";
+import { updateNamesAction, updatePasswordAction } from "@/app/(auth)/actions";
 import FormError from "@/app/(auth)/components/form-error";
 import { SubmitButton } from "@/components/submit-button";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { UsernameEmailSchema } from "@/lib/schemas";
+import { PasswordSchema } from "@/lib/schemas";
 import { UserObject } from "@/lib/types";
 import { ChangeEvent, useEffect, useState } from "react";
 import { ZodError } from "zod";
 
 interface UserNamesFormProps {
-  user: UserObject;
   exitEditing: () => void;
 }
 
 interface UserForm {
-  username: string;
-  email: string;
+  password: string;
+  confirm_password: string;
 }
 
 const initialState: UserForm = {
-  username: "",
-  email: "",
+  password: "",
+  confirm_password: "",
 };
 
-export default function UserNamesForm({
-  user,
-  exitEditing,
-}: UserNamesFormProps) {
+export default function UserPasswordForm({ exitEditing }: UserNamesFormProps) {
   const [errors, setErrors] = useState<ZodError>();
   const [formData, setFormData] = useState(initialState);
-
-  useEffect(() => {
-    setFormData({
-      username: user.user_metadata.username,
-      email: user.user_metadata.email,
-    });
-  }, [user]);
 
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
     return setFormData((prevData) => ({
@@ -46,23 +35,16 @@ export default function UserNamesForm({
   }
 
   async function formAction(formData: FormData) {
-    const username = formData.get("username")?.toString();
-    const email = formData.get("email")?.toString();
+    const password = formData.get("password")?.toString();
+    const confirm_password = formData.get("confirm_password")?.toString();
 
-    if (
-      email === user.user_metadata.email &&
-      username === user.user_metadata.username
-    ) {
-      return exitEditing();
-    }
-
-    const result = UsernameEmailSchema.safeParse({ username, email });
+    const result = PasswordSchema.safeParse({ password, confirm_password });
 
     if (!result.success) {
       console.error(result.error.errors);
       setErrors(result.error);
     } else {
-      await updateNamesAction(user.id, formData);
+      await updatePasswordAction(formData);
       exitEditing();
     }
   }
@@ -70,21 +52,22 @@ export default function UserNamesForm({
   return (
     <form className="space-y-3">
       <div className="flex flex-col gap-2">
-        <Label htmlFor="username">Username</Label>
+        <Label htmlFor="password">New password</Label>
         <Input
-          id="username"
-          name="username"
-          value={formData.username}
+          id="password"
+          name="password"
+          type="password"
+          value={formData.password}
           onChange={handleChange}
         />
       </div>
       <div className="flex flex-col gap-2">
-        <Label htmlFor="email">Email</Label>
+        <Label htmlFor="confirm_password">Confirm password</Label>
         <Input
-          id="email"
-          type="email"
-          name="email"
-          value={formData.email}
+          id="confirm_password"
+          type="password"
+          name="confirm_password"
+          value={formData.confirm_password}
           onChange={handleChange}
         />
       </div>

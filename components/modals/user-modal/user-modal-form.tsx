@@ -2,6 +2,7 @@ import { UserObject } from "@/lib/types";
 import { useState } from "react";
 import UserNamesForm from "./user-names-form";
 import { Button } from "@/components/ui/button";
+import UserPasswordForm from "./user-password-form";
 
 interface UserModalFormProps {
   user: UserObject;
@@ -26,4 +27,8 @@ export default function UserModalForm({ user }: UserModalFormProps) {
 
   if (editing === "names")
     return <UserNamesForm user={user} exitEditing={exitEditing} />;
+
+  if (editing === "password") {
+    return <UserPasswordForm exitEditing={exitEditing} />;
+  }
 }

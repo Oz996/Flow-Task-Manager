@@ -1,5 +1,6 @@
 "use server";
 
+import { PasswordSchema, UsernameEmailSchema } from "@/lib/schemas";
 import { createClient } from "@/lib/supabase/server";
 import { userSession } from "@/lib/supabase/user-session";
 import { encodedNavigation } from "@/lib/utils";
@@ -24,7 +25,7 @@ export const signUpAction = async (formData: FormData) => {
   if (username.length <= 2) {
     return encodedNavigation(
       "sign-up",
-      "Username must be at least 3 characters"
+      "Username should be at least 3 characters"
     );
   }
 
@@ -111,19 +112,40 @@ export async function updateNamesAction(id: string, formData: FormData) {
   const email = formData.get("email")?.toString();
   const supabase = createClient();
 
-  const { data, error: userError } = await supabase.rpc("update_user", {
+  const result = UsernameEmailSchema.safeParse({ username, email });
+
+  if (!result.success) return console.error(result.error);
+
+  // using custom function to update user and then updating the profiles table
+  const { error: userError } = await supabase.rpc("update_user", {
     user_id: id,
     new_email: email,
     new_username: username,
   });
-  // const { error: profileError } = await supabase
-  //   .from("profiles")
-  //   .update([{ username, email }])
-  //   .eq("id", id);
-  console.log("datadata", data);
-  if (userError) console.error(userError.message);
-  // if (profileError) console.error(profileError.message);
+
+  if (userError) return console.error(userError.message);
+
+  const { error: profileError } = await supabase
+    .from("profiles")
+    .update([{ username, email }])
+    .eq("id", id);
+
+  if (profileError) console.error(profileError.message);
   revalidateTag("user-data");
+}
+
+export async function updatePasswordAction(formData: FormData) {
+  const password = formData.get("password")?.toString();
+  const confirm_password = formData.get("confirm_password")?.toString();
+  const supabase = createClient();
+
+  const result = PasswordSchema.safeParse({ password, confirm_password });
+
+  if (!result.success) return console.error(result.error);
+
+  const { error } = await supabase.auth.updateUser({ password });
+
+  if (error) console.error(error);
 }
 
 export async function deleteUserAction(id: string) {
