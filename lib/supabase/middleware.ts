@@ -5,8 +5,6 @@ import { userSession } from "./user-session";
 export const updateSession = async (request: NextRequest) => {
   const user = await userSession();
 
-  console.log("useruseruser", user);
-
   try {
     let response = NextResponse.next({
       request: {

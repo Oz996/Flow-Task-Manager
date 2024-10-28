@@ -3,6 +3,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { userSession } from "@/lib/supabase/user-session";
 import { encodedNavigation } from "@/lib/utils";
+import { revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
 
 export const signUpAction = async (formData: FormData) => {
@@ -42,9 +43,7 @@ export const signUpAction = async (formData: FormData) => {
         .from("avatars")
         .upload(filePath, picture);
 
-      if (error) {
-        console.error(error.message);
-      }
+      if (error) console.error(error.message);
 
       return `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/avatars/${filePath}`;
     }
@@ -65,7 +64,6 @@ export const signUpAction = async (formData: FormData) => {
     },
   });
 
-  console.log("User Metadata:", data.user?.user_metadata);
   if (error) {
     console.error(error.message);
     return encodedNavigation("sign-up", error.message);
@@ -107,6 +105,26 @@ export const signOutAction = async () => {
   await supabase.auth.signOut();
   redirect("/sign-in");
 };
+
+export async function updateNamesAction(id: string, formData: FormData) {
+  const username = formData.get("username")?.toString();
+  const email = formData.get("email")?.toString();
+  const supabase = createClient();
+
+  const { data, error: userError } = await supabase.rpc("update_user", {
+    user_id: id,
+    new_email: email,
+    new_username: username,
+  });
+  // const { error: profileError } = await supabase
+  //   .from("profiles")
+  //   .update([{ username, email }])
+  //   .eq("id", id);
+  console.log("datadata", data);
+  if (userError) console.error(userError.message);
+  // if (profileError) console.error(profileError.message);
+  revalidateTag("user-data");
+}
 
 export async function deleteUserAction(id: string) {
   const user = await userSession();

@@ -12,6 +12,8 @@ import ThemePicker from "./theme-picker";
 import DeleteUserButton from "./delete-user-button";
 import { userSession } from "@/lib/supabase/user-session";
 import SignOutButton from "./sign-out-button";
+import UserModal from "../modals/user-modal/user-modal";
+import EditUserButton from "./edit-user-button";
 
 export default async function ConfigSheet() {
   const user = (await userSession()) as any;
@@ -31,11 +33,12 @@ export default async function ConfigSheet() {
 
         <div className="flex flex-col gap-3">
           <ThemePicker />
-          <Button className="rounded-lg">Account settings</Button>
+          <EditUserButton />
           <SignOutButton />
           <DeleteUserButton user={user} />
         </div>
       </SheetContent>
+      <UserModal user={user} />
     </Sheet>
   );
 }

@@ -8,8 +8,6 @@ export default function ThemePicker() {
   const { theme, setTheme } = useTheme();
   const iconSize = 20;
 
-  console.log("theme", theme);
-
   function toggleTheme() {
     if (theme === "light") setTheme("dark");
     if (theme === "dark") setTheme("light");

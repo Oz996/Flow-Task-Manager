@@ -24,9 +24,14 @@ export function useModal() {
     return router.push(url?.toString() as string, { scroll: false });
   }
 
-  // task modals
-
   // profile modals
+
+  function openEditUserModal() {
+    url?.searchParams.set("modal", "true");
+    url?.searchParams.set("type", "user");
+    url?.searchParams.set("action", "edit");
+    return router.push(url?.toString() as string, { scroll: false });
+  }
 
   function openDeleteUserModal(id: string) {
     url?.searchParams.set("modal", "true");
@@ -35,6 +40,8 @@ export function useModal() {
     url?.searchParams.set("id", id);
     return router.push(url?.toString() as string, { scroll: false });
   }
+
+  // task modals
 
   function openCreateTaskModal(id: string) {
     url?.searchParams.set("modal", "true");
@@ -74,6 +81,7 @@ export function useModal() {
     openDeleteUserModal,
     openCreateTaskModal,
     openDeleteTaskModal,
+    openEditUserModal,
     openEditTaskModal,
     closeModal,
   };

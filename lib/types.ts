@@ -42,3 +42,8 @@ export interface User {
   id: string;
   username: string;
 }
+
+export interface UserObject {
+  id: string;
+  user_metadata: User;
+}
