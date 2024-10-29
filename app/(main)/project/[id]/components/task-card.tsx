@@ -35,7 +35,7 @@ export default function TaskCard({ task }: TaskCardProps) {
   return (
     <Card
       className={classNames({
-        "flex flex-col gap-2 p-4 min-h-[8rem] rounded-lg duration-200": true,
+        "flex flex-col gap-5 p-4 min-h-[8rem] rounded-lg duration-200": true,
         "opacity-75": optimisticTask.completed,
       })}
     >
@@ -63,25 +63,53 @@ export default function TaskCard({ task }: TaskCardProps) {
         </div>
         <SubtasksPopover iconSize={iconSize} id={task.id} />
       </div>
-      <div className="flex gap-2">
-        {task?.task_assignments?.map((user) => (
+
+      <div>
+        {task?.priority && (
           <TooltipContainer
-            className="bg-main text-white"
+            className="bg-main text-white capitalize"
             trigger={
-              <Image
-                width={100}
-                height={100}
-                src={user.profiles.avatar_url}
-                alt="User avatar"
-                className="size-7 rounded-full"
-              />
+              <span
+                className={classNames({
+                  "px-2 py-1 text-sm rounded capitalize": true,
+                  "bg-blue-300": task.priority === "low",
+                  "bg-yellow-500": task.priority === "medium",
+                  "bg-red-500": task.priority === "high",
+                })}
+              >
+                {task.priority}
+              </span>
             }
           >
-            <p>{user.profiles.username}</p>
+            <div className="flex flex-col gap-1">
+              <p>Priority:</p>
+              <p> {task.priority}</p>
+            </div>
           </TooltipContainer>
-        ))}
+        )}
       </div>
-      <TaskSubtasks iconSize={iconSize} subtasks={task?.subtasks!} />
+
+      <div className="grid grid-cols-2 justify-between">
+        <div className="flex gap-2">
+          {task?.task_assignments?.map((user) => (
+            <TooltipContainer
+              className="bg-main text-white"
+              trigger={
+                <Image
+                  width={100}
+                  height={100}
+                  src={user.profiles.avatar_url}
+                  alt="User avatar"
+                  className="size-7 rounded-full"
+                />
+              }
+            >
+              <p>{user.profiles.username}</p>
+            </TooltipContainer>
+          ))}
+        </div>
+        <TaskSubtasks iconSize={iconSize} subtasks={task?.subtasks!} />
+      </div>
     </Card>
   );
 }

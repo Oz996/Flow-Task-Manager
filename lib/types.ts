@@ -6,6 +6,7 @@ export interface Task {
   completed: boolean;
   description?: string;
   subtasks?: Subtask[];
+  priority?: string;
   task_assignments?: Profiles[];
 }
 

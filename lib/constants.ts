@@ -23,12 +23,13 @@ export const viewModeOptions: {
   name: "Board" | "List";
   value: ViewModeType;
 }[] = [
-  {
-    name: "Board",
-    value: "board",
-  },
-  {
-    name: "List",
-    value: "list",
-  },
+  { name: "Board", value: "board" },
+  { name: "List", value: "list" },
 ];
+
+export const priorityOptions = [
+  { name: "--", value: null },
+  { name: "Low", value: "low" },
+  { name: "Medium", value: "medium" },
+  { name: "High", value: "high" },
+] as const;

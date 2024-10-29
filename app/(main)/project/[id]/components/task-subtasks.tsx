@@ -48,7 +48,7 @@ export default function TaskSubtasks({
 
   return (
     <>
-      <div className="self-end mt-auto">
+      <div className="ml-auto">
         {subtasks.length > 0 && (
           <button
             className="flex items-center gap-1 p-1 bg-transparent hover:bg-transparent/10 duration-200 rounded lg"
@@ -66,7 +66,7 @@ export default function TaskSubtasks({
           </button>
         )}
       </div>
-      <div>
+      <div className="col-span-2">
         {expanded && (
           <ul>
             {sortByDate()?.map((subtask) => (
@@ -89,7 +89,7 @@ export default function TaskSubtasks({
                         ? "Uncheck completed"
                         : "Check completed"
                     }
-                    className="size-[1.35rem]"
+                    className="min-w-[1.35rem] min-h-[1.35rem]"
                   />
                 </button>
                 <span>{subtask.name}</span>

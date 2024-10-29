@@ -1,5 +1,5 @@
 "use client";
-import { Section } from "@/lib/types";
+import { Section, Task } from "@/lib/types";
 import { Plus } from "lucide-react";
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import SectionPopover from "./section-popover";
@@ -53,6 +53,14 @@ export default function SectionsGrid({ sections }: SectionsGridProps) {
     setEditingSectionValue(e.target.value);
   }
 
+  function sortTasksByDate(tasks: Task[]): Task[] {
+    return tasks.sort((a, b) => {
+      return (
+        new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+      );
+    });
+  }
+
   return (
     <>
       <div className="grid grid-cols-6 gap-5 mt-5 pt-5 border-t border-t-main-border">
@@ -87,7 +95,9 @@ export default function SectionsGrid({ sections }: SectionsGridProps) {
                 />
               </div>
             </div>
-            {section?.tasks?.map((task) => <TaskCard task={task} />)}
+            {sortTasksByDate(section?.tasks!)?.map((task) => (
+              <TaskCard task={task} />
+            ))}
           </div>
         ))}
         <NewSectionDiv iconSize={iconSize} />

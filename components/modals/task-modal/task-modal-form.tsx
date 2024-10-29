@@ -16,6 +16,7 @@ import FormError from "@/app/(auth)/components/form-error";
 import { Textarea } from "@/components/ui/textarea";
 import TaskModalUsers from "./task-modal-users";
 import { createClient } from "@/lib/supabase/client";
+import TaskModalPriority from "./task-modal-priority";
 
 interface TaskModalFormProps {
   addModal: boolean;
@@ -26,9 +27,12 @@ export interface EditTaskState {
   description?: string;
 }
 
+export type PriorityType = "low" | "medium" | "high" | null;
+
 export default function TaskModalForm({ addModal }: TaskModalFormProps) {
   const [subtasks, setSubtasks] = useState<Subtask[]>([]);
   const [assignedUsers, setAssignedUsers] = useState<User[]>([]);
+  const [priority, setPriority] = useState<PriorityType>(null);
   const [errors, setErrors] = useState<ZodError>();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -44,9 +48,7 @@ export default function TaskModalForm({ addModal }: TaskModalFormProps) {
 
   const subtasksLimit = subtasks.length > 5;
 
-  console.log("subtasks", subtasks);
   // fetch and set values if editing
-
   useEffect(() => {
     if (!addModal) {
       const fetchTask = async () => {
@@ -58,7 +60,6 @@ export default function TaskModalForm({ addModal }: TaskModalFormProps) {
             .select("*, subtasks (*), task_assignments ( profiles (*))")
             .eq("id", id)
             .single();
-          console.log("data", task);
 
           if (error) return console.error(error);
 
@@ -73,6 +74,10 @@ export default function TaskModalForm({ addModal }: TaskModalFormProps) {
               (user: Profiles) => user.profiles
             );
             setAssignedUsers(users);
+          }
+
+          if (task.priority) {
+            setPriority(task.priority);
           }
         } catch (error: any) {
           console.error(error.message);
@@ -137,7 +142,7 @@ export default function TaskModalForm({ addModal }: TaskModalFormProps) {
       setErrors(result.error);
       console.log(result.error.errors);
     } else {
-      await createTaskAction(id as string, formData, assignedUsers);
+      await createTaskAction(id as string, formData, assignedUsers, priority);
       closeModal();
     }
   }
@@ -157,7 +162,13 @@ export default function TaskModalForm({ addModal }: TaskModalFormProps) {
       setErrors(result.error);
       console.log(result.error.errors);
     } else {
-      await updateTaskAction(id as string, formData, subtasks, assignedUsers);
+      await updateTaskAction(
+        id as string,
+        formData,
+        subtasks,
+        assignedUsers,
+        priority
+      );
       closeModal();
     }
   }
@@ -216,6 +227,8 @@ export default function TaskModalForm({ addModal }: TaskModalFormProps) {
             </div>
           </motion.div>
         ))}
+
+        <TaskModalPriority priority={priority} setPriority={setPriority} />
 
         <TaskModalUsers
           assignedUsers={assignedUsers}

@@ -1,5 +1,6 @@
 "use server";
 
+import { PriorityType } from "@/components/modals/task-modal/task-modal-form";
 import { ProjectSchema, TaskSchema } from "@/lib/schemas";
 import { createClient } from "@/lib/supabase/server";
 import { Profiles, Subtask, User } from "@/lib/types";
@@ -53,7 +54,8 @@ export async function createSectionAction(id: string, formData: FormData) {
 export async function createTaskAction(
   id: string,
   formData: FormData,
-  assignees?: User[]
+  assignees?: User[],
+  priority?: PriorityType
 ) {
   const taskName = formData.get("task_name")?.toString();
   const subtaskNames = formData.getAll("subtask-name");
@@ -77,6 +79,7 @@ export async function createTaskAction(
         name: taskName,
         description: taskDescription,
         section_id: id,
+        priority,
       },
     ])
     .select("id")
@@ -108,7 +111,8 @@ export async function updateTaskAction(
   id: string,
   formData: FormData,
   subtasks: Subtask[],
-  assignees?: User[]
+  assignees?: User[],
+  priority?: PriorityType
 ) {
   const taskName = formData.get("task_name")?.toString();
   const subtaskNames = formData.getAll("subtask-name");
@@ -137,7 +141,7 @@ export async function updateTaskAction(
 
   const { data, error } = await supabase
     .from("tasks")
-    .update({ name: taskName, description: taskDescription })
+    .update({ name: taskName, description: taskDescription, priority })
     .eq("id", id)
     .select("id")
     .single();
@@ -197,6 +201,7 @@ export async function updateTaskAction(
       await assignUserAction(user.id, data?.id);
     }
   }
+
   revalidatePath("/project");
 }
 
