@@ -20,8 +20,6 @@ export default function TaskModalPriority({
   priority,
   setPriority,
 }: TaskModalPriorityProps) {
-  console.log("prio", priority);
-
   function selectPriority(value: string) {
     setPriority(value as PriorityType);
   }

@@ -198,6 +198,13 @@ export default function TaskModalForm({ addModal }: TaskModalFormProps) {
           />
         </div>
 
+        <TaskModalPriority priority={priority} setPriority={setPriority} />
+
+        <TaskModalUsers
+          assignedUsers={assignedUsers}
+          setAssignedUsers={setAssignedUsers}
+        />
+
         {subtasks.map((subtask, index) => (
           <motion.div
             className="flex flex-col gap-2 mt-2"
@@ -205,7 +212,7 @@ export default function TaskModalForm({ addModal }: TaskModalFormProps) {
             initial={{ x: -45, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
           >
-            <Label htmlFor={subtask.id} className="text-sm">
+            <Label htmlFor={subtask.id} className="sr-only">
               Subtask name
             </Label>
             <div className="flex gap-2">
@@ -218,7 +225,7 @@ export default function TaskModalForm({ addModal }: TaskModalFormProps) {
               {subtasks.length > 0 && (
                 <Button
                   type="button"
-                  className="bg-transparent hover:bg-transparent px-1 py-2 text-black"
+                  className="bg-transparent hover:bg-transparent px-1 py-2 text-main-light"
                   onClick={() => removeSubtask(subtask.id)}
                 >
                   <X />
@@ -227,13 +234,6 @@ export default function TaskModalForm({ addModal }: TaskModalFormProps) {
             </div>
           </motion.div>
         ))}
-
-        <TaskModalPriority priority={priority} setPriority={setPriority} />
-
-        <TaskModalUsers
-          assignedUsers={assignedUsers}
-          setAssignedUsers={setAssignedUsers}
-        />
 
         {errors && (
           <div className="flex flex-col gap-1 mt-5">

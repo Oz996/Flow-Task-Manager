@@ -66,7 +66,7 @@ export default function TaskSubtasks({
           </button>
         )}
       </div>
-      <div className="col-span-2">
+      <div className="col-span-2 mt-3">
         {expanded && (
           <ul>
             {sortByDate()?.map((subtask) => (
@@ -92,7 +92,7 @@ export default function TaskSubtasks({
                     className="min-w-[1.35rem] min-h-[1.35rem]"
                   />
                 </button>
-                <span>{subtask.name}</span>
+                <span className="line-clamp-2">{subtask.name}</span>
               </li>
             ))}
           </ul>
