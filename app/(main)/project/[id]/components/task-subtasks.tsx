@@ -1,10 +1,9 @@
 import { subtaskCompletedAction } from "@/app/(main)/actions";
-import { Subtask, Task } from "@/lib/types";
+import { Subtask } from "@/lib/types";
 import classNames from "classnames";
-import { CheckCircle2, ChevronRight, List } from "lucide-react";
+import { ChevronRight, List } from "lucide-react";
 import React, { useState } from "react";
-import Icon from "@mdi/react";
-import { mdiCheckCircle, mdiCheckCircleOutline } from "@mdi/js";
+import Image from "next/image";
 
 interface TaskSubtasksProps {
   subtasks: Subtask[];
@@ -59,14 +58,21 @@ export default function TaskSubtasks({
                     subtaskCompletedAction(subtask.completed, subtask.id)
                   }
                 >
-                  <Icon
-                    path={
-                      subtask.completed ? mdiCheckCircle : mdiCheckCircleOutline
+                  <Image
+                    width={10}
+                    height={10}
+                    src={
+                      subtask.completed
+                        ? "/check-circle-green.svg"
+                        : "/check-circle.svg"
                     }
-                    title="User Profile"
-                    size={0.9}
-                    color={subtask.completed ? "green" : ""}
-                    className={subtask.completed ? "" : "opacity-60"}
+                    alt="Checkmark for subtask"
+                    aria-label={
+                      subtask.completed
+                        ? "Uncheck completed"
+                        : "Check completed"
+                    }
+                    className="size-[1.35rem]"
                   />
                 </button>
                 <span>{subtask.name}</span>

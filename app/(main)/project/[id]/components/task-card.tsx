@@ -1,7 +1,7 @@
 import TooltipContainer from "@/components/tooltip-container";
 import { Card } from "@/components/ui/card";
 import { Task } from "@/lib/types";
-import { CheckCircle2, Ellipsis } from "lucide-react";
+import { CheckCircle2 } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 import TaskSubtasks from "./task-subtasks";
