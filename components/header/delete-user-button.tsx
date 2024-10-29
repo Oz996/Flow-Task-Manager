@@ -1,10 +1,10 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { useModal } from "@/hooks/useModal";
-import { User } from "@/lib/types";
+import { UserObject } from "@/lib/types";
 
 interface DeleteUserButtonProps {
-  user: User;
+  user: UserObject;
 }
 
 export default function DeleteUserButton({ user }: DeleteUserButtonProps) {

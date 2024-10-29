@@ -3,6 +3,7 @@ import { useState } from "react";
 import UserNamesForm from "./user-names-form";
 import { Button } from "@/components/ui/button";
 import UserPasswordForm from "./user-password-form";
+import DeleteUserButton from "@/components/header/delete-user-button";
 
 interface UserModalFormProps {
   user: UserObject;
@@ -22,6 +23,7 @@ export default function UserModalForm({ user }: UserModalFormProps) {
       <div className="flex flex-col gap-3">
         <Button onClick={() => setEditing("names")}>Edit username/email</Button>
         <Button onClick={() => setEditing("password")}>Change password</Button>
+        <DeleteUserButton user={user} />
       </div>
     );
 
