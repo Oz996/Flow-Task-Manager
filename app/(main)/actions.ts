@@ -271,6 +271,19 @@ export async function assignUserAction(userId: string, id: string) {
   if (error) console.error(error);
 }
 
+export async function taskCompletedAction(completed: boolean, id: string) {
+  const supabase = createClient();
+
+  const { error } = await supabase
+    .from("tasks")
+    .update({ completed: !completed })
+    .eq("id", id);
+
+  if (error) console.error(error);
+
+  revalidatePath("/project");
+}
+
 export async function subtaskCompletedAction(completed: boolean, id: string) {
   const supabase = createClient();
 
