@@ -4,7 +4,6 @@ import { ProjectSchema, TaskSchema } from "@/lib/schemas";
 import { createClient } from "@/lib/supabase/server";
 import { Profiles, Subtask, User } from "@/lib/types";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 
 export async function createProjectAction(formData: FormData) {
   const projectName = formData.get("project-name")?.toString();

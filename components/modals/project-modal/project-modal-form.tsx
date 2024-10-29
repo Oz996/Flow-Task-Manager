@@ -31,21 +31,14 @@ export default function ProjectModalForm() {
     setSections((prevTasks) => [...prevTasks, generateSection()]);
   }
 
-  function handleChange(
-    e: ChangeEvent<HTMLInputElement>,
-    id: string,
-    index: number
-  ) {
-    const newSectionObject: Section = {
-      id,
-      created_at: "",
-      name: e.target.value,
-    };
+  function handleChange(e: ChangeEvent<HTMLInputElement>, id: string) {
+    const newName = e.target.value;
 
-    const sectionsArray = [...sections];
-    sectionsArray[index] = newSectionObject;
+    const updatedSections = sections.map((section) => {
+      return section.id === id ? { ...section, name: newName } : section;
+    });
 
-    setSections(sectionsArray);
+    setSections(updatedSections);
   }
 
   function removeSection(id: string) {
@@ -83,7 +76,7 @@ export default function ProjectModalForm() {
         />
       </div>
 
-      {sections.map((section, index) => (
+      {sections.map((section) => (
         <motion.div
           className="flex flex-col gap-2 mt-2"
           key={section.id}
@@ -99,7 +92,7 @@ export default function ProjectModalForm() {
               id={section.id}
               placeholder="Section name"
               value={section.name}
-              onChange={(e) => handleChange(e, section.id, index)}
+              onChange={(e) => handleChange(e, section.id)}
             />
             {sections.length > 1 && (
               <Button

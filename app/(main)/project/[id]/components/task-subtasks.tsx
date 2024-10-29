@@ -2,7 +2,7 @@ import { subtaskCompletedAction } from "@/app/(main)/actions";
 import { Subtask } from "@/lib/types";
 import classNames from "classnames";
 import { ChevronRight, List } from "lucide-react";
-import React, { useState } from "react";
+import React, { startTransition, useOptimistic, useState } from "react";
 import Image from "next/image";
 
 interface TaskSubtasksProps {
@@ -14,15 +14,36 @@ export default function TaskSubtasks({
   subtasks,
   iconSize,
 }: TaskSubtasksProps) {
+  const [optimisticSubtasks, addOptimisticSubtask] = useOptimistic(
+    subtasks,
+    toggleCompleted
+  );
   const [expanded, setExpanded] = useState(false);
 
   function sortByDate() {
-    const subtasksCopy = [...subtasks];
+    const subtasksCopy = [...optimisticSubtasks];
     return subtasksCopy.sort((a, b) => {
       return (
         new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
       );
     });
+  }
+
+  function toggleCompleted(state: Subtask[], id: string) {
+    return state.map((subtask) => {
+      return subtask.id === id
+        ? { ...subtask, completed: !subtask.completed }
+        : subtask;
+    });
+  }
+
+  // use of useOptimistic to instantly display change to user while running the async action in the background
+  async function subtaskAction(subtask: Subtask) {
+    startTransition(() => {
+      addOptimisticSubtask(subtask.id);
+    });
+
+    await subtaskCompletedAction(subtask.completed, subtask.id);
   }
 
   return (
@@ -53,11 +74,7 @@ export default function TaskSubtasks({
                 key={subtask.id}
                 className="flex items-center gap-2 py-2 text-sm border-b border-b-gray-200"
               >
-                <button
-                  onClick={() =>
-                    subtaskCompletedAction(subtask.completed, subtask.id)
-                  }
-                >
+                <button onClick={() => subtaskAction(subtask)}>
                   <Image
                     width={10}
                     height={10}
