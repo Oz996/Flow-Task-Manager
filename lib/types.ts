@@ -7,7 +7,12 @@ export interface Task {
   description?: string;
   subtasks?: Subtask[];
   priority?: string;
+  task_labels?: Labels[];
   task_assignments?: Profiles[];
+}
+
+export interface Labels {
+  labels: Label;
 }
 
 export interface Profiles {
@@ -47,4 +52,9 @@ export interface User {
 export interface UserObject {
   id: string;
   user_metadata: User;
+}
+
+export interface Label {
+  id: string;
+  name: string;
 }

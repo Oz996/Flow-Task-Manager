@@ -92,7 +92,12 @@ export default function TaskSubtasks({
                     className="min-w-[1.35rem] min-h-[1.35rem]"
                   />
                 </button>
-                <span className="line-clamp-2">{subtask.name}</span>
+                <span
+                  title={subtask.name.length > 50 ? subtask.name : undefined}
+                  className="line-clamp-2"
+                >
+                  {subtask.name}
+                </span>
               </li>
             ))}
           </ul>

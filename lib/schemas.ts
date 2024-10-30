@@ -30,7 +30,9 @@ export const TaskSchema = z.object({
         .string()
         .trim()
         .min(2, { message: "Subtask name should be greater than 1 character" })
-        .max(50, { message: "Subtask name should be less than 50 characters" })
+        .max(100, {
+          message: "Subtask name should be less than 100 characters",
+        })
         .regex(/^[^,]*$/, { message: "Subtask name cannot contain commas" })
     )
     .optional(),

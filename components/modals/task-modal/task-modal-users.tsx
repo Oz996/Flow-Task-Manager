@@ -1,4 +1,3 @@
-import { assignUserAction } from "@/app/(main)/actions";
 import TooltipContainer from "@/components/tooltip-container";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -87,7 +86,7 @@ export default function TaskModalUsers({
             <Input id="assignee" name="assignee" />
           </div>
           <div>
-            <ul className="flex flex-col gap-3 mt-2">
+            <ul className="flex flex-col mt-2">
               {userlist.map((user) => (
                 <li
                   key={user.id}

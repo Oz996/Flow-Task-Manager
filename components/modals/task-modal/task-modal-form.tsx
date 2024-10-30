@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { TaskSchema } from "@/lib/schemas";
-import { Profiles, Subtask, User } from "@/lib/types";
+import { Label as ILabel, Labels, Profiles, Subtask, User } from "@/lib/types";
 import { generateSubtask } from "@/lib/utils";
 import { useSearchParams } from "next/navigation";
 import React, { ChangeEvent, useEffect, useState } from "react";
@@ -17,6 +17,7 @@ import { Textarea } from "@/components/ui/textarea";
 import TaskModalUsers from "./task-modal-users";
 import { createClient } from "@/lib/supabase/client";
 import TaskModalPriority from "./task-modal-priority";
+import TaskModalLabels from "./task-modal-labels";
 
 interface TaskModalFormProps {
   addModal: boolean;
@@ -33,6 +34,7 @@ export default function TaskModalForm({ addModal }: TaskModalFormProps) {
   const [subtasks, setSubtasks] = useState<Subtask[]>([]);
   const [assignedUsers, setAssignedUsers] = useState<User[]>([]);
   const [priority, setPriority] = useState<PriorityType>(null);
+  const [assignedLabels, setAssignedLabels] = useState<ILabel[]>([]);
   const [errors, setErrors] = useState<ZodError>();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -55,13 +57,16 @@ export default function TaskModalForm({ addModal }: TaskModalFormProps) {
         setIsLoading(true);
         try {
           const supabase = createClient();
-          const { data: task, error } = await supabase
+          const { data: task, error: taskError } = await supabase
             .from("tasks")
-            .select("*, subtasks (*), task_assignments ( profiles (*))")
+            .select(
+              "*, subtasks (*), task_assignments ( profiles (*)), task_labels ( labels (*))"
+            )
             .eq("id", id)
             .single();
 
-          if (error) return console.error(error);
+          if (taskError) return console.error(taskError);
+          console.log("task", task);
 
           setEditData({ task_name: task.name, description: task.description });
 
@@ -78,6 +83,13 @@ export default function TaskModalForm({ addModal }: TaskModalFormProps) {
 
           if (task.priority) {
             setPriority(task.priority);
+          }
+
+          if (task.task_labels.length > 0) {
+            const labels = task.task_labels.map(
+              (label: Labels) => label.labels
+            );
+            setAssignedLabels(labels);
           }
         } catch (error: any) {
           console.error(error.message);
@@ -167,7 +179,8 @@ export default function TaskModalForm({ addModal }: TaskModalFormProps) {
         formData,
         subtasks,
         assignedUsers,
-        priority
+        priority,
+        assignedLabels
       );
       closeModal();
     }
@@ -198,7 +211,13 @@ export default function TaskModalForm({ addModal }: TaskModalFormProps) {
           />
         </div>
 
-        <TaskModalPriority priority={priority} setPriority={setPriority} />
+        <div className="flex gap-2 items-center flex-wrap">
+          <TaskModalPriority priority={priority} setPriority={setPriority} />
+          <TaskModalLabels
+            assignedLabels={assignedLabels}
+            setAssignedLabels={setAssignedLabels}
+          />
+        </div>
 
         <TaskModalUsers
           assignedUsers={assignedUsers}

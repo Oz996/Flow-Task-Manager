@@ -3,7 +3,7 @@
 import { PriorityType } from "@/components/modals/task-modal/task-modal-form";
 import { ProjectSchema, TaskSchema } from "@/lib/schemas";
 import { createClient } from "@/lib/supabase/server";
-import { Profiles, Subtask, User } from "@/lib/types";
+import { Label, Labels, Profiles, Subtask, User } from "@/lib/types";
 import { revalidatePath } from "next/cache";
 
 export async function createProjectAction(formData: FormData) {
@@ -112,7 +112,8 @@ export async function updateTaskAction(
   formData: FormData,
   subtasks: Subtask[],
   assignees?: User[],
-  priority?: PriorityType
+  priority?: PriorityType,
+  labels?: Label[]
 ) {
   const taskName = formData.get("task_name")?.toString();
   const subtaskNames = formData.getAll("subtask-name");
@@ -131,7 +132,9 @@ export async function updateTaskAction(
 
   const { data: task, error: taskError } = await supabase
     .from("tasks")
-    .select("*, subtasks (*), task_assignments ( profiles (*))")
+    .select(
+      "*, subtasks (*), task_assignments ( profiles (*)), task_labels ( labels (*))"
+    )
     .eq("id", id)
     .single();
 
@@ -196,13 +199,70 @@ export async function updateTaskAction(
     }
   }
 
+  // checking for labels to unassign
+
+  const taskLabels = task.task_labels.map((label: Labels) => label.labels);
+
+  const unassignLabels = taskLabels.filter((label: Label) => {
+    return labels?.findIndex((l) => l.id === label.id) === -1;
+  });
+
+  if (unassignLabels.length > 0) {
+    for (const label of unassignLabels) {
+      await removeLabelAction(label.id, task.id);
+    }
+  }
+
+  if (labels && labels?.length > 0) {
+    for (const label of labels) {
+      await assignLabelAction(label.id, task.id);
+    }
+  }
+
   if (assignees && assignees.length > 0) {
     for (const user of assignees) {
-      await assignUserAction(user.id, data?.id);
+      await assignUserAction(user.id, task.id);
     }
   }
 
   revalidatePath("/project");
+}
+
+export async function createLabelAction(formData: FormData) {
+  const labelName = formData.get("label-name")?.toString();
+  const supabase = createClient();
+
+  const { data, error } = await supabase
+    .from("labels")
+    .insert({ name: labelName })
+    .select()
+    .single();
+
+  if (error) return console.error(error);
+  console.log("label data", data);
+  return data;
+}
+
+export async function assignLabelAction(labelId: string, taskId: string) {
+  const supabase = createClient();
+
+  const { error } = await supabase
+    .from("task_labels")
+    .insert({ task_id: taskId, label_id: labelId });
+
+  if (error) console.error(error);
+}
+
+export async function removeLabelAction(labelId: string, taskId: string) {
+  const supabase = createClient();
+
+  const { error } = await supabase
+    .from("task_labels")
+    .delete()
+    .eq("task_id", taskId)
+    .eq("label_id", labelId);
+
+  if (error) console.error(error);
 }
 
 export async function deleteSectionAction(id: string) {
