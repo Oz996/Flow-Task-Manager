@@ -1,14 +1,16 @@
+import { PriorityType } from "@/components/modals/task-modal/task-modal-form";
+
 export interface Task {
   id: string;
   created_at: string;
   edited_at: string;
   name: string;
   completed: boolean;
-  description?: string;
-  subtasks?: Subtask[];
-  priority?: string;
-  labels?: Label[];
-  profiles?: User[];
+  description: string;
+  subtasks: Subtask[];
+  priority: PriorityType;
+  labels: Label[];
+  profiles: User[];
 }
 
 export interface Project {

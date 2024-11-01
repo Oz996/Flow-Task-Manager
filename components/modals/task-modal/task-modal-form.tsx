@@ -4,10 +4,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { TaskSchema } from "@/lib/schemas";
-import { Label as ILabel, Subtask, User } from "@/lib/types";
+import { Label as Section, Subtask, Task } from "@/lib/types";
 import { generateSubtask } from "@/lib/utils";
 import { useSearchParams } from "next/navigation";
-import React, { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { ZodError } from "zod";
 import { motion } from "framer-motion";
 import { X } from "lucide-react";
@@ -18,9 +18,12 @@ import TaskModalUsers from "./task-modal-users";
 import { createClient } from "@/lib/supabase/client";
 import TaskModalPriority from "./task-modal-priority";
 import TaskModalLabels from "./task-modal-labels";
+import TaskModalSections from "./task-modal-sections";
+import { initialTask } from "@/lib/constants";
 
 interface TaskModalFormProps {
   addModal: boolean;
+  sections: Section[];
 }
 
 export interface EditTaskState {
@@ -30,18 +33,16 @@ export interface EditTaskState {
 
 export type PriorityType = "low" | "medium" | "high" | null;
 
-export default function TaskModalForm({ addModal }: TaskModalFormProps) {
+export default function TaskModalForm({
+  addModal,
+  sections,
+}: TaskModalFormProps) {
+  const [task, setTask] = useState<Task>(initialTask);
   const [subtasks, setSubtasks] = useState<Subtask[]>([]);
-  const [assignedUsers, setAssignedUsers] = useState<User[]>([]);
-  const [priority, setPriority] = useState<PriorityType>(null);
-  const [assignedLabels, setAssignedLabels] = useState<ILabel[]>([]);
+  const [sectionId, setSectionId] = useState("");
   const [errors, setErrors] = useState<ZodError>();
 
   const [isLoading, setIsLoading] = useState(false);
-  const [editData, setEditData] = useState<EditTaskState>({
-    task_name: "",
-    description: "",
-  });
 
   const { closeModal } = useModal();
   const searchParams = useSearchParams();
@@ -66,23 +67,8 @@ export default function TaskModalForm({ addModal }: TaskModalFormProps) {
           if (taskError) return console.error(taskError);
           console.log("task", task);
 
-          setEditData({ task_name: task.name, description: task.description });
-
-          if (task.subtasks.length > 0) {
-            setSubtasks(task.subtasks);
-          }
-
-          if (task.profiles.length > 0) {
-            setAssignedUsers(task.profiles);
-          }
-
-          if (task.priority) {
-            setPriority(task.priority);
-          }
-
-          if (task.labels.length > 0) {
-            setAssignedLabels(task.labels);
-          }
+          setTask(task);
+          setSectionId(task.section_id);
         } catch (error: any) {
           console.error(error.message);
         } finally {
@@ -106,9 +92,9 @@ export default function TaskModalForm({ addModal }: TaskModalFormProps) {
   function handleTaskChange(
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) {
-    return setEditData((prevData) => ({
-      ...prevData,
-      [e.target.name]: e.target.value,
+    return setTask((taskData) => ({
+      ...taskData,
+      [e.target.id]: e.target.value,
     }));
   }
 
@@ -146,7 +132,7 @@ export default function TaskModalForm({ addModal }: TaskModalFormProps) {
       setErrors(result.error);
       console.log(result.error.errors);
     } else {
-      await createTaskAction(id as string, formData, assignedUsers, priority);
+      await createTaskAction(id as string, formData, task);
       closeModal();
     }
   }
@@ -166,14 +152,7 @@ export default function TaskModalForm({ addModal }: TaskModalFormProps) {
       setErrors(result.error);
       console.log(result.error.errors);
     } else {
-      await updateTaskAction(
-        id as string,
-        formData,
-        subtasks,
-        assignedUsers,
-        priority,
-        assignedLabels
-      );
+      await updateTaskAction(id as string, formData, subtasks, task, sectionId);
       closeModal();
     }
   }
@@ -182,12 +161,12 @@ export default function TaskModalForm({ addModal }: TaskModalFormProps) {
     <div>
       <form>
         <div className="flex flex-col gap-2">
-          <Label htmlFor="task-name">Task name</Label>
+          <Label htmlFor="name">Task name</Label>
           <Input
-            id="task-name"
+            id="name"
             name="task_name"
             placeholder="Task name"
-            value={editData.task_name}
+            value={task.name}
             onChange={handleTaskChange}
           />
         </div>
@@ -198,23 +177,22 @@ export default function TaskModalForm({ addModal }: TaskModalFormProps) {
             id="description"
             name="description"
             placeholder="Task description"
-            value={editData.description}
+            value={task.description}
             onChange={handleTaskChange}
           />
         </div>
 
+        <TaskModalSections
+          sections={sections}
+          sectionId={sectionId}
+          setSectionId={setSectionId}
+        />
         <div className="flex gap-2 items-center flex-wrap">
-          <TaskModalPriority priority={priority} setPriority={setPriority} />
-          <TaskModalLabels
-            assignedLabels={assignedLabels}
-            setAssignedLabels={setAssignedLabels}
-          />
+          <TaskModalPriority priority={task.priority} setTask={setTask} />
+          <TaskModalLabels assignedLabels={task.labels} setTask={setTask} />
         </div>
 
-        <TaskModalUsers
-          assignedUsers={assignedUsers}
-          setAssignedUsers={setAssignedUsers}
-        />
+        <TaskModalUsers assignedUsers={task.profiles} setTask={setTask} />
 
         {subtasks.map((subtask, index) => (
           <motion.div

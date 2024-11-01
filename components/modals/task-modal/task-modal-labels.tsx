@@ -1,5 +1,4 @@
 import { createLabelAction } from "@/app/(main)/actions";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -8,25 +7,19 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { createClient } from "@/lib/supabase/client";
-import { Label as ILabel } from "@/lib/types";
+import { Label as ILabel, Task } from "@/lib/types";
 import classNames from "classnames";
 import { Plus, X } from "lucide-react";
-import {
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useOptimistic,
-  useState,
-} from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 interface TaskModalLabelsProps {
   assignedLabels: ILabel[];
-  setAssignedLabels: Dispatch<SetStateAction<ILabel[]>>;
+  setTask: Dispatch<SetStateAction<Task>>;
 }
 
 export default function TaskModalLabels({
   assignedLabels,
-  setAssignedLabels,
+  setTask,
 }: TaskModalLabelsProps) {
   const [popoverOpen, setPopoverOpen] = useState(false);
   const [labels, setLabels] = useState<ILabel[]>([]);
@@ -47,7 +40,7 @@ export default function TaskModalLabels({
 
   function removeAssignedLabel(label: ILabel) {
     const newLabels = assignedLabels.filter((l) => l.id !== label.id);
-    setAssignedLabels(newLabels);
+    setTask((taskData) => ({ ...taskData, labels: newLabels }));
     setPopoverOpen(false);
   }
 
@@ -55,7 +48,10 @@ export default function TaskModalLabels({
     const assigned = labelAlreadyAssigned(label);
     if (assigned !== -1) return removeAssignedLabel(label);
 
-    setAssignedLabels((prevLabels) => [...prevLabels, label]);
+    setTask((taskData) => ({
+      ...taskData,
+      labels: [...taskData.labels!, label],
+    }));
     setPopoverOpen(false);
   }
 
@@ -77,8 +73,13 @@ export default function TaskModalLabels({
         label.id === tempLabel.id ? newLabel : label
       );
     });
-    setAssignedLabels((prevLabels) => [...prevLabels, newLabel]);
+    setTask((taskData) => ({
+      ...taskData,
+      labels: [...taskData.labels!, newLabel],
+    }));
   }
+
+  console.log("assignedLabels", assignedLabels);
 
   return (
     <div className="py-2 flex gap-2 items-center flex-wrap">

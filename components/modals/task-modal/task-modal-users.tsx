@@ -13,7 +13,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { createClient } from "@/lib/supabase/client";
-import { User } from "@/lib/types";
+import { Task, User } from "@/lib/types";
 import classNames from "classnames";
 import { UserPlus2 } from "lucide-react";
 import Image from "next/image";
@@ -27,12 +27,12 @@ import React, {
 
 interface TaskModalUsersProps {
   assignedUsers: User[];
-  setAssignedUsers: Dispatch<SetStateAction<User[]>>;
+  setTask: Dispatch<SetStateAction<Task>>;
 }
 
 export default function TaskModalUsers({
   assignedUsers,
-  setAssignedUsers,
+  setTask,
 }: TaskModalUsersProps) {
   const [popoverOpen, setPopoverOpen] = useState(false);
   const [userlist, setUserlist] = useState<User[]>([]);
@@ -56,7 +56,7 @@ export default function TaskModalUsers({
 
   function removeAssignedUser(user: User) {
     const newUsers = assignedUsers.filter((u) => u.id !== user.id);
-    setAssignedUsers(newUsers);
+    setTask((taskData) => ({ ...taskData, profiles: newUsers }));
     setPopoverOpen(false);
   }
 
@@ -64,7 +64,10 @@ export default function TaskModalUsers({
     const assigned = userAlreadyAssigned(user);
     if (assigned !== -1) return removeAssignedUser(user);
 
-    setAssignedUsers((prevUsers) => [...prevUsers, user]);
+    setTask((taskData) => ({
+      ...taskData,
+      profiles: [...taskData.profiles!, user],
+    }));
     setPopoverOpen(false);
   }
 

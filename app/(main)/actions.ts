@@ -3,7 +3,7 @@
 import { PriorityType } from "@/components/modals/task-modal/task-modal-form";
 import { ProjectSchema, TaskSchema } from "@/lib/schemas";
 import { createClient } from "@/lib/supabase/server";
-import { Label, Subtask, User } from "@/lib/types";
+import { Label, Subtask, Task, User } from "@/lib/types";
 import { revalidatePath } from "next/cache";
 
 export async function createProjectAction(formData: FormData) {
@@ -54,13 +54,14 @@ export async function createSectionAction(id: string, formData: FormData) {
 export async function createTaskAction(
   id: string,
   formData: FormData,
-  assignees?: User[],
-  priority?: PriorityType
+  taskData: Task
 ) {
   const taskName = formData.get("task_name")?.toString();
   const subtaskNames = formData.getAll("subtask-name");
   const taskDescription = formData.get("description")?.toString();
   const supabase = createClient();
+
+  const { priority, profiles } = taskData;
 
   const result = TaskSchema.safeParse({
     taskName,
@@ -99,8 +100,8 @@ export async function createTaskAction(
     }
   }
 
-  if (assignees && assignees.length > 0) {
-    for (const user of assignees) {
+  if (profiles && profiles.length > 0) {
+    for (const user of profiles) {
       await assignUserAction(user.id, data?.id);
     }
   }
@@ -111,14 +112,15 @@ export async function updateTaskAction(
   id: string,
   formData: FormData,
   subtasks: Subtask[],
-  assignees?: User[],
-  priority?: PriorityType,
-  labels?: Label[]
+  taskData: Task,
+  sectionId: string
 ) {
   const taskName = formData.get("task_name")?.toString();
   const subtaskNames = formData.getAll("subtask-name");
   const taskDescription = formData.get("description")?.toString();
   const supabase = createClient();
+
+  const { priority, profiles, labels } = taskData;
 
   const result = TaskSchema.safeParse({
     taskName,
@@ -132,7 +134,12 @@ export async function updateTaskAction(
 
   const { data: task, error: taskError } = await supabase
     .from("tasks")
-    .update({ name: taskName, description: taskDescription, priority })
+    .update({
+      name: taskName,
+      description: taskDescription,
+      priority,
+      section_id: sectionId,
+    })
     .eq("id", id)
     .select("*, subtasks (*), profiles (*), labels (*)")
     .single();
@@ -178,7 +185,7 @@ export async function updateTaskAction(
   // checking for users to unassign
 
   const unassignUsers = task?.profiles.filter((user: User) => {
-    return assignees?.findIndex((u) => u.id === user.id) === -1;
+    return profiles?.findIndex((u) => u.id === user.id) === -1;
   });
 
   if (unassignUsers.length > 0) {
@@ -205,8 +212,8 @@ export async function updateTaskAction(
     }
   }
 
-  if (assignees && assignees.length > 0) {
-    for (const user of assignees) {
+  if (profiles && profiles.length > 0) {
+    for (const user of profiles) {
       await assignUserAction(user.id, task.id);
     }
   }

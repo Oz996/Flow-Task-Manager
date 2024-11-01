@@ -10,18 +10,19 @@ import {
 import { priorityOptions } from "@/lib/constants";
 import { PriorityType } from "./task-modal-form";
 import { Dispatch, SetStateAction } from "react";
+import { Task } from "@/lib/types";
 
 interface TaskModalPriorityProps {
   priority: PriorityType;
-  setPriority: Dispatch<SetStateAction<PriorityType>>;
+  setTask: Dispatch<SetStateAction<Task>>;
 }
 
 export default function TaskModalPriority({
   priority,
-  setPriority,
+  setTask,
 }: TaskModalPriorityProps) {
   function selectPriority(value: string) {
-    setPriority(value as PriorityType);
+    setTask((taskData) => ({ ...taskData, priority: value as PriorityType }));
   }
 
   return (

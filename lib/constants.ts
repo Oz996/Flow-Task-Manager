@@ -1,5 +1,5 @@
 import { ViewModeType } from "@/context/view-mode-context";
-import { Section } from "./types";
+import { Section, Task } from "./types";
 
 export const projectTemplate: Section[] = [
   {
@@ -33,3 +33,16 @@ export const priorityOptions = [
   { name: "Medium", value: "medium" },
   { name: "High", value: "high" },
 ] as const;
+
+export const initialTask: Task = {
+  id: "",
+  created_at: "",
+  edited_at: "",
+  name: "",
+  completed: false,
+  description: "",
+  labels: [],
+  profiles: [],
+  subtasks: [],
+  priority: null,
+};

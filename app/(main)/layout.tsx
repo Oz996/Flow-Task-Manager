@@ -28,7 +28,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <MainLayout>{children}</MainLayout>
         <ProjectModal />
         <DeleteModal />
-        <TaskModal />
       </ViewModeContextProvider>
     </SidebarContextProvider>
   );

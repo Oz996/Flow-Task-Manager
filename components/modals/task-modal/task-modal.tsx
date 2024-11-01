@@ -7,8 +7,13 @@ import {
 import ModalContainer from "../modal-container";
 import { useSearchParams } from "next/navigation";
 import TaskModalForm from "./task-modal-form";
+import { Section } from "@/lib/types";
 
-export default function TaskModal() {
+interface TaskModalProps {
+  sections: Section[];
+}
+
+export default function TaskModal({ sections }: TaskModalProps) {
   const searchParams = useSearchParams();
 
   const type = searchParams.get("type");
@@ -25,7 +30,7 @@ export default function TaskModal() {
           <DialogHeader>
             <DialogTitle>{addModal ? "Create Task" : "Edit Task"}</DialogTitle>
           </DialogHeader>
-          <TaskModalForm addModal={addModal} />
+          <TaskModalForm addModal={addModal} sections={sections} />
         </DialogContent>
       </ModalContainer>
     );

@@ -1,8 +1,9 @@
 import { createClient } from "@/lib/supabase/server";
-import { Project } from "@/lib/types";
+import { Project, Section } from "@/lib/types";
 import React from "react";
 import LayoutSelect from "./components/layout-select";
 import SectionsGrid from "./components/sections-grid";
+import TaskModal from "@/components/modals/task-modal/task-modal";
 
 export async function generateMetadata({ params }: { params: { id: string } }) {
   const supabase = createClient();
@@ -48,6 +49,7 @@ export default async function ProjectPage({
       <h1 className="font-bold text-xl">{project.name}</h1>
       <LayoutSelect />
       {sections && <SectionsGrid sections={sections} />}
+      <TaskModal sections={sections!} />
     </section>
   );
 }
