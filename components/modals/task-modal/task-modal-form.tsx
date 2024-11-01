@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { TaskSchema } from "@/lib/schemas";
-import { Label as ILabel, Labels, Profiles, Subtask, User } from "@/lib/types";
+import { Label as ILabel, Subtask, User } from "@/lib/types";
 import { generateSubtask } from "@/lib/utils";
 import { useSearchParams } from "next/navigation";
 import React, { ChangeEvent, useEffect, useState } from "react";
@@ -59,9 +59,7 @@ export default function TaskModalForm({ addModal }: TaskModalFormProps) {
           const supabase = createClient();
           const { data: task, error: taskError } = await supabase
             .from("tasks")
-            .select(
-              "*, subtasks (*), task_assignments ( profiles (*)), task_labels ( labels (*))"
-            )
+            .select("*, subtasks (*), profiles (*), labels (*)")
             .eq("id", id)
             .single();
 
@@ -74,22 +72,16 @@ export default function TaskModalForm({ addModal }: TaskModalFormProps) {
             setSubtasks(task.subtasks);
           }
 
-          if (task.task_assignments.length > 0) {
-            const users = task.task_assignments.map(
-              (user: Profiles) => user.profiles
-            );
-            setAssignedUsers(users);
+          if (task.profiles.length > 0) {
+            setAssignedUsers(task.profiles);
           }
 
           if (task.priority) {
             setPriority(task.priority);
           }
 
-          if (task.task_labels.length > 0) {
-            const labels = task.task_labels.map(
-              (label: Labels) => label.labels
-            );
-            setAssignedLabels(labels);
+          if (task.labels.length > 0) {
+            setAssignedLabels(task.labels);
           }
         } catch (error: any) {
           console.error(error.message);

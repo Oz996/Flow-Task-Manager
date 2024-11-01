@@ -64,7 +64,7 @@ export default function TaskCard({ task }: TaskCardProps) {
         <SubtasksPopover iconSize={iconSize} id={task.id} />
       </div>
 
-      <div>
+      <div className="flex gap-2 items-center flex-wrap">
         {task?.priority && (
           <TooltipContainer
             className="bg-main text-white capitalize"
@@ -87,26 +87,47 @@ export default function TaskCard({ task }: TaskCardProps) {
             </div>
           </TooltipContainer>
         )}
+
+        {task.labels &&
+          task.labels.map((label) => (
+            <TooltipContainer
+              className="bg-main text-white capitalize"
+              trigger={
+                <span
+                  key={label.id}
+                  className="px-2 py-1 text-sm rounded-sm border border-l-2 border-l-black"
+                >
+                  {label.name}
+                </span>
+              }
+            >
+              <div className="flex flex-col gap-1">
+                <p>Label:</p>
+                <p> {label.name}</p>
+              </div>
+            </TooltipContainer>
+          ))}
       </div>
 
       <div className="grid grid-cols-2 justify-between">
         <div className="flex gap-2">
-          {task?.task_assignments?.map((user) => (
-            <TooltipContainer
-              className="bg-main text-white"
-              trigger={
-                <Image
-                  width={100}
-                  height={100}
-                  src={user.profiles.avatar_url}
-                  alt="User avatar"
-                  className="size-7 rounded-full"
-                />
-              }
-            >
-              <p>{user.profiles.username}</p>
-            </TooltipContainer>
-          ))}
+          {task.profiles &&
+            task.profiles.map((user) => (
+              <TooltipContainer
+                className="bg-main text-white"
+                trigger={
+                  <Image
+                    width={100}
+                    height={100}
+                    src={user.avatar_url}
+                    alt="User avatar"
+                    className="size-7 rounded-full"
+                  />
+                }
+              >
+                <p>{user.username}</p>
+              </TooltipContainer>
+            ))}
         </div>
         <TaskSubtasks iconSize={iconSize} subtasks={task?.subtasks!} />
       </div>

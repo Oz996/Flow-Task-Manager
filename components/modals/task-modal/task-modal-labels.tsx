@@ -85,7 +85,7 @@ export default function TaskModalLabels({
       {assignedLabels.map((label) => (
         <div
           key={label.id}
-          className="flex gap-1 items-center px-2 py-2 h-10 text-center rounded border border-l-2 border-l-black"
+          className="flex gap-1 items-center px-2 py-2 h-10 text-center rounded-sm border border-l-2 border-l-black"
         >
           <p className="" key={label.id}>
             {label.name}
@@ -114,7 +114,11 @@ export default function TaskModalLabels({
           <div className="space-y-1 p-4">
             <form action={formAction}>
               <Label htmlFor="label-name">New label</Label>
-              <Input id="label-name" name="label-name" />
+              <Input
+                id="label-name"
+                name="label-name"
+                placeholder="Label name"
+              />
             </form>
           </div>
 

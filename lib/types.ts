@@ -7,16 +7,8 @@ export interface Task {
   description?: string;
   subtasks?: Subtask[];
   priority?: string;
-  task_labels?: Labels[];
-  task_assignments?: Profiles[];
-}
-
-export interface Labels {
-  labels: Label;
-}
-
-export interface Profiles {
-  profiles: User;
+  labels?: Label[];
+  profiles?: User[];
 }
 
 export interface Project {

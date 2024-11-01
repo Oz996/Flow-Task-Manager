@@ -3,7 +3,7 @@
 import { PriorityType } from "@/components/modals/task-modal/task-modal-form";
 import { ProjectSchema, TaskSchema } from "@/lib/schemas";
 import { createClient } from "@/lib/supabase/server";
-import { Label, Labels, Profiles, Subtask, User } from "@/lib/types";
+import { Label, Subtask, User } from "@/lib/types";
 import { revalidatePath } from "next/cache";
 
 export async function createProjectAction(formData: FormData) {
@@ -132,24 +132,14 @@ export async function updateTaskAction(
 
   const { data: task, error: taskError } = await supabase
     .from("tasks")
-    .select(
-      "*, subtasks (*), task_assignments ( profiles (*)), task_labels ( labels (*))"
-    )
+    .update({ name: taskName, description: taskDescription, priority })
     .eq("id", id)
+    .select("*, subtasks (*), profiles (*), labels (*)")
     .single();
-
-  if (taskError) console.error(taskError);
 
   const subtaskIds = task.subtasks.map((subtask: Subtask) => subtask.id);
 
-  const { data, error } = await supabase
-    .from("tasks")
-    .update({ name: taskName, description: taskDescription, priority })
-    .eq("id", id)
-    .select("id")
-    .single();
-
-  if (error) console.error(error);
+  if (taskError) console.error(taskError);
 
   // checking for newly added subtasks
 
@@ -187,9 +177,7 @@ export async function updateTaskAction(
 
   // checking for users to unassign
 
-  const users = task.task_assignments.map((user: Profiles) => user.profiles);
-
-  const unassignUsers = users?.filter((user: User) => {
+  const unassignUsers = task?.profiles.filter((user: User) => {
     return assignees?.findIndex((u) => u.id === user.id) === -1;
   });
 
@@ -201,9 +189,7 @@ export async function updateTaskAction(
 
   // checking for labels to unassign
 
-  const taskLabels = task.task_labels.map((label: Labels) => label.labels);
-
-  const unassignLabels = taskLabels.filter((label: Label) => {
+  const unassignLabels = task.labels.filter((label: Label) => {
     return labels?.findIndex((l) => l.id === label.id) === -1;
   });
 
