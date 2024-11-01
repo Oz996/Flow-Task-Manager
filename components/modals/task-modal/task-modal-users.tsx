@@ -17,7 +17,13 @@ import { User } from "@/lib/types";
 import classNames from "classnames";
 import { UserPlus2 } from "lucide-react";
 import Image from "next/image";
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import React, {
+  ChangeEvent,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
 
 interface TaskModalUsersProps {
   assignedUsers: User[];
@@ -30,12 +36,16 @@ export default function TaskModalUsers({
 }: TaskModalUsersProps) {
   const [popoverOpen, setPopoverOpen] = useState(false);
   const [userlist, setUserlist] = useState<User[]>([]);
+  const [userlistSearch, setUserlistSearch] = useState<User[]>(userlist);
   const supabase = createClient();
 
   useEffect(() => {
     async function fetchUsers() {
       const { data } = await supabase.from("profiles").select();
-      data && setUserlist(data);
+      if (data) {
+        setUserlist(data);
+        setUserlistSearch(data);
+      }
     }
     fetchUsers();
   }, []);
@@ -56,6 +66,19 @@ export default function TaskModalUsers({
 
     setAssignedUsers((prevUsers) => [...prevUsers, user]);
     setPopoverOpen(false);
+  }
+
+  function handleSearch(e: ChangeEvent<HTMLInputElement>) {
+    const search = e.target.value;
+    if (!search) return setUserlistSearch(userlist);
+
+    const userSearch = userlist.filter((user) => {
+      return (
+        user.username.toLowerCase().includes(search.toLowerCase()) ||
+        user.email.toLowerCase().includes(search.toLowerCase())
+      );
+    });
+    setUserlistSearch(userSearch);
   }
 
   return (
@@ -83,11 +106,16 @@ export default function TaskModalUsers({
         <PopoverContent align="start" className="w-[26rem] p-0">
           <div className="space-y-1 p-4">
             <Label htmlFor="assignee">Assignee</Label>
-            <Input id="assignee" name="assignee" />
+            <Input
+              id="assignee"
+              name="assignee"
+              placeholder="Search username or email"
+              onChange={handleSearch}
+            />
           </div>
           <div>
             <ul className="flex flex-col mt-2">
-              {userlist.map((user) => (
+              {userlistSearch.map((user) => (
                 <li
                   key={user.id}
                   className={classNames({

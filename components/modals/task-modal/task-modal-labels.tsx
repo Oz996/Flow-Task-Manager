@@ -83,7 +83,10 @@ export default function TaskModalLabels({
   return (
     <div className="py-2 flex gap-2 items-center flex-wrap">
       {assignedLabels.map((label) => (
-        <div className="flex gap-1 items-center px-2 py-2 h-10 text-center rounded border border-l-2 border-l-black">
+        <div
+          key={label.id}
+          className="flex gap-1 items-center px-2 py-2 h-10 text-center rounded border border-l-2 border-l-black"
+        >
           <p className="" key={label.id}>
             {label.name}
           </p>
