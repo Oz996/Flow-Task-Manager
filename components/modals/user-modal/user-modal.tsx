@@ -6,8 +6,8 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useSearchParams } from "next/navigation";
-import { UserObject } from "@/lib/types";
 import UserModalForm from "./user-modal-form";
+import { UserObject } from "@/lib/supabase/user-session";
 
 interface UserModalProps {
   user: UserObject;

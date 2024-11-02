@@ -43,11 +43,6 @@ export interface User {
   username: string;
 }
 
-export interface UserObject {
-  id: string;
-  user_metadata: User;
-}
-
 export interface Label {
   id: string;
   name: string;

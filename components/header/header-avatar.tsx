@@ -1,4 +1,3 @@
-import { createClient } from "@/lib/supabase/server";
 import { userSession } from "@/lib/supabase/user-session";
 import Image from "next/image";
 import {

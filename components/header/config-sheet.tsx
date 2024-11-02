@@ -9,14 +9,13 @@ import { Button } from "@/components/ui/button";
 import { Settings2 } from "lucide-react";
 import HeaderAvatar from "./header-avatar";
 import ThemePicker from "./theme-picker";
-import DeleteUserButton from "./delete-user-button";
 import { userSession } from "@/lib/supabase/user-session";
 import SignOutButton from "./sign-out-button";
 import UserModal from "../modals/user-modal/user-modal";
 import UserSettingsButton from "./user-settings-button";
 
 export default async function ConfigSheet() {
-  const user = (await userSession()) as any;
+  const user = await userSession();
 
   return (
     <Sheet>
@@ -37,7 +36,7 @@ export default async function ConfigSheet() {
           <SignOutButton />
         </div>
       </SheetContent>
-      <UserModal user={user} />
+      <UserModal user={user!} />
     </Sheet>
   );
 }

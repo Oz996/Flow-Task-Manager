@@ -6,9 +6,11 @@ import SectionPopover from "./section-popover";
 import { useModal } from "@/hooks/useModal";
 import NewSectionDiv from "./new-section-div";
 import TaskCard from "./task-card";
+import { UserObject } from "@/lib/supabase/user-session";
 
 interface SectionsGridProps {
   sections: Section[];
+  user: UserObject;
 }
 
 export default function SectionsGrid({ sections }: SectionsGridProps) {
