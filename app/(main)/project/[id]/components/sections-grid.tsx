@@ -65,9 +65,9 @@ export default function SectionsGrid({ sections }: SectionsGridProps) {
 
   return (
     <>
-      <div className="grid grid-cols-6 gap-5 mt-5 pt-5 border-t border-t-main-border">
+      <div className="flex gap-5 mt-5 pt-5 border-t border-t-main-border">
         {sections?.map((section) => (
-          <div key={section.id} className="w-full flex flex-col gap-5">
+          <div key={section.id} className="min-w-[17.5rem] flex flex-col gap-5">
             <div className="flex justify-between">
               {editingSectionId === section.id ? (
                 <form className="w-full">

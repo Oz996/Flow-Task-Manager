@@ -8,6 +8,7 @@ export default function SidebarButton() {
 
   return (
     <Button
+      aria-controls="sidebar"
       aria-label={sidebarOpen ? "Close sidebar" : "Expand sidebar"}
       className="text-white bg-transparent p-1 hover:bg-main-light"
       onClick={() => setSidebarOpen(!sidebarOpen)}

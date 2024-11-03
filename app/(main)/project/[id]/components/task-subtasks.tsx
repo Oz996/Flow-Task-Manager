@@ -51,6 +51,7 @@ export default function TaskSubtasks({
       <div className="ml-auto">
         {subtasks.length > 0 && (
           <button
+            aria-label="Expand task card to display subtasks"
             className="flex items-center gap-1 p-1 bg-transparent hover:bg-transparent/10 duration-200 rounded lg"
             onClick={() => setExpanded(!expanded)}
           >
@@ -74,7 +75,10 @@ export default function TaskSubtasks({
                 key={subtask.id}
                 className="flex items-center gap-2 py-2 text-sm border-b border-b-gray-200"
               >
-                <button onClick={() => subtaskAction(subtask)}>
+                <button
+                  aria-label="Mark subtask as complete"
+                  onClick={() => subtaskAction(subtask)}
+                >
                   <Image
                     width={10}
                     height={10}

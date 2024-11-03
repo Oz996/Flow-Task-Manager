@@ -23,9 +23,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <SidebarContextProvider>
       <ViewModeContextProvider>
-        <Header />
-        <Sidebar />
-        <MainLayout>{children}</MainLayout>
+        <MainLayout>
+          <Header />
+          <Sidebar />
+          {children}
+        </MainLayout>
         <ProjectModal />
         <DeleteModal />
       </ViewModeContextProvider>

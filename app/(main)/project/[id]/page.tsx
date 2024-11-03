@@ -5,6 +5,7 @@ import LayoutSelect from "./components/layout-select";
 import SectionsGrid from "./components/sections-grid";
 import TaskModal from "@/components/modals/task-modal/task-modal";
 import { userSession } from "@/lib/supabase/user-session";
+import Container from "./components/container";
 
 export async function generateMetadata({ params }: { params: { id: string } }) {
   const supabase = createClient();
@@ -48,10 +49,12 @@ export default async function ProjectPage({
 
   return (
     <section className="w-full px-8 absolute z-0">
-      <h1 className="font-bold text-xl">{project.name}</h1>
-      <LayoutSelect />
-      {sections && <SectionsGrid sections={sections} user={user!} />}
-      <TaskModal sections={sections!} />
+      <Container>
+        <h1 className="font-bold text-xl">{project.name}</h1>
+        <LayoutSelect />
+        {sections && <SectionsGrid sections={sections} user={user!} />}
+        <TaskModal sections={sections!} />
+      </Container>
     </section>
   );
 }

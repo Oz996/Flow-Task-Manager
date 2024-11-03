@@ -53,7 +53,7 @@ export default function NewSectionDiv({ iconSize }: NewSectionDivProps) {
 
   if (addMode)
     return (
-      <form action={formAction} className="w-full">
+      <form action={formAction} className="min-w-[17.5rem]">
         <label htmlFor="new-section" className="sr-only">
           Section name
         </label>
@@ -73,7 +73,7 @@ export default function NewSectionDiv({ iconSize }: NewSectionDivProps) {
   if (!addMode)
     return (
       <div
-        className="min-w-[15rem] flex justify-center items-center h-[calc(100vh-13rem)] bg-transparent/5 hover:bg-transparent/10 duration-200 rounded-lg cursor-pointer group"
+        className="min-w-[17.5rem] flex justify-center items-center h-[calc(100vh-13rem)] bg-transparent/5 hover:bg-transparent/10 duration-200 rounded-lg cursor-pointer group"
         onClick={() => setAddMode(true)}
         role="button"
       >

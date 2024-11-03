@@ -6,11 +6,5 @@ import { ReactNode } from "react";
 export default function MainLayout({ children }: { children: ReactNode }) {
   const { sidebarOpen } = useSidebar();
 
-  return (
-    <main
-      className={`pt-20 ease-linear duration-200 ${sidebarOpen ? "pl-[18.5rem]" : "pl-0"}`}
-    >
-      {children}
-    </main>
-  );
+  return <main className="pt-20 h-[calc(100vh-3rem)]">{children}</main>;
 }

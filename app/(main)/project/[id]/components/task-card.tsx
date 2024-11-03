@@ -41,7 +41,10 @@ export default function TaskCard({ task }: TaskCardProps) {
     >
       <div className="flex justify-between">
         <div className="flex items-center gap-2">
-          <button onClick={() => taskAction(task)}>
+          <button
+            aria-label="Mark task as complete"
+            onClick={() => taskAction(task)}
+          >
             <Image
               width={10}
               height={10}
