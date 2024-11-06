@@ -1,6 +1,4 @@
 "use server";
-
-import { PriorityType } from "@/components/modals/task-modal/task-modal-form";
 import { ProjectSchema, TaskSchema } from "@/lib/schemas";
 import { createClient } from "@/lib/supabase/server";
 import { Label, Subtask, Task, User } from "@/lib/types";

@@ -1,5 +1,4 @@
 "use server";
-
 import { PasswordSchema, UsernameEmailSchema } from "@/lib/schemas";
 import { createClient } from "@/lib/supabase/server";
 import { userSession } from "@/lib/supabase/user-session";

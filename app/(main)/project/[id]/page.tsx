@@ -1,15 +1,15 @@
 import { createClient } from "@/lib/supabase/server";
-import { Project, Section } from "@/lib/types";
+import { Project } from "@/lib/types";
 import React from "react";
 import LayoutSelect from "./components/layout-select";
-import SectionsGrid from "./components/sections-grid";
 import TaskModal from "@/components/modals/task-modal/task-modal";
 import { userSession } from "@/lib/supabase/user-session";
 import Container from "./components/container";
+import Sections from "./components/sections";
 
 export async function generateMetadata({ params }: { params: { id: string } }) {
   const supabase = createClient();
-  const { data, error } = await supabase
+  const { data } = await supabase
     .from("projects")
     .select()
     .eq("id", params.id)
@@ -32,7 +32,7 @@ export default async function ProjectPage({
   const user = await userSession();
 
   // fetching project and sections
-  const { data: projectData, error: projectError } = await supabase
+  const { data, error } = await supabase
     .from("projects")
     .select(
       `*, sections (*, tasks (*, subtasks (*), profiles (*), labels (*)))`
@@ -40,9 +40,9 @@ export default async function ProjectPage({
     .eq("id", params.id)
     .single();
 
-  if (projectError) return console.error(projectError);
+  if (error) return console.error(error);
 
-  const project: Project = projectData;
+  const project: Project = data;
   const sections = project?.sections;
 
   // console.log("project", project);
@@ -52,7 +52,7 @@ export default async function ProjectPage({
       <Container>
         <h1 className="font-bold text-xl">{project.name}</h1>
         <LayoutSelect />
-        {sections && <SectionsGrid sections={sections} user={user!} />}
+        {sections && <Sections sections={sections} user={user!} />}
         <TaskModal sections={sections!} />
       </Container>
     </section>

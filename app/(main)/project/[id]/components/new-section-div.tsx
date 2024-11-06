@@ -1,7 +1,8 @@
 import { createSectionAction } from "@/app/(main)/actions";
+import { useElementFocus } from "@/hooks/useElementFocus";
 import { Plus } from "lucide-react";
 import { useParams } from "next/navigation";
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, useRef, useState } from "react";
 
 interface NewSectionDivProps {
   iconSize: number;
@@ -14,28 +15,7 @@ export default function NewSectionDiv({ iconSize }: NewSectionDivProps) {
   const newSectionInputRef = useRef<HTMLInputElement>(null);
   const params = useParams();
 
-  useEffect(() => {
-    if (addMode) {
-      newSectionInputRef.current?.focus();
-    }
-  }, [addMode]);
-
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (
-        newSectionInputRef.current &&
-        !newSectionInputRef.current.contains(e.target as Node)
-      ) {
-        reset();
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
+  useElementFocus(addMode, reset, newSectionInputRef);
 
   function reset() {
     setAddMode(false);
