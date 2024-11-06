@@ -52,7 +52,7 @@ export default async function ProjectPage({
       <Container>
         <h1 className="font-bold text-xl">{project.name}</h1>
         <LayoutSelect />
-        {sections && <Sections sections={sections} user={user!} />}
+        {sections && <Sections sections={sections} />}
         <TaskModal sections={sections!} />
       </Container>
     </section>

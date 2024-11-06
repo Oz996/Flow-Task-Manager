@@ -6,10 +6,7 @@ import SectionPopover from "./section-popover";
 import TaskCard from "./task-card";
 import NewSectionDiv from "./new-section-div";
 import { useElementFocus } from "@/hooks/useElementFocus";
-
-export interface SectionsProps {
-  sections: Section[];
-}
+import { SectionsProps } from "./sections";
 
 export default function BoardView({ sections }: SectionsProps) {
   const [sectionList, setSectionList] = useState<Section[]>([]);
