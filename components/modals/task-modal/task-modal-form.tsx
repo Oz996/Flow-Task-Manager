@@ -62,12 +62,13 @@ export default function TaskModalForm({
             .from("tasks")
             .select("*, subtasks (*), profiles (*), labels (*)")
             .eq("id", id)
-            .single();
+            .single<Task>();
 
           if (taskError) return console.error(taskError);
           console.log("task", task);
 
           setTask(task);
+          setSubtasks(task.subtasks);
           setSectionId(task.section_id);
         } catch (error: any) {
           console.error(error.message);
@@ -198,8 +199,8 @@ export default function TaskModalForm({
           <motion.div
             className="flex flex-col gap-2 mt-2"
             key={subtask.id}
-            initial={{ x: -45, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
+            initial={!subtask.name && { x: -45, opacity: 0 }}
+            animate={!subtask.name && { x: 0, opacity: 1 }}
           >
             <Label htmlFor={subtask.id} className="sr-only">
               Subtask name

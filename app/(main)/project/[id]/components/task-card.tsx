@@ -132,7 +132,7 @@ export default function TaskCard({ task }: TaskCardProps) {
               </TooltipContainer>
             ))}
         </div>
-        <TaskSubtasks iconSize={iconSize} subtasks={task?.subtasks!} />
+        <TaskSubtasks iconSize={iconSize} subtasks={task.subtasks} />
       </div>
     </Card>
   );

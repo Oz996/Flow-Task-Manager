@@ -32,17 +32,16 @@ export default async function ProjectPage({
   const user = await userSession();
 
   // fetching project and sections
-  const { data, error } = await supabase
+  const { data: project, error } = await supabase
     .from("projects")
     .select(
       `*, sections (*, tasks (*, subtasks (*), profiles (*), labels (*)))`
     )
     .eq("id", params.id)
-    .single();
+    .single<Project>();
 
   if (error) return console.error(error);
 
-  const project: Project = data;
   const sections = project?.sections;
 
   // console.log("project", project);
@@ -53,8 +52,8 @@ export default async function ProjectPage({
         <h1 className="font-bold text-xl">{project.name}</h1>
         <LayoutSelect />
         {sections && <Sections sections={sections} />}
-        <TaskModal sections={sections!} />
       </Container>
+      <TaskModal sections={sections!} />
     </section>
   );
 }

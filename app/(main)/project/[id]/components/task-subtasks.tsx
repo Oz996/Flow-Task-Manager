@@ -8,11 +8,13 @@ import Image from "next/image";
 interface TaskSubtasksProps {
   subtasks: Subtask[];
   iconSize: number;
+  listView?: boolean;
 }
 
 export default function TaskSubtasks({
   subtasks,
   iconSize,
+  listView,
 }: TaskSubtasksProps) {
   const [optimisticSubtasks, addOptimisticSubtask] = useOptimistic(
     subtasks,
@@ -48,8 +50,8 @@ export default function TaskSubtasks({
 
   return (
     <>
-      <div className="ml-auto">
-        {subtasks.length > 0 && (
+      <div className={`${listView ? "" : "ml-auto"}`}>
+        {subtasks.length > 0 && !listView && (
           <button
             aria-label="Expand task card to display subtasks"
             className="flex items-center gap-1 p-1 bg-transparent hover:bg-transparent/10 duration-200 rounded lg"
@@ -68,7 +70,7 @@ export default function TaskSubtasks({
         )}
       </div>
       <div className="col-span-2 mt-3">
-        {expanded && (
+        {(expanded || listView) && (
           <ul>
             {sortByDate()?.map((subtask) => (
               <li

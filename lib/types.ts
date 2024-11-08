@@ -2,6 +2,7 @@ import { PriorityType } from "@/components/modals/task-modal/task-modal-form";
 
 export interface Task {
   id: string;
+  section_id: string;
   created_at: string;
   edited_at: string;
   name: string;

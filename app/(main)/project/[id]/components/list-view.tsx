@@ -8,14 +8,19 @@ import NewSectionDiv from "./new-section-div";
 import { useElementFocus } from "@/hooks/useElementFocus";
 import { SectionsProps } from "./sections";
 import classNames from "classnames";
+import Image from "next/image";
+import TaskSubtasks from "./task-subtasks";
 
 export default function Listview({ sections }: SectionsProps) {
   const [sectionList, setSectionList] = useState<Section[]>([]);
   const [editingSectionId, setEditingSectionId] = useState("");
-  const [expandedSections, setExpandedSections] = useState(
+  const [editingSectionValue, setEditingSectionValue] = useState("");
+
+  const [closedSections, setClosedSections] = useState(
     new Map<string, string>()
   );
-  const [editingSectionValue, setEditingSectionValue] = useState("");
+  const [closedTasks, setClosedTasks] = useState(new Map<string, string>());
+
   const iconSize = 18;
 
   const { openCreateTaskModal } = useModal();
@@ -55,17 +60,26 @@ export default function Listview({ sections }: SectionsProps) {
   }
 
   function expandSection(id: string) {
-    const updatedMap = new Map(expandedSections);
+    const updatedMap = new Map(closedSections);
 
     if (updatedMap.has(id)) {
       updatedMap.delete(id);
     } else {
       updatedMap.set(id, id);
     }
-    setExpandedSections(updatedMap);
+    setClosedSections(updatedMap);
   }
 
-  console.log("expandeds", expandedSections);
+  function expandTask(id: string) {
+    const updatedMap = new Map(closedTasks);
+
+    if (updatedMap.has(id)) {
+      updatedMap.delete(id);
+    } else {
+      updatedMap.set(id, id);
+    }
+    setClosedTasks(updatedMap);
+  }
 
   return (
     <div className="grid grid-cols-5 mt-5 pt-5 border-t border-t-main-border">
@@ -99,12 +113,78 @@ export default function Listview({ sections }: SectionsProps) {
                   size={18}
                   className={classNames({
                     "transition-transform ease-in-out rotate-0": true,
-                    "rotate-90": expandedSections.has(section.id),
+                    "rotate-90": !closedSections.has(section.id),
                   })}
                 />
               </button>
               <span className="font-semibold">{section.name}</span>
             </div>
+            {!closedSections.has(section.id) && (
+              <ul>
+                {section.tasks?.map((task) => (
+                  <li
+                    key={task.id}
+                    className="flex flex-col gap-2 py-2 text-sm border-b border-b-gray-200"
+                  >
+                    <div className="flex items-center gap-2">
+                      {task.subtasks.length > 0 && (
+                        <button
+                          onClick={() => expandTask(task.id)}
+                          aria-controls="subtasks"
+                          aria-label="Expand task item to display subtasks"
+                          className="flex items-center gap-1 p-1 bg-transparent hover:bg-transparent/10 duration-200 rounded lg"
+                        >
+                          <ChevronRight
+                            size={iconSize}
+                            className={classNames({
+                              "transition-transform ease-in-out rotate-0": true,
+                              "rotate-90": !closedTasks.has(task.id),
+                            })}
+                          />
+                        </button>
+                      )}
+                      <button
+                        aria-label="Mark subtask as complete"
+                        onClick={() => true}
+                      >
+                        <Image
+                          width={10}
+                          height={10}
+                          src={
+                            task.completed
+                              ? "/check-circle-green.svg"
+                              : "/check-circle.svg"
+                          }
+                          alt="Checkmark for task"
+                          aria-label={
+                            task.completed
+                              ? "Uncheck completed"
+                              : "Check completed"
+                          }
+                          className="min-w-[1.35rem] min-h-[1.35rem]"
+                        />
+                      </button>
+                      <span
+                        title={task.name.length > 50 ? task.name : undefined}
+                        className="line-clamp-2"
+                      >
+                        {task.name}
+                      </span>
+                    </div>
+
+                    {!closedTasks.has(task.id) && (
+                      <div className="pl-12">
+                        <TaskSubtasks
+                          subtasks={task.subtasks}
+                          iconSize={iconSize}
+                          listView
+                        />
+                      </div>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
         ))}
       </div>
