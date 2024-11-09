@@ -25,7 +25,10 @@ export default function SectionPopover({
   return (
     <Popover>
       <PopoverTrigger>
-        <button className="p-1 hover:bg-transparent/10 duration-200 rounded-lg text-main-light">
+        <button
+          aria-label="Task options"
+          className="p-1 hover:bg-transparent/10 duration-200 rounded-lg text-main-light"
+        >
           <Ellipsis size={iconSize} />
         </button>
       </PopoverTrigger>

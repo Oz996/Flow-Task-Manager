@@ -65,7 +65,7 @@ export default function TaskModalForm({
             .single<Task>();
 
           if (taskError) return console.error(taskError);
-          console.log("task", task);
+          console.log("task form", task);
 
           setTask(task);
           setSubtasks(task.subtasks);
@@ -133,7 +133,7 @@ export default function TaskModalForm({
       setErrors(result.error);
       console.log(result.error.errors);
     } else {
-      await createTaskAction(id as string, formData, task);
+      await createTaskAction(sectionId || (id as string), formData, task);
       closeModal();
     }
   }
@@ -171,7 +171,6 @@ export default function TaskModalForm({
             onChange={handleTaskChange}
           />
         </div>
-
         <div className="flex flex-col gap-2 mt-2">
           <Label htmlFor="description">Task description (optional)</Label>
           <Textarea
@@ -182,8 +181,9 @@ export default function TaskModalForm({
             onChange={handleTaskChange}
           />
         </div>
-
+        sectionId
         <TaskModalSections
+          id={id as string}
           sections={sections}
           sectionId={sectionId}
           setSectionId={setSectionId}
@@ -192,9 +192,7 @@ export default function TaskModalForm({
           <TaskModalPriority priority={task.priority} setTask={setTask} />
           <TaskModalLabels assignedLabels={task.labels} setTask={setTask} />
         </div>
-
         <TaskModalUsers assignedUsers={task.profiles} setTask={setTask} />
-
         {subtasks.map((subtask, index) => (
           <motion.div
             className="flex flex-col gap-2 mt-2"
@@ -224,7 +222,6 @@ export default function TaskModalForm({
             </div>
           </motion.div>
         ))}
-
         {errors && (
           <div className="flex flex-col gap-1 mt-5">
             {errors.errors.map((error, index) => (
@@ -232,7 +229,6 @@ export default function TaskModalForm({
             ))}
           </div>
         )}
-
         <div className="w-full flex flex-col gap-3 mt-5">
           <Button
             className="rounded-full"

@@ -77,12 +77,13 @@ export default function TaskSubtasks({
       >
         {(expanded || listView) && (
           <ul>
-            {optimisticSubtasks.map((subtask) => (
+            {optimisticSubtasks.map((subtask, index, arr) => (
               <li
                 key={subtask.id}
                 className={classNames({
                   "flex items-center gap-2 py-2 text-sm": true,
                   "border-b border-b-gray-200": true,
+                  "border-none": listView && index === arr.length - 1,
                 })}
               >
                 <button

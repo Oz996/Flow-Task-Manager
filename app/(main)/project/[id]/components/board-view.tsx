@@ -70,6 +70,7 @@ export default function BoardView({ sections }: SectionsProps) {
             )}
             <div className="flex gap-3">
               <button
+                aria-label={`Create task for ${section.name} section`}
                 className="p-1 hover:bg-transparent/10 duration-200 rounded-lg text-main-light"
                 onClick={() => openCreateTaskModal(section.id)}
               >

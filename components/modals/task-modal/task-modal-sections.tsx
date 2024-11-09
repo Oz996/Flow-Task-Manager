@@ -12,24 +12,28 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Label } from "@/components/ui/label";
 
 interface TaskModalSectionsProps {
+  id: string;
   sections: Section[];
   sectionId: string;
   setSectionId: Dispatch<SetStateAction<string>>;
 }
 
 export default function TaskModalSections({
+  id,
   sections,
   sectionId,
   setSectionId,
 }: TaskModalSectionsProps) {
   const [sectionName, setSectionName] = useState<string>("");
 
+  // if modal is launched in add mode the id retrievied from the URL will the be id of the section meanwhile
+  // if its launched in edit mode the id will be the id of the task. making sure to display the correct section name
   useEffect(() => {
+    const test = sections.find((section) => section.id === id);
     const section = sections.find((section) => section.id === sectionId);
-    setSectionName(section?.name as string);
-    console.log("first", section);
-  }, [sectionId]);
-  console.log("sectionName", sectionName);
+    const name = test?.name ?? section?.name;
+    setSectionName(name as string);
+  }, [sectionId, id]);
 
   function handleChange(id: string) {
     setSectionId(id);

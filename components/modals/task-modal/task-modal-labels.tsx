@@ -79,8 +79,6 @@ export default function TaskModalLabels({
     }));
   }
 
-  console.log("assignedLabels", assignedLabels);
-
   return (
     <div className="py-2 flex gap-2 items-center flex-wrap">
       {assignedLabels.map((label) => (

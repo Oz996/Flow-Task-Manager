@@ -20,7 +20,7 @@ export default function Listview({ sections }: SectionsProps) {
   const [closedSections, setClosedSections] = useState(
     new Map<string, string>()
   );
-  const [closedTasks, setClosedTasks] = useState(new Map<string, string>());
+  const [openTasks, setOpenTasks] = useState(new Map<string, string>());
 
   const iconSize = 18;
 
@@ -72,14 +72,14 @@ export default function Listview({ sections }: SectionsProps) {
   }
 
   function expandTask(id: string) {
-    const updatedMap = new Map(closedTasks);
+    const updatedMap = new Map(openTasks);
 
     if (updatedMap.has(id)) {
       updatedMap.delete(id);
     } else {
       updatedMap.set(id, id);
     }
-    setClosedTasks(updatedMap);
+    setOpenTasks(updatedMap);
   }
 
   return (
@@ -102,7 +102,7 @@ export default function Listview({ sections }: SectionsProps) {
 
       <div className="col-span-full space-y-10 pt-3">
         {sectionList.map((section) => (
-          <div key={section.id}>
+          <div key={section.id} className="pb-2">
             <div className="flex gap-1 items-center">
               <button
                 onClick={() => expandSection(section.id)}
@@ -121,17 +121,25 @@ export default function Listview({ sections }: SectionsProps) {
               <span className="font-semibold">{section.name}</span>
             </div>
             {!closedSections.has(section.id) && (
-              <ul>
-                {section.tasks?.map((task) => (
-                  <TaskListItem
-                    key={task.id}
-                    task={task}
-                    closedTasks={closedTasks}
-                    expandTask={expandTask}
-                    iconSize={iconSize}
-                  />
-                ))}
-              </ul>
+              <>
+                <ul>
+                  {section.tasks?.map((task) => (
+                    <TaskListItem
+                      key={task.id}
+                      task={task}
+                      openTasks={openTasks}
+                      expandTask={expandTask}
+                      iconSize={iconSize}
+                    />
+                  ))}
+                </ul>
+                <button
+                  className="border-none ml-[1.85rem] p-1 text-sm text-main-light"
+                  onClick={() => openCreateTaskModal(section.id)}
+                >
+                  Add task...
+                </button>
+              </>
             )}
           </div>
         ))}

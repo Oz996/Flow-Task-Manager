@@ -13,7 +13,7 @@ import TaskLabel from "./task-label";
 interface TaskListItemProps {
   task: Task;
   expandTask: (id: string) => void;
-  closedTasks: Map<string, string>;
+  openTasks: Map<string, string>;
   iconSize: number;
 }
 
@@ -21,7 +21,7 @@ export default function TaskListItem({
   task,
   iconSize,
   expandTask,
-  closedTasks,
+  openTasks,
 }: TaskListItemProps) {
   const [optimisticTask, addOptimisticTask] = useOptimistic(
     task,
@@ -61,7 +61,7 @@ export default function TaskListItem({
                 size={iconSize}
                 className={classNames({
                   "transition-transform ease-in-out rotate-0": true,
-                  "rotate-90": !closedTasks.has(task.id),
+                  "rotate-90": openTasks.has(task.id),
                 })}
               />
             </button>
@@ -116,7 +116,7 @@ export default function TaskListItem({
         </div>
       </div>
 
-      {!closedTasks.has(task.id) && (
+      {openTasks.has(task.id) && (
         <div className="grid grid-cols-5">
           <div className="col-span-2 pl-12">
             <TaskSubtasks
