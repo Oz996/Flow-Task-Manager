@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/card";
 import { Task } from "@/lib/types";
 import Image from "next/image";
 import TaskSubtasks from "./task-subtasks";
-import SubtasksPopover from "./subtasks-popover";
+import TaskPopover from "./task-popover";
 import { startTransition, useOptimistic } from "react";
 import { taskCompletedAction } from "@/app/(main)/actions";
 import classNames from "classnames";
@@ -21,7 +21,7 @@ export default function TaskCard({ task }: TaskCardProps) {
   console.log("task", task);
 
   function toggleCompleted(state: Task) {
-    return { ...state, completed: !state.completed } as Task;
+    return { ...state, completed: !state.completed };
   }
 
   async function taskAction(task: Task) {
@@ -64,7 +64,7 @@ export default function TaskCard({ task }: TaskCardProps) {
           </button>
           <span>{task.name}</span>
         </div>
-        <SubtasksPopover iconSize={iconSize} id={task.id} />
+        <TaskPopover iconSize={iconSize} id={task.id} />
       </div>
 
       <div className="flex gap-2 items-center flex-wrap">

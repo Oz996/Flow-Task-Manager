@@ -6,15 +6,12 @@ import {
 import { useModal } from "@/hooks/useModal";
 import { Ellipsis, Pencil, Trash2 } from "lucide-react";
 
-interface SubtasksPopoverProps {
+interface TaskPopoverProps {
   iconSize: number;
   id: string;
 }
 
-export default function SubtasksPopover({
-  iconSize,
-  id,
-}: SubtasksPopoverProps) {
+export default function TaskPopover({ iconSize, id }: TaskPopoverProps) {
   const { openEditTaskModal, openDeleteTaskModal } = useModal();
 
   return (

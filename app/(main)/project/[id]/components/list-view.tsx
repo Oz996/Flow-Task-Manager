@@ -10,6 +10,7 @@ import { SectionsProps } from "./sections";
 import classNames from "classnames";
 import Image from "next/image";
 import TaskSubtasks from "./task-subtasks";
+import TaskListItem from "./task-list-item";
 
 export default function Listview({ sections }: SectionsProps) {
   const [sectionList, setSectionList] = useState<Section[]>([]);
@@ -122,66 +123,13 @@ export default function Listview({ sections }: SectionsProps) {
             {!closedSections.has(section.id) && (
               <ul>
                 {section.tasks?.map((task) => (
-                  <li
+                  <TaskListItem
                     key={task.id}
-                    className="flex flex-col gap-2 py-2 text-sm border-b border-b-gray-200"
-                  >
-                    <div className="flex items-center gap-2">
-                      {task.subtasks.length > 0 && (
-                        <button
-                          onClick={() => expandTask(task.id)}
-                          aria-controls="subtasks"
-                          aria-label="Expand task item to display subtasks"
-                          className="flex items-center gap-1 p-1 bg-transparent hover:bg-transparent/10 duration-200 rounded lg"
-                        >
-                          <ChevronRight
-                            size={iconSize}
-                            className={classNames({
-                              "transition-transform ease-in-out rotate-0": true,
-                              "rotate-90": !closedTasks.has(task.id),
-                            })}
-                          />
-                        </button>
-                      )}
-                      <button
-                        aria-label="Mark subtask as complete"
-                        onClick={() => true}
-                      >
-                        <Image
-                          width={10}
-                          height={10}
-                          src={
-                            task.completed
-                              ? "/check-circle-green.svg"
-                              : "/check-circle.svg"
-                          }
-                          alt="Checkmark for task"
-                          aria-label={
-                            task.completed
-                              ? "Uncheck completed"
-                              : "Check completed"
-                          }
-                          className="min-w-[1.35rem] min-h-[1.35rem]"
-                        />
-                      </button>
-                      <span
-                        title={task.name.length > 50 ? task.name : undefined}
-                        className="line-clamp-2"
-                      >
-                        {task.name}
-                      </span>
-                    </div>
-
-                    {!closedTasks.has(task.id) && (
-                      <div className="pl-12">
-                        <TaskSubtasks
-                          subtasks={task.subtasks}
-                          iconSize={iconSize}
-                          listView
-                        />
-                      </div>
-                    )}
-                  </li>
+                    task={task}
+                    closedTasks={closedTasks}
+                    expandTask={expandTask}
+                    iconSize={iconSize}
+                  />
                 ))}
               </ul>
             )}

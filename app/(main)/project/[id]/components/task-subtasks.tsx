@@ -2,7 +2,7 @@ import { subtaskCompletedAction } from "@/app/(main)/actions";
 import { Subtask } from "@/lib/types";
 import classNames from "classnames";
 import { ChevronRight, List } from "lucide-react";
-import React, { startTransition, useOptimistic, useState } from "react";
+import { startTransition, useOptimistic, useState } from "react";
 import Image from "next/image";
 
 interface TaskSubtasksProps {
@@ -17,13 +17,13 @@ export default function TaskSubtasks({
   listView,
 }: TaskSubtasksProps) {
   const [optimisticSubtasks, addOptimisticSubtask] = useOptimistic(
-    subtasks,
+    sortByDate(subtasks),
     toggleCompleted
   );
   const [expanded, setExpanded] = useState(false);
 
-  function sortByDate() {
-    const subtasksCopy = [...optimisticSubtasks];
+  function sortByDate(subtasks: Subtask[]) {
+    const subtasksCopy = [...subtasks];
     return subtasksCopy.sort((a, b) => {
       return (
         new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
@@ -69,16 +69,28 @@ export default function TaskSubtasks({
           </button>
         )}
       </div>
-      <div className="col-span-2 mt-3">
+      <div
+        className={classNames({
+          "col-span-2": true,
+          "mt-3": !listView,
+        })}
+      >
         {(expanded || listView) && (
           <ul>
-            {sortByDate()?.map((subtask) => (
+            {optimisticSubtasks.map((subtask) => (
               <li
                 key={subtask.id}
-                className="flex items-center gap-2 py-2 text-sm border-b border-b-gray-200"
+                className={classNames({
+                  "flex items-center gap-2 py-2 text-sm": true,
+                  "border-b border-b-gray-200": true,
+                })}
               >
                 <button
-                  aria-label="Mark subtask as complete"
+                  aria-label={
+                    subtask.completed
+                      ? "Mark subtask as incomplete"
+                      : "Mark subtask as complete"
+                  }
                   onClick={() => subtaskAction(subtask)}
                 >
                   <Image
@@ -89,12 +101,7 @@ export default function TaskSubtasks({
                         ? "/check-circle-green.svg"
                         : "/check-circle.svg"
                     }
-                    alt="Checkmark for subtask"
-                    aria-label={
-                      subtask.completed
-                        ? "Uncheck completed"
-                        : "Check completed"
-                    }
+                    alt=""
                     className="min-w-[1.35rem] min-h-[1.35rem]"
                   />
                 </button>
