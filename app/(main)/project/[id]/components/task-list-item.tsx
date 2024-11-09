@@ -6,6 +6,9 @@ import TaskSubtasks from "./task-subtasks";
 import { startTransition, useOptimistic } from "react";
 import { taskCompletedAction } from "@/app/(main)/actions";
 import TaskPopover from "./task-popover";
+import UserAvatar from "./user-avatar";
+import TaskPriority from "./task-priority";
+import TaskLabel from "./task-label";
 
 interface TaskListItemProps {
   task: Task;
@@ -38,14 +41,15 @@ export default function TaskListItem({
   }
 
   return (
-    <li key={task.id} className="flex flex-col text-sm duration-200">
+    <li
+      key={task.id}
+      className={classNames({
+        "flex flex-col text-sm duration-200": true,
+        "opacity-75": optimisticTask.completed,
+      })}
+    >
       <div className="grid grid-cols-5">
-        <div
-          className={classNames({
-            "flex items-center gap-2 relative col-span-2 border p-1": true,
-            "opacity-75": optimisticTask.completed,
-          })}
-        >
+        <div className="flex items-center gap-2 relative col-span-2 border p-1">
           {task.subtasks.length > 0 && (
             <button
               onClick={() => expandTask(task.id)}
@@ -93,6 +97,22 @@ export default function TaskListItem({
           <div className="ml-auto">
             <TaskPopover id={task.id} iconSize={iconSize} />
           </div>
+        </div>
+
+        <div className="flex items-center gap-2 border p-1">
+          {task.profiles.map((user) => (
+            <UserAvatar key={user.id} user={user} small />
+          ))}
+        </div>
+
+        <div className="flex items-center gap-2 border p-1">
+          <TaskPriority priority={task.priority} />
+        </div>
+
+        <div className="flex items-center gap-2 border p-1">
+          {task.labels.map((label) => (
+            <TaskLabel key={label.id} label={label} />
+          ))}
         </div>
       </div>
 

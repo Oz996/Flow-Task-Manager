@@ -15,10 +15,8 @@ interface ViewModeContextInterface {
   setViewMode: Dispatch<SetStateAction<ViewModeType>>;
 }
 
-const localViewMode = localStorage.getItem("viewMode") as ViewModeType;
-
 const initialState: ViewModeContextInterface = {
-  viewMode: localViewMode ?? "board",
+  viewMode: "board",
   setViewMode: () => null,
 };
 
@@ -30,7 +28,14 @@ export default function ViewModeContextProvider({
 }: {
   children: ReactNode;
 }) {
-  const [viewMode, setViewMode] = useState<ViewModeType>(localViewMode);
+  const [viewMode, setViewMode] = useState<ViewModeType>("board");
+
+  useEffect(() => {
+    const storedViewMode = localStorage.getItem("viewMode") as ViewModeType;
+    if (storedViewMode) {
+      setViewMode(storedViewMode);
+    }
+  }, []);
 
   useEffect(() => {
     localStorage.setItem("viewMode", viewMode);

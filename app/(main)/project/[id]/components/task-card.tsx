@@ -7,6 +7,9 @@ import TaskPopover from "./task-popover";
 import { startTransition, useOptimistic } from "react";
 import { taskCompletedAction } from "@/app/(main)/actions";
 import classNames from "classnames";
+import UserAvatar from "./user-avatar";
+import TaskPriority from "./task-priority";
+import TaskLabel from "./task-label";
 
 interface TaskCardProps {
   task: Task;
@@ -68,69 +71,18 @@ export default function TaskCard({ task }: TaskCardProps) {
       </div>
 
       <div className="flex gap-2 items-center flex-wrap">
-        {task?.priority && (
-          <TooltipContainer
-            className="bg-main text-white capitalize"
-            trigger={
-              <span
-                className={classNames({
-                  "px-2 py-1 text-sm rounded capitalize": true,
-                  "bg-blue-300": task.priority === "low",
-                  "bg-yellow-500": task.priority === "medium",
-                  "bg-red-500": task.priority === "high",
-                })}
-              >
-                {task.priority}
-              </span>
-            }
-          >
-            <div className="flex flex-col gap-1">
-              <p>Priority:</p>
-              <p> {task.priority}</p>
-            </div>
-          </TooltipContainer>
-        )}
+        {<TaskPriority priority={task.priority} />}
 
-        {task.labels &&
-          task.labels.map((label) => (
-            <TooltipContainer
-              className="bg-main text-white capitalize"
-              trigger={
-                <span
-                  key={label.id}
-                  className="px-2 py-1 text-sm rounded-sm border border-l-2 border-l-black"
-                >
-                  {label.name}
-                </span>
-              }
-            >
-              <div className="flex flex-col gap-1">
-                <p>Label:</p>
-                <p> {label.name}</p>
-              </div>
-            </TooltipContainer>
-          ))}
+        {task.labels.map((label) => (
+          <TaskLabel key={label.id} label={label} />
+        ))}
       </div>
 
       <div className="grid grid-cols-2 justify-between">
         <div className="flex gap-2">
-          {task.profiles &&
-            task.profiles.map((user) => (
-              <TooltipContainer
-                className="bg-main text-white"
-                trigger={
-                  <Image
-                    width={100}
-                    height={100}
-                    src={user.avatar_url}
-                    alt="User avatar"
-                    className="size-7 rounded-full"
-                  />
-                }
-              >
-                <p>{user.username}</p>
-              </TooltipContainer>
-            ))}
+          {task.profiles.map((user) => (
+            <UserAvatar key={user.id} user={user} />
+          ))}
         </div>
         <TaskSubtasks iconSize={iconSize} subtasks={task.subtasks} />
       </div>

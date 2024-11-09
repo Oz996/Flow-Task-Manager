@@ -53,7 +53,7 @@ export default async function ProjectPage({
         <LayoutSelect />
         {sections && <Sections sections={sections} />}
       </Container>
-      <TaskModal sections={sections!} />
+      {sections && <TaskModal sections={sections} />}
     </section>
   );
 }

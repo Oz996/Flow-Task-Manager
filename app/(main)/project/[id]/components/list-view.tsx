@@ -100,7 +100,7 @@ export default function Listview({ sections }: SectionsProps) {
         <span>Label</span>
       </div>
 
-      <div className="col-span-full">
+      <div className="col-span-full space-y-10 pt-3">
         {sectionList.map((section) => (
           <div key={section.id}>
             <div className="flex gap-1 items-center">
