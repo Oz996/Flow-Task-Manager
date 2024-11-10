@@ -29,10 +29,10 @@ export default function TaskModalSections({
   // if modal is launched in add mode the id retrievied from the URL will the be id of the section meanwhile
   // if its launched in edit mode the id will be the id of the task. making sure to display the correct section name
   useEffect(() => {
-    const test = sections.find((section) => section.id === id);
-    const section = sections.find((section) => section.id === sectionId);
-    const name = test?.name ?? section?.name;
-    setSectionName(name as string);
+    const section =
+      sections.find((section) => section.id === id) ??
+      sections.find((section) => section.id === sectionId);
+    setSectionName(section?.name as string);
   }, [sectionId, id]);
 
   function handleChange(id: string) {
@@ -44,7 +44,7 @@ export default function TaskModalSections({
       <Label>Task status</Label>
       <Select value={sectionId ?? sections[0].id} onValueChange={handleChange}>
         <SelectTrigger className="w-full">
-          <SelectValue placeholder={sectionName ?? sections[0].name} />
+          <SelectValue placeholder={sectionName} />
         </SelectTrigger>
         <SelectContent className="w-full">
           <SelectGroup>
