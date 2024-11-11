@@ -26,7 +26,7 @@ export default function TaskSortButtons({
     <div className="flex items-center">
       {sort === type && (
         <TooltipContainer
-          className="bg-main text-white capitalize"
+          className="bg-main text-white"
           trigger={
             <button
               onClick={resetSorting}
@@ -42,7 +42,7 @@ export default function TaskSortButtons({
       )}
 
       <TooltipContainer
-        className="bg-main text-white capitalize"
+        className="bg-main text-white"
         trigger={
           <button
             onClick={() => sortTasks(type)}

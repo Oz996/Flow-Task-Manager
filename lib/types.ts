@@ -48,3 +48,12 @@ export interface Label {
   id: string;
   name: string;
 }
+
+export type SortType = "created" | "name" | "assignee" | "priority" | "label";
+
+export type OrderType = "asc" | "desc";
+
+export interface SortOptionsType {
+  sort: SortType;
+  order: OrderType;
+}

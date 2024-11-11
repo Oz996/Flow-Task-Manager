@@ -50,7 +50,6 @@ export default async function ProjectPage({
     <section className="w-full px-8 absolute z-0">
       <Container>
         <h1 className="font-bold text-xl">{project.name}</h1>
-        <LayoutSelect />
         {sections && <Sections sections={sections} />}
       </Container>
       {sections && <TaskModal sections={sections} />}

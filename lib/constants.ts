@@ -1,5 +1,5 @@
 import { ViewModeType } from "@/context/view-mode-context";
-import { Section, Task } from "./types";
+import { OrderType, Section, SortType, Task } from "./types";
 
 export const projectTemplate: Section[] = [
   {
@@ -41,8 +41,25 @@ export const initialTask: Task = {
   name: "",
   completed: false,
   description: "",
+  section_id: "",
   labels: [],
   profiles: [],
   subtasks: [],
   priority: null,
 };
+
+export const taskSortOptions: { name: SortType; value: SortType }[] = [
+  { name: "created", value: "created" },
+  { name: "assignee", value: "assignee" },
+  { name: "label", value: "label" },
+  { name: "name", value: "name" },
+  { name: "priority", value: "priority" },
+];
+
+export const taskOrderOptions: {
+  name: "Ascending" | "Descending";
+  value: OrderType;
+}[] = [
+  { name: "Ascending", value: "asc" },
+  { name: "Descending", value: "desc" },
+];

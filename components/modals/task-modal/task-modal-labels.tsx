@@ -1,4 +1,5 @@
 import { createLabelAction } from "@/app/(main)/actions";
+import TooltipContainer from "@/components/tooltip-container";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -93,7 +94,7 @@ export default function TaskModalLabels({
             type="button"
             className="text-main-light"
             onClick={() => removeAssignedLabel(label)}
-            aria-label="Assign or add label button"
+            aria-label="Assign or add a label"
           >
             <X size={18} />
           </button>
@@ -101,13 +102,20 @@ export default function TaskModalLabels({
       ))}
 
       <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
-        <PopoverTrigger asChild>
-          <button
-            type="button"
-            className="px-2 py-2 h-10 rounded border text-main-light"
+        <PopoverTrigger>
+          <TooltipContainer
+            className="bg-main text-white"
+            trigger={
+              <button
+                type="button"
+                className="px-2 py-2 h-10 rounded border text-main-light"
+              >
+                <Plus size={18} />
+              </button>
+            }
           >
-            <Plus size={18} />
-          </button>
+            <p>Create or assign a label</p>
+          </TooltipContainer>
         </PopoverTrigger>
         <PopoverContent align="start" className="w-[20rem] p-0">
           <div className="space-y-1 p-4">
