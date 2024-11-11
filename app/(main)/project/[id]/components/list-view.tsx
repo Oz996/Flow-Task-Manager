@@ -14,7 +14,7 @@ import TaskListItem from "./task-list-item";
 import TaskSortButtons from "./task-sort-buttons";
 import { PriorityType } from "@/components/modals/task-modal/task-modal-form";
 
-export type SortType = "created" | "name" | "assignee" | "priority";
+export type SortType = "created" | "name" | "assignee" | "priority" | "label";
 export type OrderType = "asc" | "desc";
 export interface SortOptionsType {
   sort: SortType;
@@ -71,11 +71,23 @@ export default function Listview({ sections }: SectionsProps) {
         }
 
         if (sort === "priority" && order === "asc") {
-          return priorityValue(a.priority)! - priorityValue(b.priority)!;
+          return (
+            (priorityValue(a.priority) ?? 0) - (priorityValue(b.priority) ?? 0)
+          );
         }
 
         if (sort === "priority" && order === "desc") {
-          return priorityValue(b.priority)! - priorityValue(a.priority)!;
+          return (
+            (priorityValue(b.priority) ?? 0) - (priorityValue(a.priority) ?? 0)
+          );
+        }
+
+        if (sort === "label" && order === "asc") {
+          return a.labels.length - b.labels.length;
+        }
+
+        if (sort === "label" && order === "desc") {
+          return b.labels.length - a.labels.length;
         }
 
         return (
@@ -170,8 +182,14 @@ export default function Listview({ sections }: SectionsProps) {
         />
       </div>
 
-      <div className="border p-1">
+      <div className="flex justify-between border p-1">
         <span>Label</span>
+        <TaskSortButtons
+          sortOptions={sortOptions}
+          sortTasks={sortTasks}
+          iconSize={iconSize}
+          type="label"
+        />
       </div>
 
       <div className="col-span-full space-y-10 pt-3">

@@ -20,7 +20,7 @@ export default function TooltipContainer({
   return (
     <TooltipProvider>
       <Tooltip>
-        <TooltipTrigger>{trigger}</TooltipTrigger>
+        <TooltipTrigger asChild>{trigger}</TooltipTrigger>
         <TooltipContent asChild {...props}>
           {children}
         </TooltipContent>
