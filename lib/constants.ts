@@ -1,5 +1,5 @@
 import { ViewModeType } from "@/context/view-mode-context";
-import { OrderType, Section, SortType, Task } from "./types";
+import { FilterType, OrderType, Section, SortType, Task } from "./types";
 
 export const projectTemplate: Section[] = [
   {
@@ -62,4 +62,9 @@ export const taskOrderOptions: {
 }[] = [
   { name: "Ascending", value: "asc" },
   { name: "Descending", value: "desc" },
+];
+
+export const taskFilterOptions: { name: FilterType; value: FilterType }[] = [
+  { name: "uncompleted", value: "uncompleted" },
+  { name: "completed", value: "completed" },
 ];

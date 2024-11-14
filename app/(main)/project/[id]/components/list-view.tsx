@@ -1,5 +1,11 @@
 import { useModal } from "@/hooks/useModal";
-import { OrderType, Section, SortOptionsType, SortType } from "@/lib/types";
+import {
+  FilterType,
+  OrderType,
+  Section,
+  SortOptionsType,
+  SortType,
+} from "@/lib/types";
 import { ChevronRight, MoveDown, MoveUp, Plus, X } from "lucide-react";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import SectionPopover from "./section-popover";
@@ -16,11 +22,13 @@ import { PriorityType } from "@/components/modals/task-modal/task-modal-form";
 import LayoutSelect from "./layout-select";
 import TaskSortSelect from "./task-sort-select";
 import { sortSectionTasks } from "@/lib/utils";
+import TaskFilterSelect from "./task-filter-select";
 
 export default function Listview({ sections }: SectionsProps) {
   const [sectionList, setSectionList] = useState<Section[]>([]);
   const [editingSectionId, setEditingSectionId] = useState("");
   const [editingSectionValue, setEditingSectionValue] = useState("");
+  const [filter, setFilter] = useState<FilterType>(null);
   const [sortOptions, setSortOptions] = useState<SortOptionsType>({
     sort: "created",
     order: "asc",
@@ -40,11 +48,11 @@ export default function Listview({ sections }: SectionsProps) {
 
   useElementFocus(editingSectionId, reset, sectionInputRef);
 
-  // sorting functions
+  // sorting/filtering functions
 
   useEffect(() => {
-    sortSectionTasks(sort, order, sections, setSectionList);
-  }, [sections, sortOptions]);
+    sortSectionTasks(sort, order, sections, setSectionList, filter);
+  }, [sections, sortOptions, filter]);
 
   function sortTasks(type: SortType = "created") {
     if (sort === type && order === "asc") {
@@ -57,6 +65,14 @@ export default function Listview({ sections }: SectionsProps) {
   function sortTasksOrder(order: OrderType) {
     setSortOptions((prevSort) => ({ ...prevSort, order }));
   }
+
+  // ----------------------------------
+
+  // filering function
+
+  // useEffect(() => {
+  //   filterSectionTasks(filter, sections, setSectionList);
+  // }, [sections, filter]);
 
   // ----------------------------------
 
@@ -103,6 +119,11 @@ export default function Listview({ sections }: SectionsProps) {
           sortTasksOrder={sortTasksOrder}
           sortOptions={sortOptions}
           sortTasks={sortTasks}
+          iconSize={iconSize}
+        />
+        <TaskFilterSelect
+          setFilter={setFilter}
+          filter={filter}
           iconSize={iconSize}
         />
       </div>

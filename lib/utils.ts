@@ -1,7 +1,7 @@
 import { clsx, type ClassValue } from "clsx";
 import { redirect } from "next/navigation";
 import { twMerge } from "tailwind-merge";
-import { OrderType, Section, SortType, Subtask } from "./types";
+import { FilterType, OrderType, Section, SortType, Subtask } from "./types";
 
 import { PriorityType } from "@/components/modals/task-modal/task-modal-form";
 import { Dispatch, SetStateAction } from "react";
@@ -36,7 +36,8 @@ export function sortSectionTasks(
   sort: SortType,
   order: OrderType,
   sections: Section[],
-  setSectionList: Dispatch<SetStateAction<Section[]>>
+  setSectionList: Dispatch<SetStateAction<Section[]>>,
+  filter?: FilterType
 ) {
   const sortedList = sections.map((section) => ({
     ...section,
@@ -91,12 +92,33 @@ export function sortSectionTasks(
       return 0;
     }),
   }));
-  setSectionList(sortedList);
+
+  if (filter) {
+    const filteredList = filterSectionTasks(filter, sortedList);
+    setSectionList(filteredList);
+  } else {
+    setSectionList(sortedList);
+  }
 }
 
-export function priorityValue(priority: PriorityType) {
+function priorityValue(priority: PriorityType) {
   if (priority === "high") return 2;
   if (priority === "medium") return 1;
   if (priority === "low") return 0;
   if (!priority) return -1;
+}
+
+function filterSectionTasks(filter: FilterType, sortedList: Section[]) {
+  const filteredList = sortedList.map((section) => ({
+    ...section,
+    tasks: section.tasks?.slice().filter((task) => {
+      if (filter === "completed") {
+        return task.completed;
+      }
+      if (filter === "uncompleted") {
+        return !task.completed;
+      }
+    }),
+  }));
+  return filteredList;
 }

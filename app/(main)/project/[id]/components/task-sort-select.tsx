@@ -1,3 +1,4 @@
+import TooltipContainer from "@/components/tooltip-container";
 import {
   Select,
   SelectContent,
@@ -39,13 +40,20 @@ export default function TaskSortSelect({
       <ArrowUpDown size={iconSize} />
 
       {(sortOptions.sort !== "created" || sortOptions.order !== "asc") && (
-        <button
-          onClick={() => sortTasks()}
-          aria-label="Reset task sorting"
-          className="flex items-center gap-1 p-1 bg-transparent hover:bg-transparent/10 duration-200 rounded lg"
+        <TooltipContainer
+          className="bg-main text-white"
+          trigger={
+            <button
+              onClick={() => sortTasks()}
+              aria-label="Reset task sorting"
+              className="flex items-center gap-1 p-1 bg-transparent hover:bg-transparent/10 duration-200 rounded lg"
+            >
+              <X size={iconSize} />
+            </button>
+          }
         >
-          <X size={iconSize} />
-        </button>
+          <p>Reset sorting</p>
+        </TooltipContainer>
       )}
 
       <Select value={sort} onValueChange={handleSortChange}>
@@ -57,7 +65,7 @@ export default function TaskSortSelect({
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
-            <SelectLabel>View mode</SelectLabel>
+            <SelectLabel>Sort by</SelectLabel>
             {taskSortOptions.map((option) => (
               <SelectItem
                 key={option.value}
@@ -80,7 +88,7 @@ export default function TaskSortSelect({
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
-            <SelectLabel>View mode</SelectLabel>
+            <SelectLabel>Sort order</SelectLabel>
             {taskOrderOptions.map((option) => (
               <SelectItem
                 key={option.value}

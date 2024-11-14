@@ -1,5 +1,11 @@
 import { useModal } from "@/hooks/useModal";
-import { OrderType, Section, SortOptionsType, SortType } from "@/lib/types";
+import {
+  FilterType,
+  OrderType,
+  Section,
+  SortOptionsType,
+  SortType,
+} from "@/lib/types";
 import { Plus } from "lucide-react";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import SectionPopover from "./section-popover";
@@ -10,11 +16,13 @@ import { SectionsProps } from "./sections";
 import LayoutSelect from "./layout-select";
 import { sortSectionTasks } from "@/lib/utils";
 import TaskSortSelect from "./task-sort-select";
+import TaskFilterSelect from "./task-filter-select";
 
 export default function BoardView({ sections }: SectionsProps) {
   const [sectionList, setSectionList] = useState<Section[]>([]);
   const [editingSectionId, setEditingSectionId] = useState("");
   const [editingSectionValue, setEditingSectionValue] = useState("");
+  const [filter, setFilter] = useState<FilterType>(null);
   const [sortOptions, setSortOptions] = useState<SortOptionsType>({
     sort: "created",
     order: "asc",
@@ -29,26 +37,11 @@ export default function BoardView({ sections }: SectionsProps) {
 
   useElementFocus(editingSectionId, reset, sectionInputRef);
 
-  useEffect(() => {
-    sortSectionTasks(sort, order, sections, setSectionList);
-  }, [sections, sortOptions]);
+  // sorting/filtering functions
 
   useEffect(() => {
-    function sortSectionTasks() {
-      const sortedList = sections.map((section) => ({
-        ...section,
-        tasks: section.tasks
-          ?.slice()
-          .sort(
-            (a, b) =>
-              new Date(a.created_at).getTime() -
-              new Date(b.created_at).getTime()
-          ),
-      }));
-      setSectionList(sortedList);
-    }
-    sortSectionTasks();
-  }, [sections]);
+    sortSectionTasks(sort, order, sections, setSectionList, filter);
+  }, [sections, sortOptions, filter]);
 
   function sortTasks(type: SortType = "created") {
     if (sort === type && order === "asc") {
@@ -61,6 +54,8 @@ export default function BoardView({ sections }: SectionsProps) {
   function sortTasksOrder(order: OrderType) {
     setSortOptions((prevSort) => ({ ...prevSort, order }));
   }
+
+  // ----------------------------------
 
   function editSection(id: string, name: string) {
     setEditingSectionId(id);
@@ -83,6 +78,11 @@ export default function BoardView({ sections }: SectionsProps) {
           sortTasksOrder={sortTasksOrder}
           sortOptions={sortOptions}
           sortTasks={sortTasks}
+          iconSize={iconSize}
+        />
+        <TaskFilterSelect
+          setFilter={setFilter}
+          filter={filter}
           iconSize={iconSize}
         />
       </div>

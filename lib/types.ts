@@ -57,3 +57,5 @@ export interface SortOptionsType {
   sort: SortType;
   order: OrderType;
 }
+
+export type FilterType = "completed" | "uncompleted" | null;
