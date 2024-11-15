@@ -2,9 +2,12 @@ import { clsx, type ClassValue } from "clsx";
 import { redirect } from "next/navigation";
 import { twMerge } from "tailwind-merge";
 import { FilterType, OrderType, Section, SortType, Subtask } from "./types";
-
 import { PriorityType } from "@/components/modals/task-modal/task-modal-form";
 import { Dispatch, SetStateAction } from "react";
+import { createClient } from "./supabase/client";
+import { UserObject } from "./supabase/user-session";
+
+const supabase = createClient();
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -37,6 +40,7 @@ export function sortSectionTasks(
   order: OrderType,
   sections: Section[],
   setSectionList: Dispatch<SetStateAction<Section[]>>,
+  user: UserObject,
   filter?: FilterType
 ) {
   const sortedList = sections.map((section) => ({
@@ -98,7 +102,7 @@ export function sortSectionTasks(
   }));
 
   if (filter) {
-    const filteredList = filterSectionTasks(filter, sortedList);
+    const filteredList = filterSectionTasks(filter, sortedList, user);
     setSectionList(filteredList);
   } else {
     setSectionList(sortedList);
@@ -112,7 +116,11 @@ function priorityValue(priority: PriorityType) {
   if (!priority) return -1;
 }
 
-function filterSectionTasks(filter: FilterType, sortedList: Section[]) {
+function filterSectionTasks(
+  filter: FilterType,
+  sortedList: Section[],
+  user: UserObject
+) {
   const filteredList = sortedList.map((section) => ({
     ...section,
     tasks: section.tasks?.slice().filter((task) => {
@@ -121,6 +129,9 @@ function filterSectionTasks(filter: FilterType, sortedList: Section[]) {
       }
       if (filter === "uncompleted") {
         return !task.completed;
+      }
+      if (filter === "my tasks") {
+        return task.profiles.some((person) => person.id === user.id);
       }
     }),
   }));

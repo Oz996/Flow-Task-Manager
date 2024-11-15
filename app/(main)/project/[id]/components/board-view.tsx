@@ -19,7 +19,7 @@ import TaskSortSelect from "./task-sort-select";
 import TaskFilterSelect from "./task-filter-select";
 import { updateSectionAction } from "@/app/(main)/actions";
 
-export default function BoardView({ sections }: SectionsProps) {
+export default function BoardView({ sections, user }: SectionsProps) {
   const [sectionList, setSectionList] = useState<Section[]>([]);
   const [editingSectionId, setEditingSectionId] = useState("");
   const [editingSectionValue, setEditingSectionValue] = useState("");
@@ -41,7 +41,7 @@ export default function BoardView({ sections }: SectionsProps) {
   // sorting/filtering functions
 
   useEffect(() => {
-    sortSectionTasks(sort, order, sections, setSectionList, filter);
+    sortSectionTasks(sort, order, sections, setSectionList, user, filter);
   }, [sections, sortOptions, filter]);
 
   function sortTasks(value?: SortType) {

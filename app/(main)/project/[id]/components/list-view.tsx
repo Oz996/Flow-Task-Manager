@@ -25,7 +25,7 @@ import { sortSectionTasks } from "@/lib/utils";
 import TaskFilterSelect from "./task-filter-select";
 import { updateSectionAction } from "@/app/(main)/actions";
 
-export default function Listview({ sections }: SectionsProps) {
+export default function Listview({ sections, user }: SectionsProps) {
   const [sectionList, setSectionList] = useState<Section[]>([]);
   const [editingSectionId, setEditingSectionId] = useState("");
   const [editingSectionValue, setEditingSectionValue] = useState("");
@@ -52,7 +52,7 @@ export default function Listview({ sections }: SectionsProps) {
   // sorting/filtering functions
 
   useEffect(() => {
-    sortSectionTasks(sort, order, sections, setSectionList, filter);
+    sortSectionTasks(sort, order, sections, setSectionList, user, filter);
   }, [sections, sortOptions, filter]);
 
   function sortTasks(value?: SortType) {

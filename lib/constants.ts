@@ -67,4 +67,5 @@ export const taskOrderOptions: {
 export const taskFilterOptions: { name: FilterType; value: FilterType }[] = [
   { name: "uncompleted", value: "uncompleted" },
   { name: "completed", value: "completed" },
+  { name: "my tasks", value: "my tasks" },
 ];

@@ -2,7 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { Project } from "@/lib/types";
 import React from "react";
 import TaskModal from "@/components/modals/task-modal/task-modal";
-import { userSession } from "@/lib/supabase/user-session";
+import { UserObject, userSession } from "@/lib/supabase/user-session";
 import Container from "./components/container";
 import Sections from "./components/sections";
 
@@ -51,7 +51,7 @@ export default async function ProjectPage({
     <section className="w-full px-8 absolute z-0">
       <Container>
         <h1 className="font-bold text-xl">{project.name}</h1>
-        {sections && <Sections sections={sections} />}
+        {sections && <Sections sections={sections} user={user as UserObject} />}
       </Container>
       {sections && <TaskModal sections={sections} />}
     </section>

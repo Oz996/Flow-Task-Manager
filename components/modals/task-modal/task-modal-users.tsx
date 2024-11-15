@@ -51,7 +51,7 @@ export default function TaskModalUsers({
   }, []);
 
   function userAlreadyAssigned(user: User) {
-    return assignedUsers.findIndex((u) => u.id === user.id);
+    return assignedUsers.some((u) => u.id === user.id);
   }
 
   function removeAssignedUser(user: User) {
@@ -62,7 +62,7 @@ export default function TaskModalUsers({
 
   function assignUser(user: User) {
     const assigned = userAlreadyAssigned(user);
-    if (assigned !== -1) return removeAssignedUser(user);
+    if (assigned) return removeAssignedUser(user);
 
     setTask((taskData) => ({
       ...taskData,
@@ -125,7 +125,7 @@ export default function TaskModalUsers({
                     "flex items-center gap-3 py-2 px-4 cursor-pointer hover:bg-transparent/10 duration-200 border-l-4 border-l-transparent hover:border-l-blue-600 rounded":
                       true,
                     "border-l-4 border-l-blue-600 bg-transparent/10":
-                      userAlreadyAssigned(user) !== -1,
+                      userAlreadyAssigned(user),
                   })}
                   onClick={() => assignUser(user)}
                 >

@@ -4,14 +4,14 @@ export const ProjectSchema = z.object({
   projectName: z
     .string()
     .trim()
-    .min(2, { message: "Project name must be greater than 1 character" })
+    .min(1, { message: "Project name is required" })
     .max(50, { message: "Project should be at least less than 50 characters" }),
   sectionNames: z
     .array(
       z
         .string()
         .trim()
-        .min(2, { message: "Section name should be greater than 1 character" })
+        .min(1, { message: "Section name is required" })
         .max(50, { message: "Section name should be less than 50 characters" })
         .regex(/^[^,]*$/, { message: "Section name cannot contain commas" })
     )
@@ -22,14 +22,14 @@ export const TaskSchema = z.object({
   taskName: z
     .string()
     .trim()
-    .min(2, { message: "Task name should be greater than 1 character" })
+    .min(1, { message: "Task name is required" })
     .max(50, { message: "Task name should be less than 50 characters" }),
   subtaskNames: z
     .array(
       z
         .string()
         .trim()
-        .min(2, { message: "Subtask name should be greater than 1 character" })
+        .min(1, { message: "Subtask name is required" })
         .max(100, {
           message: "Subtask name should be less than 100 characters",
         })

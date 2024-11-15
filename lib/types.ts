@@ -64,4 +64,4 @@ export interface SortOptionsType {
   order: OrderType;
 }
 
-export type FilterType = "completed" | "uncompleted" | "";
+export type FilterType = "completed" | "uncompleted" | "my tasks" | "";

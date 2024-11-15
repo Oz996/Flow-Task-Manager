@@ -36,7 +36,7 @@ export default function TaskModalLabels({
   }, []);
 
   function labelAlreadyAssigned(label: ILabel) {
-    return assignedLabels.findIndex((l) => l.id === label.id);
+    return assignedLabels.some((l) => l.id === label.id);
   }
 
   function removeAssignedLabel(label: ILabel) {
@@ -47,7 +47,7 @@ export default function TaskModalLabels({
 
   function assignLabel(label: ILabel) {
     const assigned = labelAlreadyAssigned(label);
-    if (assigned !== -1) return removeAssignedLabel(label);
+    if (assigned) return removeAssignedLabel(label);
 
     setTask((taskData) => ({
       ...taskData,
@@ -138,7 +138,7 @@ export default function TaskModalLabels({
                   "flex items-center gap-3 py-2 px-4 cursor-pointer hover:bg-transparent/10 duration-200 border-l-4 border-l-transparent hover:border-l-blue-600 rounded":
                     true,
                   "border-l-4 border-l-blue-600 bg-transparent/10":
-                    labelAlreadyAssigned(label) !== -1,
+                    labelAlreadyAssigned(label),
                 })}
                 onClick={() => assignLabel(label)}
               >
