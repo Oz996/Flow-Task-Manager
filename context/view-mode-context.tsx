@@ -8,7 +8,7 @@ import React, {
   useState,
 } from "react";
 
-export type ViewModeType = "board" | "list";
+export type ViewModeType = "board" | "list" | "";
 
 interface ViewModeContextInterface {
   viewMode: ViewModeType;
@@ -28,7 +28,7 @@ export default function ViewModeContextProvider({
 }: {
   children: ReactNode;
 }) {
-  const [viewMode, setViewMode] = useState<ViewModeType>("board");
+  const [viewMode, setViewMode] = useState<ViewModeType>("");
 
   useEffect(() => {
     const storedViewMode = localStorage.getItem("viewMode") as ViewModeType;

@@ -35,9 +35,9 @@ export default function DeleteModal() {
   if (deleteModal)
     return (
       <ModalContainer>
-        <DialogContent className="sm:max-w-[20rem] p-8 space-y-2">
-          <DialogHeader>
-            <DialogTitle>
+        <DialogContent className="sm:max-w-[20rem] p-0 space-y-2">
+          <DialogHeader className="border-b border-gray-200">
+            <DialogTitle className="px-4 py-6">
               {taskModal
                 ? "Delete Task?"
                 : sectionModal
@@ -45,22 +45,24 @@ export default function DeleteModal() {
                   : "Delete User?"}
             </DialogTitle>
           </DialogHeader>
-          <p>This action is irreversible</p>
-          <DialogFooter className="flex gap-2">
-            <Button
-              variant="ghost"
-              className="rounded-full"
-              onClick={closeModal}
-            >
-              Cancel
-            </Button>
-            <Button
-              variant="destructive"
-              className="rounded-full"
-              onClick={deleteAction}
-            >
-              Delete
-            </Button>
+          <p className="px-4">This action is irreversible</p>
+          <DialogFooter className="border-t border-gray-200">
+            <div className="flex gap-2 p-4">
+              <Button
+                variant="ghost"
+                className="rounded-full"
+                onClick={closeModal}
+              >
+                Cancel
+              </Button>
+              <Button
+                variant="destructive"
+                className="rounded-full"
+                onClick={deleteAction}
+              >
+                Delete
+              </Button>
+            </div>
           </DialogFooter>
         </DialogContent>
       </ModalContainer>

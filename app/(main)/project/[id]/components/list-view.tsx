@@ -23,6 +23,7 @@ import LayoutSelect from "./layout-select";
 import TaskSortSelect from "./task-sort-select";
 import { sortSectionTasks } from "@/lib/utils";
 import TaskFilterSelect from "./task-filter-select";
+import { updateSectionAction } from "@/app/(main)/actions";
 
 export default function Listview({ sections }: SectionsProps) {
   const [sectionList, setSectionList] = useState<Section[]>([]);
@@ -103,6 +104,10 @@ export default function Listview({ sections }: SectionsProps) {
     setOpenTasks(updatedMap);
   }
 
+  async function formAction(formData: FormData) {
+    await updateSectionAction(editingSectionId, formData);
+  }
+
   return (
     <div className="flex flex-col border-t border-t-gray-200 pt-4">
       <div className="flex gap-5 items-center">
@@ -178,7 +183,27 @@ export default function Listview({ sections }: SectionsProps) {
                     })}
                   />
                 </button>
-                <span className="font-semibold">{section.name}</span>
+                {editingSectionId === section.id ? (
+                  <form action={formAction}>
+                    <input
+                      type="text"
+                      name="section-name"
+                      ref={sectionInputRef}
+                      value={editingSectionValue}
+                      onChange={handleChange}
+                    />
+                  </form>
+                ) : (
+                  <div className="flex gap-1 items-center">
+                    <span className="font-semibold">{section.name}</span>
+                    <SectionPopover
+                      editSection={editSection}
+                      iconSize={iconSize}
+                      name={section.name}
+                      id={section.id}
+                    />
+                  </div>
+                )}
               </div>
 
               {!closedSections.has(section.id) && (

@@ -17,6 +17,7 @@ import LayoutSelect from "./layout-select";
 import { sortSectionTasks } from "@/lib/utils";
 import TaskSortSelect from "./task-sort-select";
 import TaskFilterSelect from "./task-filter-select";
+import { updateSectionAction } from "@/app/(main)/actions";
 
 export default function BoardView({ sections }: SectionsProps) {
   const [sectionList, setSectionList] = useState<Section[]>([]);
@@ -72,6 +73,10 @@ export default function BoardView({ sections }: SectionsProps) {
     setEditingSectionId("");
   }
 
+  async function formAction(formData: FormData) {
+    await updateSectionAction(editingSectionId, formData);
+  }
+
   return (
     <div className="flex flex-col border-t border-t-gray-200 pt-4">
       <div className="flex gap-5 items-center">
@@ -93,9 +98,10 @@ export default function BoardView({ sections }: SectionsProps) {
           <div key={section.id} className="min-w-[17.5rem] flex flex-col gap-5">
             <div className="flex justify-between">
               {editingSectionId === section.id ? (
-                <form className="w-full">
+                <form action={formAction} className="w-full">
                   <input
                     type="text"
+                    name="section-name"
                     ref={sectionInputRef}
                     value={editingSectionValue}
                     onChange={handleChange}
@@ -121,7 +127,9 @@ export default function BoardView({ sections }: SectionsProps) {
                 />
               </div>
             </div>
-            {section.tasks?.map((task) => <TaskCard task={task} />)}
+            {section.tasks?.map((task) => (
+              <TaskCard key={task.id} task={task} />
+            ))}
           </div>
         ))}
         <NewSectionDiv iconSize={iconSize} />

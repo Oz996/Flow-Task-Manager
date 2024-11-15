@@ -89,7 +89,11 @@ export function sortSectionTasks(
           new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
         );
       }
-      return 0;
+
+      // default for sorting = "created" & "asc"
+      return (
+        new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+      );
     }),
   }));
 

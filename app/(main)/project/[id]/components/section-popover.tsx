@@ -24,7 +24,7 @@ export default function SectionPopover({
 
   return (
     <Popover>
-      <PopoverTrigger>
+      <PopoverTrigger asChild>
         <button
           aria-label="Task options"
           className="p-1 hover:bg-transparent/10 duration-200 rounded-lg text-main-light"

@@ -49,6 +49,20 @@ export async function createSectionAction(id: string, formData: FormData) {
   revalidatePath("/project");
 }
 
+export async function updateSectionAction(id: string, formData: FormData) {
+  const name = formData.get("section-name")?.toString();
+  const supabase = createClient();
+
+  const { error } = await supabase
+    .from("sections")
+    .update({ name })
+    .eq("id", id);
+
+  if (error) console.error(error);
+
+  revalidatePath("/project");
+}
+
 export async function createTaskAction(
   id: string,
   formData: FormData,
