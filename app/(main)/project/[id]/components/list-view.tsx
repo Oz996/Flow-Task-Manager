@@ -28,10 +28,10 @@ export default function Listview({ sections }: SectionsProps) {
   const [sectionList, setSectionList] = useState<Section[]>([]);
   const [editingSectionId, setEditingSectionId] = useState("");
   const [editingSectionValue, setEditingSectionValue] = useState("");
-  const [filter, setFilter] = useState<FilterType>(null);
+  const [filter, setFilter] = useState<FilterType>("");
   const [sortOptions, setSortOptions] = useState<SortOptionsType>({
-    sort: "created",
-    order: "asc",
+    sort: "",
+    order: "",
   });
   const { sort, order } = sortOptions;
 
@@ -54,27 +54,19 @@ export default function Listview({ sections }: SectionsProps) {
     sortSectionTasks(sort, order, sections, setSectionList, filter);
   }, [sections, sortOptions, filter]);
 
-  function sortTasks(type: SortType = "created") {
-    if (sort === type && order === "asc") {
-      setSortOptions({ sort: type, order: "desc" });
+  function sortTasks(value?: SortType) {
+    if (!value) return setSortOptions({ sort: "", order: "" });
+
+    if (sort === value && order === "asc") {
+      setSortOptions({ sort: value, order: "desc" });
     } else {
-      setSortOptions({ sort: type, order: "asc" });
+      setSortOptions({ sort: value, order: "asc" });
     }
   }
 
   function sortTasksOrder(order: OrderType) {
     setSortOptions((prevSort) => ({ ...prevSort, order }));
   }
-
-  // ----------------------------------
-
-  // filering function
-
-  // useEffect(() => {
-  //   filterSectionTasks(filter, sections, setSectionList);
-  // }, [sections, filter]);
-
-  // ----------------------------------
 
   function editSection(id: string, name: string) {
     setEditingSectionId(id);

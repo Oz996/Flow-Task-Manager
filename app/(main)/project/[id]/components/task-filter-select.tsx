@@ -24,8 +24,8 @@ export default function TaskFilterSelect({
   setFilter,
   iconSize,
 }: TaskFilterSelectProps) {
-  function handleChange(type: string) {
-    setFilter(type as FilterType);
+  function handleChange(value: FilterType) {
+    setFilter(value);
   }
 
   return (
@@ -37,7 +37,7 @@ export default function TaskFilterSelect({
           className="bg-main text-white"
           trigger={
             <button
-              onClick={() => setFilter(null)}
+              onClick={() => setFilter("")}
               aria-label="Reset task sorting"
               className="flex items-center gap-1 p-1 bg-transparent hover:bg-transparent/10 duration-200 rounded lg"
             >
@@ -49,7 +49,7 @@ export default function TaskFilterSelect({
         </TooltipContainer>
       )}
 
-      <Select value={filter ?? undefined} onValueChange={handleChange}>
+      <Select value={filter} onValueChange={handleChange}>
         <SelectTrigger
           className="w-[8rem] capitalize"
           aria-label="Select filtering option"
@@ -62,7 +62,7 @@ export default function TaskFilterSelect({
             {taskFilterOptions.map((option) => (
               <SelectItem
                 key={option.value}
-                value={option.value as string}
+                value={option.value}
                 className="capitalize"
               >
                 {option.name}

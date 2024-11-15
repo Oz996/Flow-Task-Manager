@@ -49,13 +49,19 @@ export interface Label {
   name: string;
 }
 
-export type SortType = "created" | "name" | "assignee" | "priority" | "label";
+export type SortType =
+  | "created"
+  | "name"
+  | "assignee"
+  | "priority"
+  | "label"
+  | "";
 
-export type OrderType = "asc" | "desc";
+export type OrderType = "asc" | "desc" | "";
 
 export interface SortOptionsType {
   sort: SortType;
   order: OrderType;
 }
 
-export type FilterType = "completed" | "uncompleted" | null;
+export type FilterType = "completed" | "uncompleted" | "";

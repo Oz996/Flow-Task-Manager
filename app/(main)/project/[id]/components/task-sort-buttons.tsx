@@ -1,5 +1,5 @@
 import React from "react";
-import { SortOptionsType, SortType } from "./list-view";
+import { SortOptionsType, SortType } from "@/lib/types";
 import { MoveDown, MoveUp, X } from "lucide-react";
 import TooltipContainer from "@/components/tooltip-container";
 
@@ -19,7 +19,7 @@ export default function TaskSortButtons({
   const { sort, order } = sortOptions;
 
   function resetSorting() {
-    sortTasks();
+    sortTasks("");
   }
 
   return (
