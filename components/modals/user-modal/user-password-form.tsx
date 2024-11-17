@@ -1,12 +1,11 @@
-import { updateNamesAction, updatePasswordAction } from "@/app/(auth)/actions";
+import { updatePasswordAction } from "@/app/(auth)/actions";
 import FormError from "@/app/(auth)/components/form-error";
 import { SubmitButton } from "@/components/submit-button";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { PasswordSchema } from "@/lib/schemas";
-import { UserObject } from "@/lib/types";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { ZodError } from "zod";
 
 interface UserNamesFormProps {

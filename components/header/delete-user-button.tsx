@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { useModal } from "@/hooks/useModal";
-import { UserObject } from "@/lib/types";
+import { UserObject } from "@/lib/supabase/user-session";
 
 interface DeleteUserButtonProps {
   user: UserObject;

@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { TaskSchema } from "@/lib/schemas";
-import { Label as Section, Subtask, Task } from "@/lib/types";
+import { Section, Subtask, Task } from "@/lib/types";
 import { generateSubtask } from "@/lib/utils";
 import { useSearchParams } from "next/navigation";
 import { ChangeEvent, useEffect, useState } from "react";

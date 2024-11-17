@@ -1,7 +1,7 @@
-import { RefObject, useEffect } from "react";
+import { RefObject, SetStateAction, useEffect } from "react";
 
 export function useElementFocus(
-  state: any,
+  state: SetStateAction<any>,
   reset: () => void,
   elementRef: RefObject<HTMLElement>
 ) {

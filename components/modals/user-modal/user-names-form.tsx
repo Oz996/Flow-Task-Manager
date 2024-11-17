@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { UsernameEmailSchema } from "@/lib/schemas";
-import { UserObject } from "@/lib/types";
+import { UserObject } from "@/lib/supabase/user-session";
 import { ChangeEvent, useEffect, useState } from "react";
 import { ZodError } from "zod";
 

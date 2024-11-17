@@ -1,9 +1,9 @@
-import { UserObject } from "@/lib/types";
 import { useState } from "react";
 import UserNamesForm from "./user-names-form";
 import { Button } from "@/components/ui/button";
 import UserPasswordForm from "./user-password-form";
 import DeleteUserButton from "@/components/header/delete-user-button";
+import { UserObject } from "@/lib/supabase/user-session";
 
 interface UserModalFormProps {
   user: UserObject;
