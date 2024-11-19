@@ -72,11 +72,11 @@ export default function TaskModalLabels({
     setLabels((prevLabels) => {
       return prevLabels.map((label) =>
         label.id === tempLabel.id ? newLabel : label
-      );
+      ) as ILabel[];
     });
     setTask((taskData) => ({
       ...taskData,
-      labels: [...taskData.labels!, newLabel],
+      labels: [...taskData.labels, newLabel] as ILabel[],
     }));
   }
 
