@@ -20,7 +20,7 @@ export default function LayoutSelect() {
   }
 
   return (
-    <Select value={viewMode} onValueChange={handleViewMode}>
+    <Select value={viewMode!} onValueChange={handleViewMode}>
       <SelectTrigger className="w-[5rem]">
         <SelectValue />
       </SelectTrigger>

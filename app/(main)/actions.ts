@@ -1,7 +1,7 @@
 "use server";
 import { ProjectSchema, TaskSchema } from "@/lib/schemas";
 import { createClient } from "@/lib/supabase/server";
-import { Label, Subtask, Task, User } from "@/lib/types";
+import { Label, Project, Subtask, Task, User } from "@/lib/types";
 import { revalidatePath } from "next/cache";
 
 export async function createProjectAction(formData: FormData) {
@@ -19,9 +19,9 @@ export async function createProjectAction(formData: FormData) {
     .from("projects")
     .insert([{ name: projectName }])
     .select("id")
-    .single();
+    .single<Project>();
 
-  if (error) console.error(error);
+  if (error) return console.error(error);
 
   if (sectionNames.length > 0) {
     for (const name of sectionNames) {
@@ -96,9 +96,9 @@ export async function createTaskAction(
       },
     ])
     .select("id")
-    .single();
+    .single<Task>();
 
-  if (error) console.error(error);
+  if (error) return console.error(error);
 
   if (subtaskNames.length > 0) {
     for (const name of subtaskNames) {
@@ -154,11 +154,11 @@ export async function updateTaskAction(
     })
     .eq("id", id)
     .select("*, subtasks (*), profiles (*), labels (*)")
-    .single();
+    .single<Task>();
+
+  if (taskError) return console.error(taskError);
 
   const subtaskIds = task.subtasks.map((subtask: Subtask) => subtask.id);
-
-  if (taskError) console.error(taskError);
 
   // checking for newly added subtasks
 
@@ -241,7 +241,7 @@ export async function createLabelAction(formData: FormData) {
     .from("labels")
     .insert({ name: labelName })
     .select()
-    .single();
+    .single<Label>();
 
   if (error) return console.error(error);
   console.log("label data", data);

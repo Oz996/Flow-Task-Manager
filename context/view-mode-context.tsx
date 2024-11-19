@@ -1,4 +1,5 @@
 "use client";
+
 import React, {
   createContext,
   Dispatch,
@@ -8,15 +9,15 @@ import React, {
   useState,
 } from "react";
 
-export type ViewModeType = "board" | "list" | "";
+export type ViewModeType = "board" | "list";
 
 interface ViewModeContextInterface {
-  viewMode: ViewModeType;
-  setViewMode: Dispatch<SetStateAction<ViewModeType>>;
+  viewMode: ViewModeType | null;
+  setViewMode: Dispatch<SetStateAction<ViewModeType | null>>;
 }
 
 const initialState: ViewModeContextInterface = {
-  viewMode: "board",
+  viewMode: null,
   setViewMode: () => null,
 };
 
@@ -28,17 +29,17 @@ export default function ViewModeContextProvider({
 }: {
   children: ReactNode;
 }) {
-  const [viewMode, setViewMode] = useState<ViewModeType>("");
+  const [viewMode, setViewMode] = useState<ViewModeType | null>(null);
 
   useEffect(() => {
     const storedViewMode = localStorage.getItem("viewMode") as ViewModeType;
-    if (storedViewMode) {
-      setViewMode(storedViewMode);
-    }
+    setViewMode(storedViewMode ?? "board");
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("viewMode", viewMode);
+    if (viewMode) {
+      localStorage.setItem("viewMode", viewMode);
+    }
   }, [viewMode]);
 
   return (
