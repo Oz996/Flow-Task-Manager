@@ -8,12 +8,14 @@ import ModalContainer from "../modal-container";
 import { useSearchParams } from "next/navigation";
 import TaskModalForm from "./task-modal-form";
 import { Section } from "@/lib/types";
+import { Dispatch, SetStateAction } from "react";
 
 interface TaskModalProps {
   sections: Section[];
+  setSections: Dispatch<SetStateAction<Section[]>>;
 }
 
-export default function TaskModal({ sections }: TaskModalProps) {
+export default function TaskModal({ sections, setSections }: TaskModalProps) {
   const searchParams = useSearchParams();
 
   const type = searchParams.get("type");
@@ -30,7 +32,11 @@ export default function TaskModal({ sections }: TaskModalProps) {
           <DialogHeader>
             <DialogTitle>{addModal ? "Create Task" : "Edit Task"}</DialogTitle>
           </DialogHeader>
-          <TaskModalForm addModal={addModal} sections={sections} />
+          <TaskModalForm
+            addModal={addModal}
+            sections={sections}
+            setSections={setSections}
+          />
         </DialogContent>
       </ModalContainer>
     );

@@ -6,24 +6,20 @@ import {
   SortOptionsType,
   SortType,
 } from "@/lib/types";
-import { ChevronRight, MoveDown, MoveUp, Plus, X } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import SectionPopover from "./section-popover";
-import TaskCard from "./task-card";
-import NewSectionDiv from "./new-section-div";
 import { useElementFocus } from "@/hooks/useElementFocus";
 import { SectionsProps } from "./sections";
 import classNames from "classnames";
-import Image from "next/image";
-import TaskSubtasks from "./task-subtasks";
 import TaskListItem from "./task-list-item";
 import TaskSortButtons from "./task-sort-buttons";
-import { PriorityType } from "@/components/modals/task-modal/task-modal-form";
 import LayoutSelect from "./layout-select";
 import TaskSortSelect from "./task-sort-select";
 import { sortSectionTasks } from "@/lib/utils";
 import TaskFilterSelect from "./task-filter-select";
 import { updateSectionAction } from "@/app/(main)/actions";
+import TaskModal from "@/components/modals/task-modal/task-modal";
 
 export default function Listview({ sections, user }: SectionsProps) {
   const [sectionList, setSectionList] = useState<Section[]>([]);
@@ -68,6 +64,8 @@ export default function Listview({ sections, user }: SectionsProps) {
   function sortTasksOrder(order: OrderType) {
     setSortOptions((prevSort) => ({ ...prevSort, order }));
   }
+
+  // ----------------------------------
 
   function editSection(id: string, name: string) {
     setEditingSectionId(id);
@@ -231,6 +229,7 @@ export default function Listview({ sections, user }: SectionsProps) {
           ))}
         </div>
       </div>
+      <TaskModal sections={sectionList} setSections={setSectionList} />
     </div>
   );
 }

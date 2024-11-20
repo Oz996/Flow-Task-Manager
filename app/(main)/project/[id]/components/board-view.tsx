@@ -18,6 +18,7 @@ import { sortSectionTasks } from "@/lib/utils";
 import TaskSortSelect from "./task-sort-select";
 import TaskFilterSelect from "./task-filter-select";
 import { updateSectionAction } from "@/app/(main)/actions";
+import TaskModal from "@/components/modals/task-modal/task-modal";
 
 export default function BoardView({ sections, user }: SectionsProps) {
   const [sectionList, setSectionList] = useState<Section[]>([]);
@@ -134,6 +135,7 @@ export default function BoardView({ sections, user }: SectionsProps) {
         ))}
         <NewSectionDiv iconSize={iconSize} />
       </div>
+      <TaskModal sections={sectionList} setSections={setSectionList} />
     </div>
   );
 }

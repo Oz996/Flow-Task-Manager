@@ -73,7 +73,7 @@ export async function createTaskAction(
   const taskDescription = formData.get("description")?.toString();
   const supabase = createClient();
 
-  const { priority, profiles } = taskData;
+  const { priority, profiles, labels } = taskData;
 
   const result = TaskSchema.safeParse({
     taskName,
@@ -109,6 +109,12 @@ export async function createTaskAction(
         },
       ]);
       if (error) console.error(error);
+    }
+  }
+
+  if (labels && labels.length > 0) {
+    for (const label of labels) {
+      assignLabelAction(label.id, data?.id);
     }
   }
 

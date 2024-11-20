@@ -7,7 +7,13 @@ import { TaskSchema } from "@/lib/schemas";
 import { Section, Subtask, Task } from "@/lib/types";
 import { generateSubtask } from "@/lib/utils";
 import { useSearchParams } from "next/navigation";
-import { ChangeEvent, useEffect, useState } from "react";
+import {
+  ChangeEvent,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
 import { ZodError } from "zod";
 import { motion } from "framer-motion";
 import { X } from "lucide-react";
@@ -24,6 +30,7 @@ import { initialTask } from "@/lib/constants";
 interface TaskModalFormProps {
   addModal: boolean;
   sections: Section[];
+  setSections: Dispatch<SetStateAction<Section[]>>;
 }
 
 export interface EditTaskState {
@@ -36,6 +43,7 @@ export type PriorityType = "low" | "medium" | "high" | null;
 export default function TaskModalForm({
   addModal,
   sections,
+  setSections,
 }: TaskModalFormProps) {
   const [task, setTask] = useState<Task>(initialTask);
   const [subtasks, setSubtasks] = useState<Subtask[]>([]);
@@ -48,6 +56,8 @@ export default function TaskModalForm({
   const searchParams = useSearchParams();
 
   const id = searchParams.get("id");
+
+  console.log("taskeh", task);
 
   const subtasksLimit = subtasks.length > 5;
 
@@ -65,7 +75,6 @@ export default function TaskModalForm({
             .single<Task>();
 
           if (taskError) return console.error(taskError);
-          console.log("task form", task);
 
           setTask(task);
           setSubtasks(task.subtasks);
@@ -133,8 +142,27 @@ export default function TaskModalForm({
       setErrors(result.error);
       console.log(result.error.errors);
     } else {
-      await createTaskAction(sectionId || (id as string), formData, task);
+      // temp copy of created task for faster feedback while async action is running in the background
+      const addedTask: Task = {
+        ...task,
+        name: taskName as string,
+        description: taskDescription as string,
+        subtasks,
+      };
+
+      setSections((prevSections) =>
+        prevSections.map((section) => {
+          return section.id === sectionId
+            ? {
+                ...section,
+                tasks: [...section.tasks!, addedTask],
+              }
+            : section;
+        })
+      );
+
       closeModal();
+      await createTaskAction(sectionId || (id as string), formData, task);
     }
   }
 
@@ -153,14 +181,39 @@ export default function TaskModalForm({
       setErrors(result.error);
       console.log(result.error.errors);
     } else {
-      await updateTaskAction(id as string, formData, subtasks, task, sectionId);
+      const updatedTask: Task = {
+        ...task,
+      };
+
+      setSections((prevSections) =>
+        prevSections.map((section) => {
+          return section.id === sectionId
+            ? {
+                ...section,
+                tasks: section.tasks?.map((task) => {
+                  return task.id === id
+                    ? {
+                        ...updatedTask,
+                      }
+                    : task;
+                }),
+              }
+            : section;
+        })
+      );
+
       closeModal();
+      await updateTaskAction(id as string, formData, subtasks, task, sectionId);
     }
+  }
+
+  function formAction(formData: FormData) {
+    addModal ? addFormAction(formData) : updateFormAction(formData);
   }
 
   return (
     <div>
-      <form>
+      <form action={formAction}>
         <div className="flex flex-col gap-2">
           <Label htmlFor="name">Task name</Label>
           <Input
@@ -243,18 +296,9 @@ export default function TaskModalForm({
           >
             + Add subtask
           </Button>
-          {addModal ? (
-            <SubmitButton formAction={addFormAction} className="rounded-full">
-              Submit
-            </SubmitButton>
-          ) : (
-            <SubmitButton
-              formAction={updateFormAction}
-              className="rounded-full"
-            >
-              Submit
-            </SubmitButton>
-          )}
+          <Button className="rounded-full" type="submit">
+            Submit
+          </Button>
         </div>
       </form>
     </div>
