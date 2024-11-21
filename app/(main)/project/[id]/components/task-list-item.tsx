@@ -1,4 +1,4 @@
-import { Task } from "@/lib/types";
+import { Section, Task } from "@/lib/types";
 import classNames from "classnames";
 import { ChevronRight } from "lucide-react";
 import Image from "next/image";
@@ -9,17 +9,18 @@ import TaskPopover from "./task-popover";
 import UserAvatar from "./user-avatar";
 import TaskPriority from "./task-priority";
 import TaskLabel from "./task-label";
+import { iconSize } from "@/lib/constants";
 
 interface TaskListItemProps {
   task: Task;
   expandTask: (id: string) => void;
   openTasks: Map<string, string>;
-  iconSize: number;
+  sections: Section[];
 }
 
 export default function TaskListItem({
   task,
-  iconSize,
+  sections,
   expandTask,
   openTasks,
 }: TaskListItemProps) {
@@ -95,7 +96,7 @@ export default function TaskListItem({
             {task.name}
           </span>
           <div className="ml-auto">
-            <TaskPopover id={task.id} iconSize={iconSize} />
+            <TaskPopover id={task.id} sections={sections} />
           </div>
         </div>
 
@@ -119,11 +120,7 @@ export default function TaskListItem({
       {openTasks.has(task.id) && (
         <div className="grid grid-cols-5">
           <div className="col-span-2 pl-12">
-            <TaskSubtasks
-              subtasks={task.subtasks}
-              iconSize={iconSize}
-              listView
-            />
+            <TaskSubtasks subtasks={task.subtasks} listView />
           </div>
         </div>
       )}

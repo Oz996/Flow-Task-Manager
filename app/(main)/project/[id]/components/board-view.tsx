@@ -31,10 +31,6 @@ export default function BoardView({ sections, user }: SectionsProps) {
   });
   const { sort, order } = sortOptions;
 
-  const iconSize = 18;
-
-  const { openCreateTaskModal } = useModal();
-
   const sectionInputRef = useRef<HTMLInputElement>(null);
 
   useElementFocus(editingSectionId, reset, sectionInputRef);
@@ -86,13 +82,8 @@ export default function BoardView({ sections, user }: SectionsProps) {
           sortTasksOrder={sortTasksOrder}
           sortOptions={sortOptions}
           sortTasks={sortTasks}
-          iconSize={iconSize}
         />
-        <TaskFilterSelect
-          setFilter={setFilter}
-          filter={filter}
-          iconSize={iconSize}
-        />
+        <TaskFilterSelect setFilter={setFilter} filter={filter} />
       </div>
       <div className="flex gap-5 mt-5 pt-5 border-t border-t-gray-200">
         {sectionList?.map((section) => (
@@ -113,29 +104,22 @@ export default function BoardView({ sections, user }: SectionsProps) {
                 <span className="font-semibold">{section.name}</span>
               )}
               <div className="flex gap-3">
-                <button
-                  aria-label={`Create task for ${section.name} section`}
-                  className="p-1 hover:bg-transparent/10 duration-200 rounded-lg text-main-light"
-                  onClick={() => openCreateTaskModal(section.id)}
-                >
-                  <Plus size={iconSize} />
-                </button>
+                <TaskModal id={section.id} sections={sections} type="add" />
+
                 <SectionPopover
                   editSection={editSection}
-                  iconSize={iconSize}
                   name={section.name}
                   id={section.id}
                 />
               </div>
             </div>
             {section.tasks?.map((task) => (
-              <TaskCard key={task.id} task={task} />
+              <TaskCard key={task.id} task={task} sections={sections} />
             ))}
           </div>
         ))}
-        <NewSectionDiv iconSize={iconSize} />
+        <NewSectionDiv />
       </div>
-      <TaskModal sections={sectionList} setSections={setSectionList} />
     </div>
   );
 }

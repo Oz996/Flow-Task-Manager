@@ -1,12 +1,12 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { useModal } from "@/hooks/useModal";
+import { iconSize } from "@/lib/constants";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 
 export default function ModalButton() {
   const { openCreateProjectModal } = useModal();
-  const iconSize = 18;
 
   return (
     <Button

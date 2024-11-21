@@ -28,8 +28,9 @@ export default function UserModalForm({ user }: UserModalFormProps) {
       </div>
     );
 
-  if (editing === "names")
+  if (editing === "names") {
     return <UserNamesForm user={user} exitEditing={exitEditing} />;
+  }
 
   if (editing === "password") {
     return <UserPasswordForm exitEditing={exitEditing} />;

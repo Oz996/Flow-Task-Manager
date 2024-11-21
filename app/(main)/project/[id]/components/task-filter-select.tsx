@@ -8,7 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { taskFilterOptions } from "@/lib/constants";
+import { iconSize, taskFilterOptions } from "@/lib/constants";
 import { ListFilter, X } from "lucide-react";
 import TooltipContainer from "@/components/tooltip-container";
 import { Dispatch, SetStateAction } from "react";
@@ -16,13 +16,11 @@ import { Dispatch, SetStateAction } from "react";
 interface TaskFilterSelectProps {
   filter: FilterType;
   setFilter: Dispatch<SetStateAction<FilterType>>;
-  iconSize: number;
 }
 
 export default function TaskFilterSelect({
   filter,
   setFilter,
-  iconSize,
 }: TaskFilterSelectProps) {
   function handleChange(value: FilterType) {
     setFilter(value);

@@ -13,8 +13,11 @@ export interface SectionsProps {
 export default function Sections({ sections, user }: SectionsProps) {
   const { viewMode } = useViewMode();
 
-  if (viewMode === "board")
+  if (viewMode === "board") {
     return <BoardView sections={sections} user={user} />;
+  }
 
-  if (viewMode === "list") return <Listview sections={sections} user={user} />;
+  if (viewMode === "list") {
+    return <Listview sections={sections} user={user} />;
+  }
 }

@@ -2,18 +2,17 @@ import React from "react";
 import { SortOptionsType, SortType } from "@/lib/types";
 import { MoveDown, MoveUp, X } from "lucide-react";
 import TooltipContainer from "@/components/tooltip-container";
+import { iconSize } from "@/lib/constants";
 
 interface TaskSortButtonsProps {
   sortOptions: SortOptionsType;
   sortTasks: (type?: SortType) => void;
-  iconSize: number;
   type: SortType;
 }
 
 export default function TaskSortButtons({
   sortOptions,
   sortTasks,
-  iconSize,
   type,
 }: TaskSortButtonsProps) {
   const { sort, order } = sortOptions;

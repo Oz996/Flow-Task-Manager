@@ -4,25 +4,21 @@ import {
   PopoverTrigger,
   PopoverContent,
 } from "@/components/ui/popover";
-import { useModal } from "@/hooks/useModal";
+import { iconSize } from "@/lib/constants";
 import { Ellipsis, Pencil, Trash2 } from "lucide-react";
 import React from "react";
 
 interface SectionPopoverProps {
   editSection: (id: string, name: string) => void;
-  iconSize: number;
   name: string;
   id: string;
 }
 
 export default function SectionPopover({
   editSection,
-  iconSize,
   name,
   id,
 }: SectionPopoverProps) {
-  const { openDeleteSectionModal } = useModal();
-
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -42,7 +38,7 @@ export default function SectionPopover({
           <span>Rename section</span>
         </div>
         <div className="p-1 flex items-center gap-2 text-red-500 hover:bg-slate-200 duration-200 cursor-pointer">
-          <DeleteModal id={id} iconSize={iconSize} type="section" />
+          <DeleteModal id={id} type="section" />
         </div>
       </PopoverContent>
     </Popover>

@@ -1,15 +1,12 @@
 import { createSectionAction } from "@/app/(main)/actions";
 import { useElementFocus } from "@/hooks/useElementFocus";
+import { iconSize } from "@/lib/constants";
 import { Plus } from "lucide-react";
 import { useParams } from "next/navigation";
 import { ChangeEvent, useRef, useState } from "react";
 import { toast } from "sonner";
 
-interface NewSectionDivProps {
-  iconSize: number;
-}
-
-export default function NewSectionDiv({ iconSize }: NewSectionDivProps) {
+export default function NewSectionDiv() {
   const [addMode, setAddMode] = useState(false);
   const [sectionValue, setSectionValue] = useState("");
 

@@ -13,14 +13,14 @@ import { deleteUserAction } from "@/app/(auth)/actions";
 import { toast } from "sonner";
 import { useState } from "react";
 import { Trash2 } from "lucide-react";
+import { iconSize } from "@/lib/constants";
 
 interface DeleteModalProps {
   id: string;
   type: "task" | "section" | "user";
-  iconSize?: number;
 }
 
-export default function DeleteModal({ id, type, iconSize }: DeleteModalProps) {
+export default function DeleteModal({ id, type }: DeleteModalProps) {
   const [modalOpen, setModalOpen] = useState(false);
 
   type DeleteType = "Task" | "Section" | "User";

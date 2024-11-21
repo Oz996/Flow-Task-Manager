@@ -1,6 +1,5 @@
-import TooltipContainer from "@/components/tooltip-container";
 import { Card } from "@/components/ui/card";
-import { Task } from "@/lib/types";
+import { Section, Task } from "@/lib/types";
 import Image from "next/image";
 import TaskSubtasks from "./task-subtasks";
 import TaskPopover from "./task-popover";
@@ -13,14 +12,14 @@ import TaskLabel from "./task-label";
 
 interface TaskCardProps {
   task: Task;
+  sections: Section[];
 }
 
-export default function TaskCard({ task }: TaskCardProps) {
+export default function TaskCard({ task, sections }: TaskCardProps) {
   const [optimisticTask, addOptimisticTask] = useOptimistic(
     task,
     toggleCompleted
   );
-  const iconSize = 18;
   console.log("task", task);
 
   function toggleCompleted(state: Task) {
@@ -67,7 +66,7 @@ export default function TaskCard({ task }: TaskCardProps) {
           </button>
           <span>{task.name}</span>
         </div>
-        <TaskPopover iconSize={iconSize} id={task.id} />
+        <TaskPopover id={task.id} sections={sections} />
       </div>
 
       <div className="flex gap-2 items-center flex-wrap">
@@ -84,7 +83,7 @@ export default function TaskCard({ task }: TaskCardProps) {
             <UserAvatar key={user.id} user={user} />
           ))}
         </div>
-        <TaskSubtasks iconSize={iconSize} subtasks={task.subtasks} />
+        <TaskSubtasks subtasks={task.subtasks} />
       </div>
     </Card>
   );

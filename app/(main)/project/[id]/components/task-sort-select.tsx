@@ -8,7 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { taskOrderOptions, taskSortOptions } from "@/lib/constants";
+import { iconSize, taskOrderOptions, taskSortOptions } from "@/lib/constants";
 import { OrderType, SortOptionsType, SortType } from "@/lib/types";
 import { ArrowUpDown, X } from "lucide-react";
 
@@ -16,14 +16,12 @@ interface TaskSortSelectProps {
   sortOptions: SortOptionsType;
   sortTasks: (type?: SortType) => void;
   sortTasksOrder: (order: OrderType) => void;
-  iconSize: number;
 }
 
 export default function TaskSortSelect({
   sortOptions,
   sortTasks,
   sortTasksOrder,
-  iconSize,
 }: TaskSortSelectProps) {
   const { sort, order } = sortOptions;
 

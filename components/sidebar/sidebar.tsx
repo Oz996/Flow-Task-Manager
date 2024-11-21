@@ -2,10 +2,9 @@ import { CircleCheck, House } from "lucide-react";
 import Link from "next/link";
 import SidebarContainer from "./sidebar-container";
 import SidebarProjects from "./sidebar-projects";
+import { iconSize } from "@/lib/constants";
 
 export default function Sidebar() {
-  const iconSize = 18;
-
   return (
     <SidebarContainer>
       <nav className="py-5 border-b border-b-main-border">

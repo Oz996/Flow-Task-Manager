@@ -69,3 +69,5 @@ export const taskFilterOptions: { name: FilterType; value: FilterType }[] = [
   { name: "completed", value: "completed" },
   { name: "my tasks", value: "my tasks" },
 ];
+
+export const iconSize = 18;

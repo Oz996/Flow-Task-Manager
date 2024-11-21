@@ -4,16 +4,15 @@ import classNames from "classnames";
 import { ChevronRight, List } from "lucide-react";
 import { startTransition, useOptimistic, useState } from "react";
 import Image from "next/image";
+import { iconSize } from "@/lib/constants";
 
 interface TaskSubtasksProps {
   subtasks: Subtask[];
-  iconSize: number;
   listView?: boolean;
 }
 
 export default function TaskSubtasks({
   subtasks,
-  iconSize,
   listView,
 }: TaskSubtasksProps) {
   const [optimisticSubtasks, addOptimisticSubtask] = useOptimistic(

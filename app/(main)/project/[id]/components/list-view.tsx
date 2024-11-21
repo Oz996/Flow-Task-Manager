@@ -39,8 +39,6 @@ export default function Listview({ sections, user }: SectionsProps) {
 
   const iconSize = 18;
 
-  const { openCreateTaskModal } = useModal();
-
   const sectionInputRef = useRef<HTMLInputElement>(null);
 
   useElementFocus(editingSectionId, reset, sectionInputRef);
@@ -208,28 +206,30 @@ export default function Listview({ sections, user }: SectionsProps) {
                 <>
                   <ul>
                     {section.tasks?.map((task) => (
-                      <TaskListItem
-                        key={task.id}
-                        task={task}
-                        openTasks={openTasks}
-                        expandTask={expandTask}
-                        iconSize={iconSize}
-                      />
+                      <>
+                        <TaskListItem
+                          key={task.id}
+                          task={task}
+                          sections={sections}
+                          openTasks={openTasks}
+                          expandTask={expandTask}
+                          iconSize={iconSize}
+                        />
+                      </>
                     ))}
                   </ul>
-                  <button
-                    className="border-none ml-[1.85rem] p-1 text-sm text-main-light"
-                    onClick={() => openCreateTaskModal(section.id)}
-                  >
-                    Add task...
-                  </button>
+                  <TaskModal
+                    id={section.id}
+                    sections={sections}
+                    type="add"
+                    listView
+                  />
                 </>
               )}
             </div>
           ))}
         </div>
       </div>
-      <TaskModal sections={sectionList} setSections={setSectionList} />
     </div>
   );
 }

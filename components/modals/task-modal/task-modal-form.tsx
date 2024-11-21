@@ -5,14 +5,7 @@ import { Label } from "@/components/ui/label";
 import { TaskSchema } from "@/lib/schemas";
 import { Section, Subtask, Task } from "@/lib/types";
 import { generateSubtask } from "@/lib/utils";
-import { useSearchParams } from "next/navigation";
-import {
-  ChangeEvent,
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useState,
-} from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { ZodError } from "zod";
 import { motion } from "framer-motion";
 import { X } from "lucide-react";
@@ -26,12 +19,11 @@ import TaskModalLabels from "./task-modal-labels";
 import TaskModalSections from "./task-modal-sections";
 import { initialTask } from "@/lib/constants";
 import { toast } from "sonner";
-import { SubmitButton } from "@/components/submit-button";
 
 interface TaskModalFormProps {
   addModal: boolean;
   sections: Section[];
-  setSections: Dispatch<SetStateAction<Section[]>>;
+  id: string;
 }
 
 export interface EditTaskState {
@@ -42,9 +34,9 @@ export interface EditTaskState {
 export type PriorityType = "low" | "medium" | "high" | null;
 
 export default function TaskModalForm({
+  id,
   addModal,
   sections,
-  setSections,
 }: TaskModalFormProps) {
   const [task, setTask] = useState<Task>(initialTask);
   const [subtasks, setSubtasks] = useState<Subtask[]>([]);
@@ -53,9 +45,6 @@ export default function TaskModalForm({
   const [isLoading, setIsLoading] = useState(false);
 
   const { closeModal } = useModal();
-  const searchParams = useSearchParams();
-
-  const id = searchParams.get("id");
 
   const subtasksLimit = subtasks.length > 5;
 
