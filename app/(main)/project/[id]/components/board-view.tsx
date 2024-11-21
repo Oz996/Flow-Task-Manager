@@ -1,4 +1,3 @@
-import { useModal } from "@/hooks/useModal";
 import {
   FilterType,
   OrderType,
@@ -6,7 +5,6 @@ import {
   SortOptionsType,
   SortType,
 } from "@/lib/types";
-import { Plus } from "lucide-react";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import SectionPopover from "./section-popover";
 import TaskCard from "./task-card";

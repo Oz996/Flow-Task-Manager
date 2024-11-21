@@ -1,4 +1,3 @@
-import { useModal } from "@/hooks/useModal";
 import {
   FilterType,
   OrderType,
@@ -36,8 +35,6 @@ export default function Listview({ sections, user }: SectionsProps) {
     new Map<string, string>()
   );
   const [openTasks, setOpenTasks] = useState(new Map<string, string>());
-
-  const iconSize = 18;
 
   const sectionInputRef = useRef<HTMLInputElement>(null);
 
@@ -112,13 +109,8 @@ export default function Listview({ sections, user }: SectionsProps) {
           sortTasksOrder={sortTasksOrder}
           sortOptions={sortOptions}
           sortTasks={sortTasks}
-          iconSize={iconSize}
         />
-        <TaskFilterSelect
-          setFilter={setFilter}
-          filter={filter}
-          iconSize={iconSize}
-        />
+        <TaskFilterSelect setFilter={setFilter} filter={filter} />
       </div>
       <div className="grid grid-cols-5 mt-5 pt-5 border-t border-t-gray-200">
         <div className="col-span-2 flex justify-between border p-1">
@@ -126,7 +118,6 @@ export default function Listview({ sections, user }: SectionsProps) {
           <TaskSortButtons
             sortOptions={sortOptions}
             sortTasks={sortTasks}
-            iconSize={iconSize}
             type="name"
           />
         </div>
@@ -136,7 +127,6 @@ export default function Listview({ sections, user }: SectionsProps) {
           <TaskSortButtons
             sortOptions={sortOptions}
             sortTasks={sortTasks}
-            iconSize={iconSize}
             type="assignee"
           />
         </div>
@@ -146,7 +136,6 @@ export default function Listview({ sections, user }: SectionsProps) {
           <TaskSortButtons
             sortOptions={sortOptions}
             sortTasks={sortTasks}
-            iconSize={iconSize}
             type="priority"
           />
         </div>
@@ -156,7 +145,6 @@ export default function Listview({ sections, user }: SectionsProps) {
           <TaskSortButtons
             sortOptions={sortOptions}
             sortTasks={sortTasks}
-            iconSize={iconSize}
             type="label"
           />
         </div>
@@ -194,7 +182,6 @@ export default function Listview({ sections, user }: SectionsProps) {
                     <span className="font-semibold">{section.name}</span>
                     <SectionPopover
                       editSection={editSection}
-                      iconSize={iconSize}
                       name={section.name}
                       id={section.id}
                     />
@@ -213,7 +200,6 @@ export default function Listview({ sections, user }: SectionsProps) {
                           sections={sections}
                           openTasks={openTasks}
                           expandTask={expandTask}
-                          iconSize={iconSize}
                         />
                       </>
                     ))}
