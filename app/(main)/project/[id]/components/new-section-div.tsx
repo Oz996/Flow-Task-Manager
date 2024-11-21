@@ -3,6 +3,7 @@ import { useElementFocus } from "@/hooks/useElementFocus";
 import { Plus } from "lucide-react";
 import { useParams } from "next/navigation";
 import { ChangeEvent, useRef, useState } from "react";
+import { toast } from "sonner";
 
 interface NewSectionDivProps {
   iconSize: number;
@@ -27,7 +28,11 @@ export default function NewSectionDiv({ iconSize }: NewSectionDivProps) {
   }
 
   async function formAction(formData: FormData) {
-    await createSectionAction(params.id as string, formData);
+    toast.promise(createSectionAction(params.id as string, formData), {
+      loading: "Loading...",
+      success: "Section created",
+      error: "Failed to create section, try again later",
+    });
     reset();
   }
 

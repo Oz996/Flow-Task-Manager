@@ -11,6 +11,7 @@ import { useSearchParams } from "next/navigation";
 import { deleteSectionAction, deleteTaskAction } from "@/app/(main)/actions";
 import { useModal } from "@/hooks/useModal";
 import { deleteUserAction } from "@/app/(auth)/actions";
+import { toast } from "sonner";
 
 export default function DeleteModal() {
   const searchParams = useSearchParams();
@@ -25,10 +26,25 @@ export default function DeleteModal() {
   const deleteModal = action === "delete";
   const id = searchParams.get("id") as string;
 
+  type DeleteType = "Task" | "Section" | "User";
+
+  async function deleteToast(
+    fn: (id: string) => Promise<void>,
+    id: string,
+    type: DeleteType
+  ) {
+    return toast.promise(fn(id), {
+      loading: "Loading...",
+      success: `${type} deleted`,
+      error: `Failed to delete ${type.toLowerCase()}, try again later`,
+    });
+  }
+
   async function deleteAction() {
-    if (taskModal) await deleteTaskAction(id);
-    else if (sectionModal) await deleteSectionAction(id);
-    else await deleteUserAction(id);
+    if (taskModal) await deleteToast(deleteTaskAction, id, "Task");
+    else if (sectionModal)
+      await deleteToast(deleteSectionAction, id, "Section");
+    else await deleteToast(deleteUserAction, id, "User");
     closeModal();
   }
 

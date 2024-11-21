@@ -140,13 +140,15 @@ export default function TaskModalForm({
       setErrors(result.error);
       console.log(result.error.errors);
     } else {
-      try {
-        await createTaskAction(sectionId || (id as string), formData, task);
-        closeModal();
-      } catch (error: any) {
-        console.error(error.message);
-        toast.error("Failed to create task, try again later");
-      }
+      closeModal();
+      toast.promise(
+        createTaskAction(sectionId || (id as string), formData, task),
+        {
+          loading: "Loading...",
+          success: "Task created",
+          error: "Failed to create task, try again later",
+        }
+      );
     }
   }
 
@@ -165,19 +167,15 @@ export default function TaskModalForm({
       setErrors(result.error);
       console.log(result.error.errors);
     } else {
-      try {
-        await updateTaskAction(
-          id as string,
-          formData,
-          subtasks,
-          task,
-          sectionId
-        );
-        closeModal();
-      } catch (error: any) {
-        console.error(error.message);
-        toast.error("Failed to update task, try again later");
-      }
+      closeModal();
+      toast.promise(
+        updateTaskAction(id as string, formData, subtasks, task, sectionId),
+        {
+          loading: "Loading...",
+          success: "Task updated",
+          error: "Failed to update task, try again later",
+        }
+      );
     }
   }
 
@@ -187,7 +185,7 @@ export default function TaskModalForm({
 
   return (
     <div>
-      <form>
+      <form action={formAction}>
         <div className="flex flex-col gap-2">
           <Label htmlFor="name">Task name</Label>
           <Input
@@ -270,9 +268,7 @@ export default function TaskModalForm({
           >
             + Add subtask
           </Button>
-          <SubmitButton formAction={formAction} className="rounded-full">
-            Submit
-          </SubmitButton>
+          <Button className="rounded-full">Submit</Button>
         </div>
       </form>
     </div>
