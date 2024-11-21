@@ -8,6 +8,7 @@ import ViewModeContextProvider from "@/context/view-mode-context";
 import ProjectModal from "@/components/modals/project-modal/project-modal";
 import TaskModal from "@/components/modals/task-modal/task-modal";
 import DeleteModal from "@/components/modals/delete-modal/delete-modal";
+import { Toaster } from "sonner";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -22,6 +23,7 @@ export const metadata: Metadata = {
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <SidebarContextProvider>
+      <Toaster />
       <ViewModeContextProvider>
         <MainLayout>
           <Header />

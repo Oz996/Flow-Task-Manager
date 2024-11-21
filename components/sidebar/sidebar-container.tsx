@@ -11,7 +11,7 @@ export default function SidebarContainer({
   const { sidebarOpen } = useSidebar();
 
   return (
-    <AnimatePresence>
+    <AnimatePresence initial={false}>
       {sidebarOpen && (
         <motion.aside
           key="sidebar"

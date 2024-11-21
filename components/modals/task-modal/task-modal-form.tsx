@@ -1,5 +1,4 @@
 import { createTaskAction, updateTaskAction } from "@/app/(main)/actions";
-import { SubmitButton } from "@/components/submit-button";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -26,6 +25,8 @@ import TaskModalPriority from "./task-modal-priority";
 import TaskModalLabels from "./task-modal-labels";
 import TaskModalSections from "./task-modal-sections";
 import { initialTask } from "@/lib/constants";
+import { toast } from "sonner";
+import { SubmitButton } from "@/components/submit-button";
 
 interface TaskModalFormProps {
   addModal: boolean;
@@ -49,15 +50,12 @@ export default function TaskModalForm({
   const [subtasks, setSubtasks] = useState<Subtask[]>([]);
   const [sectionId, setSectionId] = useState("");
   const [errors, setErrors] = useState<ZodError>();
-
   const [isLoading, setIsLoading] = useState(false);
 
   const { closeModal } = useModal();
   const searchParams = useSearchParams();
 
   const id = searchParams.get("id");
-
-  console.log("taskeh", task);
 
   const subtasksLimit = subtasks.length > 5;
 
@@ -142,27 +140,13 @@ export default function TaskModalForm({
       setErrors(result.error);
       console.log(result.error.errors);
     } else {
-      // temp copy of created task for faster feedback while async action is running in the background
-      const addedTask: Task = {
-        ...task,
-        name: taskName as string,
-        description: taskDescription as string,
-        subtasks,
-      };
-
-      setSections((prevSections) =>
-        prevSections.map((section) => {
-          return section.id === sectionId
-            ? {
-                ...section,
-                tasks: [...section.tasks!, addedTask],
-              }
-            : section;
-        })
-      );
-
-      closeModal();
-      await createTaskAction(sectionId || (id as string), formData, task);
+      try {
+        await createTaskAction(sectionId || (id as string), formData, task);
+        closeModal();
+      } catch (error: any) {
+        console.error(error.message);
+        toast.error("Failed to create task, try again later");
+      }
     }
   }
 
@@ -181,29 +165,19 @@ export default function TaskModalForm({
       setErrors(result.error);
       console.log(result.error.errors);
     } else {
-      const updatedTask: Task = {
-        ...task,
-      };
-
-      setSections((prevSections) =>
-        prevSections.map((section) => {
-          return section.id === sectionId
-            ? {
-                ...section,
-                tasks: section.tasks?.map((task) => {
-                  return task.id === id
-                    ? {
-                        ...updatedTask,
-                      }
-                    : task;
-                }),
-              }
-            : section;
-        })
-      );
-
-      closeModal();
-      await updateTaskAction(id as string, formData, subtasks, task, sectionId);
+      try {
+        await updateTaskAction(
+          id as string,
+          formData,
+          subtasks,
+          task,
+          sectionId
+        );
+        closeModal();
+      } catch (error: any) {
+        console.error(error.message);
+        toast.error("Failed to update task, try again later");
+      }
     }
   }
 
@@ -213,7 +187,7 @@ export default function TaskModalForm({
 
   return (
     <div>
-      <form action={formAction}>
+      <form>
         <div className="flex flex-col gap-2">
           <Label htmlFor="name">Task name</Label>
           <Input
@@ -296,9 +270,9 @@ export default function TaskModalForm({
           >
             + Add subtask
           </Button>
-          <Button className="rounded-full" type="submit">
+          <SubmitButton formAction={formAction} className="rounded-full">
             Submit
-          </Button>
+          </SubmitButton>
         </div>
       </form>
     </div>

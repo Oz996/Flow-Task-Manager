@@ -9,11 +9,7 @@ export async function createProjectAction(formData: FormData) {
   const sectionNames = formData.getAll("section-name");
   const supabase = createClient();
 
-  const result = ProjectSchema.safeParse({ projectName, sectionNames });
-
-  if (!result.success) {
-    return console.error(result.error);
-  }
+  ProjectSchema.parse({ projectName, sectionNames });
 
   const { data, error } = await supabase
     .from("projects")
@@ -75,15 +71,11 @@ export async function createTaskAction(
 
   const { priority, profiles, labels } = taskData;
 
-  const result = TaskSchema.safeParse({
+  TaskSchema.parse({
     taskName,
     subtaskNames,
     taskDescription,
   });
-
-  if (!result.success) {
-    return console.error(result.error);
-  }
 
   const { data, error } = await supabase
     .from("tasks")
@@ -98,7 +90,7 @@ export async function createTaskAction(
     .select("id")
     .single<Task>();
 
-  if (error) return console.error(error);
+  if (error) throw Error(error.message);
 
   if (subtaskNames.length > 0) {
     for (const name of subtaskNames) {
@@ -123,6 +115,7 @@ export async function createTaskAction(
       await assignUserAction(user.id, data?.id);
     }
   }
+
   revalidatePath("/project");
 }
 
@@ -140,17 +133,13 @@ export async function updateTaskAction(
 
   const { priority, profiles, labels } = taskData;
 
-  const result = TaskSchema.safeParse({
+  TaskSchema.parse({
     taskName,
     subtaskNames,
     taskDescription,
   });
 
-  if (!result.success) {
-    return console.error(result.error);
-  }
-
-  const { data: task, error: taskError } = await supabase
+  const { data: task, error } = await supabase
     .from("tasks")
     .update({
       name: taskName,
@@ -162,7 +151,7 @@ export async function updateTaskAction(
     .select("*, subtasks (*), profiles (*), labels (*)")
     .single<Task>();
 
-  if (taskError) return console.error(taskError);
+  if (error) throw Error(error.message);
 
   const subtaskIds = task.subtasks.map((subtask: Subtask) => subtask.id);
 
@@ -250,7 +239,6 @@ export async function createLabelAction(formData: FormData) {
     .single<Label>();
 
   if (error) return console.error(error);
-  console.log("label data", data);
   return data;
 }
 
