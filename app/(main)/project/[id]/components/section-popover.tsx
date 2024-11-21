@@ -1,3 +1,4 @@
+import DeleteModal from "@/components/modals/delete-modal/delete-modal";
 import {
   Popover,
   PopoverTrigger,
@@ -40,12 +41,8 @@ export default function SectionPopover({
           <Pencil size={iconSize} />
           <span>Rename section</span>
         </div>
-        <div
-          className="p-1 flex items-center gap-2 text-red-500 hover:bg-slate-200 duration-200 cursor-pointer"
-          onClick={() => openDeleteSectionModal(id)}
-        >
-          <Trash2 size={iconSize} />
-          <span>Delete section</span>
+        <div className="p-1 flex items-center gap-2 text-red-500 hover:bg-slate-200 duration-200 cursor-pointer">
+          <DeleteModal id={id} iconSize={iconSize} type="section" />
         </div>
       </PopoverContent>
     </Popover>

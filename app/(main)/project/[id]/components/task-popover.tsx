@@ -1,10 +1,12 @@
+import DeleteModal from "@/components/modals/delete-modal/delete-modal";
 import {
   Popover,
   PopoverTrigger,
   PopoverContent,
 } from "@/components/ui/popover";
 import { useModal } from "@/hooks/useModal";
-import { Ellipsis, Pencil, Trash2 } from "lucide-react";
+import { Ellipsis, Pencil } from "lucide-react";
+import { useState } from "react";
 
 interface TaskPopoverProps {
   iconSize: number;
@@ -12,10 +14,11 @@ interface TaskPopoverProps {
 }
 
 export default function TaskPopover({ iconSize, id }: TaskPopoverProps) {
-  const { openEditTaskModal, openDeleteTaskModal } = useModal();
+  const [popoverOpen, setPopoverOpen] = useState(false);
+  const { openEditTaskModal } = useModal();
 
   return (
-    <Popover>
+    <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
       <PopoverTrigger asChild>
         <button className="p-1 hover:bg-transparent/10 duration-200 rounded-lg text-main-light">
           <Ellipsis size={iconSize} />
@@ -29,12 +32,8 @@ export default function TaskPopover({ iconSize, id }: TaskPopoverProps) {
           <Pencil size={iconSize} />
           <span>Edit task</span>
         </div>
-        <div
-          className="p-1 flex items-center gap-2 text-red-500 hover:bg-slate-200 duration-200 cursor-pointer"
-          onClick={() => openDeleteTaskModal(id)}
-        >
-          <Trash2 size={iconSize} />
-          <span>Delete task</span>
+        <div className="p-1 flex items-center gap-2 text-red-500 hover:bg-slate-200 duration-200 cursor-pointer">
+          <DeleteModal id={id} iconSize={iconSize} type="task" />
         </div>
       </PopoverContent>
     </Popover>

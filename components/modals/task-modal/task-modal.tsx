@@ -7,9 +7,8 @@ import {
 import ModalContainer from "../modal-container";
 import { useSearchParams } from "next/navigation";
 import TaskModalForm from "./task-modal-form";
-import { FilterType, Section, SortOptionsType } from "@/lib/types";
+import { Section } from "@/lib/types";
 import { Dispatch, SetStateAction } from "react";
-import { UserObject } from "@/lib/supabase/user-session";
 
 interface TaskModalProps {
   sections: Section[];
