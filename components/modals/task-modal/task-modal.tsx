@@ -26,6 +26,10 @@ export default function TaskModal({
 }: TaskModalProps) {
   const [modalOpen, setModalOpen] = useState(false);
 
+  function closeModal() {
+    setModalOpen(false);
+  }
+
   return (
     <Dialog open={modalOpen} onOpenChange={setModalOpen}>
       <DialogTrigger asChild>
@@ -56,7 +60,12 @@ export default function TaskModal({
             {type === "add" ? "Create Task" : "Edit Task"}
           </DialogTitle>
         </DialogHeader>
-        <TaskModalForm addModal={type === "add"} sections={sections} id={id} />
+        <TaskModalForm
+          addModal={type === "add"}
+          sections={sections}
+          id={id}
+          closeModal={closeModal}
+        />
       </DialogContent>
     </Dialog>
   );

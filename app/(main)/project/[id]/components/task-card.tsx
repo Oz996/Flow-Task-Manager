@@ -69,13 +69,15 @@ export default function TaskCard({ task, sections }: TaskCardProps) {
         <TaskPopover id={task.id} sections={sections} />
       </div>
 
-      <div className="flex gap-2 items-center flex-wrap">
-        {<TaskPriority priority={task.priority} />}
+      {(task.priority || task.labels.length > 0) && (
+        <div className="flex gap-2 items-center flex-wrap">
+          {<TaskPriority priority={task.priority} />}
 
-        {task.labels.map((label) => (
-          <TaskLabel key={label.id} label={label} />
-        ))}
-      </div>
+          {task.labels.map((label) => (
+            <TaskLabel key={label.id} label={label} />
+          ))}
+        </div>
+      )}
 
       <div className="grid grid-cols-2 justify-between">
         <div className="flex gap-2">

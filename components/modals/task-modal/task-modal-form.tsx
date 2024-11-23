@@ -9,7 +9,6 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { ZodError } from "zod";
 import { motion } from "framer-motion";
 import { X } from "lucide-react";
-import { useModal } from "@/hooks/useModal";
 import FormError from "@/app/(auth)/components/form-error";
 import { Textarea } from "@/components/ui/textarea";
 import TaskModalUsers from "./task-modal-users";
@@ -24,6 +23,7 @@ interface TaskModalFormProps {
   addModal: boolean;
   sections: Section[];
   id: string;
+  closeModal: () => void;
 }
 
 export interface EditTaskState {
@@ -37,14 +37,13 @@ export default function TaskModalForm({
   id,
   addModal,
   sections,
+  closeModal,
 }: TaskModalFormProps) {
   const [task, setTask] = useState<Task>(initialTask);
   const [subtasks, setSubtasks] = useState<Subtask[]>([]);
   const [sectionId, setSectionId] = useState("");
   const [errors, setErrors] = useState<ZodError>();
   const [isLoading, setIsLoading] = useState(false);
-
-  const { closeModal } = useModal();
 
   const subtasksLimit = subtasks.length > 5;
 
@@ -129,7 +128,6 @@ export default function TaskModalForm({
       setErrors(result.error);
       console.log(result.error.errors);
     } else {
-      closeModal();
       toast.promise(
         createTaskAction(sectionId || (id as string), formData, task),
         {
@@ -156,7 +154,6 @@ export default function TaskModalForm({
       setErrors(result.error);
       console.log(result.error.errors);
     } else {
-      closeModal();
       toast.promise(
         updateTaskAction(id as string, formData, subtasks, task, sectionId),
         {
@@ -257,7 +254,9 @@ export default function TaskModalForm({
           >
             + Add subtask
           </Button>
-          <Button className="rounded-full">Submit</Button>
+          <Button onClick={closeModal} className="rounded-full">
+            Submit
+          </Button>
         </div>
       </form>
     </div>
