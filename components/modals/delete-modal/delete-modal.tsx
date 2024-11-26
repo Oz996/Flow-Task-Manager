@@ -59,10 +59,15 @@ export default function DeleteModal({ id, type }: DeleteModalProps) {
           >
             Delete user
           </Button>
-        ) : (
+        ) : type === "task" ? (
           <div className="flex gap-2">
             <Trash2 size={iconSize} />
             <span>Delete task</span>
+          </div>
+        ) : (
+          <div className="flex gap-2">
+            <Trash2 size={iconSize} />
+            <span>Delete section</span>
           </div>
         )}
       </DialogTrigger>
