@@ -7,11 +7,15 @@ import DeleteModal from "../delete-modal/delete-modal";
 
 interface UserModalFormProps {
   user: UserObject;
+  closeModal: () => void;
 }
 
 type EditingType = "names" | "password" | null;
 
-export default function UserModalForm({ user }: UserModalFormProps) {
+export default function UserModalForm({
+  user,
+  closeModal,
+}: UserModalFormProps) {
   const [editing, setEditing] = useState<EditingType>(null);
 
   function exitEditing() {
@@ -28,10 +32,18 @@ export default function UserModalForm({ user }: UserModalFormProps) {
     );
 
   if (editing === "names") {
-    return <UserNamesForm user={user} exitEditing={exitEditing} />;
+    return (
+      <UserNamesForm
+        user={user}
+        closeModal={closeModal}
+        exitEditing={exitEditing}
+      />
+    );
   }
 
   if (editing === "password") {
-    return <UserPasswordForm exitEditing={exitEditing} />;
+    return (
+      <UserPasswordForm exitEditing={exitEditing} closeModal={closeModal} />
+    );
   }
 }

@@ -18,6 +18,10 @@ interface UserModalProps {
 export default function UserModal({ user }: UserModalProps) {
   const [modalOpen, setModalOpen] = useState(false);
 
+  function closeModal() {
+    setModalOpen(false);
+  }
+
   return (
     <Dialog open={modalOpen} onOpenChange={setModalOpen}>
       <DialogTrigger asChild>
@@ -27,7 +31,7 @@ export default function UserModal({ user }: UserModalProps) {
         <DialogHeader>
           <DialogTitle>User settings</DialogTitle>
         </DialogHeader>
-        <UserModalForm user={user} />
+        <UserModalForm user={user} closeModal={closeModal} />
       </DialogContent>
     </Dialog>
   );

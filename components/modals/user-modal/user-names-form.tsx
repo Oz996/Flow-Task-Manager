@@ -1,17 +1,18 @@
 import { updateNamesAction } from "@/app/(auth)/actions";
 import FormError from "@/app/(auth)/components/form-error";
-import { SubmitButton } from "@/components/submit-button";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { UsernameEmailSchema } from "@/lib/schemas";
 import { UserObject } from "@/lib/supabase/user-session";
 import { ChangeEvent, useEffect, useState } from "react";
+import { toast } from "sonner";
 import { ZodError } from "zod";
 
 interface UserNamesFormProps {
   user: UserObject;
   exitEditing: () => void;
+  closeModal: () => void;
 }
 
 interface UserForm {
@@ -27,6 +28,7 @@ const initialState: UserForm = {
 export default function UserNamesForm({
   user,
   exitEditing,
+  closeModal,
 }: UserNamesFormProps) {
   const [errors, setErrors] = useState<ZodError>();
   const [formData, setFormData] = useState(initialState);
@@ -62,13 +64,17 @@ export default function UserNamesForm({
       console.error(result.error.errors);
       setErrors(result.error);
     } else {
-      await updateNamesAction(user.id, formData);
-      exitEditing();
+      closeModal();
+      toast.promise(updateNamesAction(user.id, formData), {
+        loading: "Loading...",
+        success: "Credentials updated",
+        error: "Failed to update user credentials, try again later",
+      });
     }
   }
 
   return (
-    <form className="space-y-3">
+    <form className="space-y-3" action={formAction}>
       <div className="flex flex-col gap-2">
         <Label htmlFor="username">Username</Label>
         <Input
@@ -106,9 +112,9 @@ export default function UserNamesForm({
         >
           Back
         </Button>
-        <SubmitButton formAction={formAction} className="w-full rounded-full">
+        <Button type="submit" className="w-full rounded-full">
           Submit
-        </SubmitButton>
+        </Button>
       </div>
     </form>
   );

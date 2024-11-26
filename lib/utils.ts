@@ -4,10 +4,7 @@ import { twMerge } from "tailwind-merge";
 import { FilterType, OrderType, Section, SortType, Subtask } from "./types";
 import { PriorityType } from "@/components/modals/task-modal/task-modal-form";
 import { Dispatch, SetStateAction } from "react";
-import { createClient } from "./supabase/client";
 import { UserObject } from "./supabase/user-session";
-
-const supabase = createClient();
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
