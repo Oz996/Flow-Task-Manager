@@ -10,6 +10,7 @@ import UserModalForm from "./user-modal-form";
 import { UserObject } from "@/lib/supabase/user-session";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { flushSync } from "react-dom";
 
 interface UserModalProps {
   user: UserObject;
@@ -19,7 +20,7 @@ export default function UserModal({ user }: UserModalProps) {
   const [modalOpen, setModalOpen] = useState(false);
 
   function closeModal() {
-    setModalOpen(false);
+    flushSync(() => setModalOpen(false));
   }
 
   return (

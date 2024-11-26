@@ -10,6 +10,7 @@ import TaskModalForm from "./task-modal-form";
 import { Section } from "@/lib/types";
 import { Pencil, Plus } from "lucide-react";
 import { useState } from "react";
+import { flushSync } from "react-dom";
 
 interface TaskModalProps {
   id: string;
@@ -27,7 +28,7 @@ export default function TaskModal({
   const [modalOpen, setModalOpen] = useState(false);
 
   function closeModal() {
-    setModalOpen(false);
+    flushSync(() => setModalOpen(false));
   }
 
   return (

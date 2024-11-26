@@ -44,7 +44,6 @@ export default function TaskModalForm({
   const [subtasks, setSubtasks] = useState<Subtask[]>([]);
   const [sectionId, setSectionId] = useState("");
   const [errors, setErrors] = useState<ZodError>();
-  const [isLoading, setIsLoading] = useState(false);
 
   const subtasksLimit = subtasks.length > 5;
 
@@ -52,7 +51,6 @@ export default function TaskModalForm({
   useEffect(() => {
     if (!addModal) {
       const fetchTask = async () => {
-        setIsLoading(true);
         try {
           const supabase = createClient();
           const { data: task, error: taskError } = await supabase
@@ -68,8 +66,6 @@ export default function TaskModalForm({
           setSectionId(task.section_id);
         } catch (error: any) {
           console.error(error.message);
-        } finally {
-          setIsLoading(false);
         }
       };
       fetchTask();
