@@ -1,36 +1,34 @@
 "use client";
-import ModalContainer from "../modal-container";
 import {
+  Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogTrigger,
 } from "@/components/ui/dialog";
-import { useSearchParams } from "next/navigation";
 import UserModalForm from "./user-modal-form";
 import { UserObject } from "@/lib/supabase/user-session";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
 
 interface UserModalProps {
   user: UserObject;
 }
 
 export default function UserModal({ user }: UserModalProps) {
-  const searchParams = useSearchParams();
+  const [modalOpen, setModalOpen] = useState(false);
 
-  const type = searchParams.get("type");
-  const action = searchParams.get("action");
-
-  const userModal = type === "user";
-  const editModal = action === "edit";
-
-  if (userModal && editModal)
-    return (
-      <ModalContainer>
-        <DialogContent className="sm:max-w-[30rem] p-8">
-          <DialogHeader>
-            <DialogTitle>User settings</DialogTitle>
-          </DialogHeader>
-          <UserModalForm user={user} />
-        </DialogContent>
-      </ModalContainer>
-    );
+  return (
+    <Dialog open={modalOpen} onOpenChange={setModalOpen}>
+      <DialogTrigger asChild>
+        <Button className="rounded-lg">User settings</Button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-[30rem] p-8">
+        <DialogHeader>
+          <DialogTitle>User settings</DialogTitle>
+        </DialogHeader>
+        <UserModalForm user={user} />
+      </DialogContent>
+    </Dialog>
+  );
 }

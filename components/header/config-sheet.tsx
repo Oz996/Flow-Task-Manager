@@ -12,7 +12,6 @@ import ThemePicker from "./theme-picker";
 import { userSession } from "@/lib/supabase/user-session";
 import SignOutButton from "./sign-out-button";
 import UserModal from "../modals/user-modal/user-modal";
-import UserSettingsButton from "./user-settings-button";
 
 export default async function ConfigSheet() {
   const user = await userSession();
@@ -32,11 +31,10 @@ export default async function ConfigSheet() {
 
         <div className="flex flex-col gap-3">
           <ThemePicker />
-          <UserSettingsButton />
+          <UserModal user={user!} />
           <SignOutButton />
         </div>
       </SheetContent>
-      <UserModal user={user!} />
     </Sheet>
   );
 }

@@ -12,14 +12,18 @@ import FormError from "@/app/(auth)/components/form-error";
 import { ZodError } from "zod";
 import { generateSection } from "@/lib/utils";
 import { motion } from "framer-motion";
-import { useModal } from "@/hooks/useModal";
 
-export default function ProjectModalForm() {
+interface ProjectModalFormProps {
+  closeModal: () => void;
+}
+
+export default function ProjectModalForm({
+  closeModal,
+}: ProjectModalFormProps) {
   const [sections, setSections] = useState<Section[]>([generateSection()]);
   const [errors, setErrors] = useState<ZodError>();
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const { closeModal } = useModal();
   const sectionsLimit = sections.length > 4;
 
   useEffect(() => {

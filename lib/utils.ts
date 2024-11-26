@@ -13,6 +13,14 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+export function getBaseUrl() {
+  if (process.env.VERCEL_URL) {
+    return `https://${process.env.VERCEL_URL}`;
+  } else {
+    return `http://localhost:3000`;
+  }
+}
+
 export function encodedNavigation(path: string, message: string) {
   return redirect(`/${path}?error=${encodeURIComponent(message)}`);
 }

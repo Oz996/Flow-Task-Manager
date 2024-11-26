@@ -1,33 +1,43 @@
 "use client";
 import {
+  Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogTrigger,
 } from "@/components/ui/dialog";
-import { useSearchParams } from "next/navigation";
-import ModalContainer from "../modal-container";
 import ProjectModalForm from "./project-modal-form";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Plus } from "lucide-react";
+import { iconSize } from "@/lib/constants";
 
-export default function ProjectModal() {
-  const searchParams = useSearchParams();
+interface ProjectModalProps {
+  type: "add" | "edit";
+}
 
-  const type = searchParams.get("type");
-  const action = searchParams.get("action");
+export default function ProjectModal({ type }: ProjectModalProps) {
+  const [modalOpen, setModalOpen] = useState(false);
 
-  const projectModal = type === "project";
-  const addModal = action === "add";
+  function closeModal() {
+    setModalOpen(false);
+  }
 
-  if (projectModal)
-    return (
-      <ModalContainer>
-        <DialogContent className="sm:max-w-[30rem] p-8">
-          <DialogHeader>
-            <DialogTitle>
-              {addModal ? "Create Project" : "Edit Project"}
-            </DialogTitle>
-          </DialogHeader>
-          <ProjectModalForm />
-        </DialogContent>
-      </ModalContainer>
-    );
+  return (
+    <Dialog open={modalOpen} onOpenChange={setModalOpen}>
+      <DialogTrigger asChild>
+        <Button className="px-1 py-3 h-5 text-white bg-transparent hover:bg-main-light duration-200">
+          <Plus size={iconSize} />
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-[30rem] p-8">
+        <DialogHeader>
+          <DialogTitle>
+            {type === "add" ? "Create Project" : "Edit Project"}
+          </DialogTitle>
+        </DialogHeader>
+        <ProjectModalForm closeModal={closeModal} />
+      </DialogContent>
+    </Dialog>
+  );
 }

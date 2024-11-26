@@ -1,7 +1,7 @@
 import React from "react";
-import ModalButton from "./modal-button";
 import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
+import ProjectModal from "../modals/project-modal/project-modal";
 
 export default async function SidebarProjects() {
   const supabase = createClient();
@@ -11,7 +11,7 @@ export default async function SidebarProjects() {
     <nav className="py-5 px-4">
       <div className="flex justify-between items-center font-semibold px-3">
         <h2>Projects</h2>
-        <ModalButton />
+        <ProjectModal type="add" />
       </div>
       <ul>
         {projects?.map((project) => (

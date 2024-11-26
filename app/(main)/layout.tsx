@@ -5,9 +5,6 @@ import { Metadata } from "next";
 import Sidebar from "@/components/sidebar/sidebar";
 import MainLayout from "./main-layout";
 import ViewModeContextProvider from "@/context/view-mode-context";
-import ProjectModal from "@/components/modals/project-modal/project-modal";
-import TaskModal from "@/components/modals/task-modal/task-modal";
-import DeleteModal from "@/components/modals/delete-modal/delete-modal";
 import { Toaster } from "sonner";
 
 const defaultUrl = process.env.VERCEL_URL
@@ -30,7 +27,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <Sidebar />
           {children}
         </MainLayout>
-        <ProjectModal />
       </ViewModeContextProvider>
     </SidebarContextProvider>
   );
