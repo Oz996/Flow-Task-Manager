@@ -18,6 +18,7 @@ import TaskModalLabels from "./task-modal-labels";
 import TaskModalSections from "./task-modal-sections";
 import { initialTask } from "@/lib/constants";
 import { toast } from "sonner";
+import { SubmitButton } from "@/components/submit-button";
 
 interface TaskModalFormProps {
   addModal: boolean;
@@ -128,6 +129,7 @@ export default function TaskModalForm({
       setErrors(result.error);
       console.log(result.error.errors);
     } else {
+      closeModal();
       toast.promise(
         createTaskAction(sectionId || (id as string), formData, task),
         {
@@ -154,6 +156,7 @@ export default function TaskModalForm({
       setErrors(result.error);
       console.log(result.error.errors);
     } else {
+      closeModal();
       toast.promise(
         updateTaskAction(id as string, formData, subtasks, task, sectionId),
         {
@@ -171,7 +174,7 @@ export default function TaskModalForm({
 
   return (
     <div>
-      <form action={formAction}>
+      <form>
         <div className="flex flex-col gap-2">
           <Label htmlFor="name">Task name</Label>
           <Input
@@ -254,9 +257,9 @@ export default function TaskModalForm({
           >
             + Add subtask
           </Button>
-          <Button onClick={closeModal} className="rounded-full">
+          <SubmitButton formAction={formAction} className="rounded-full">
             Submit
-          </Button>
+          </SubmitButton>
         </div>
       </form>
     </div>

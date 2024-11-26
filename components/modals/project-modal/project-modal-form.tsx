@@ -128,7 +128,7 @@ export default function ProjectModalForm({
         >
           + Add Section
         </Button>
-        <SubmitButton formAction={formAction} className="rounded-full">
+        <SubmitButton loader formAction={formAction} className="rounded-full">
           Submit
         </SubmitButton>
       </div>

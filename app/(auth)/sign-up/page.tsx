@@ -45,7 +45,7 @@ export default function Signup({
             placeholder="Confirm password"
           />
           <FormError error={searchParams.error} />
-          <SubmitButton formAction={signUpAction} className="mt-2">
+          <SubmitButton loader formAction={signUpAction} className="mt-2">
             Sign up
           </SubmitButton>
         </div>

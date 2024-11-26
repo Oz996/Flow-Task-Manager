@@ -70,6 +70,7 @@ export default function BoardView({ sections, user }: SectionsProps) {
 
   async function formAction(formData: FormData) {
     await updateSectionAction(editingSectionId, formData);
+    reset();
   }
 
   return (

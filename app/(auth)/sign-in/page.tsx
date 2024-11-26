@@ -27,7 +27,7 @@ export default function Login({
         </div>
         <Input type="password" name="password" placeholder="Your password" />
         <FormError error={searchParams.error} />
-        <SubmitButton formAction={signInAction} className="mt-2">
+        <SubmitButton loader formAction={signInAction} className="mt-2">
           Sign in
         </SubmitButton>
       </div>

@@ -1,5 +1,6 @@
 import { updatePasswordAction } from "@/app/(auth)/actions";
 import FormError from "@/app/(auth)/components/form-error";
+import { SubmitButton } from "@/components/submit-button";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -57,7 +58,7 @@ export default function UserPasswordForm({
   }
 
   return (
-    <form className="space-y-3" action={formAction}>
+    <form className="space-y-3">
       <div className="flex flex-col gap-2">
         <Label htmlFor="password">New password</Label>
         <Input
@@ -96,9 +97,9 @@ export default function UserPasswordForm({
         >
           Back
         </Button>
-        <Button type="submit" className="w-full rounded-full">
+        <SubmitButton formAction={formAction} className="w-full rounded-full">
           Submit
-        </Button>
+        </SubmitButton>
       </div>
     </form>
   );

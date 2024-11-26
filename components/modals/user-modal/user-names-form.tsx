@@ -1,5 +1,6 @@
 import { updateNamesAction } from "@/app/(auth)/actions";
 import FormError from "@/app/(auth)/components/form-error";
+import { SubmitButton } from "@/components/submit-button";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -57,7 +58,6 @@ export default function UserNamesForm({
     ) {
       return exitEditing();
     }
-
     const result = UsernameEmailSchema.safeParse({ username, email });
 
     if (!result.success) {
@@ -65,16 +65,21 @@ export default function UserNamesForm({
       setErrors(result.error);
     } else {
       closeModal();
-      toast.promise(updateNamesAction(user.id, formData), {
-        loading: "Loading...",
-        success: "Credentials updated",
-        error: "Failed to update user credentials, try again later",
-      });
+      try {
+        toast.promise(updateNamesAction(user.id, formData), {
+          loading: "Loading...",
+          success: "Credentials updated",
+          error: "Failed to update user credentials, try again later",
+        });
+      } catch (error: any) {
+        console.error(error.message);
+      } finally {
+      }
     }
   }
 
   return (
-    <form className="space-y-3" action={formAction}>
+    <form className="space-y-3">
       <div className="flex flex-col gap-2">
         <Label htmlFor="username">Username</Label>
         <Input
@@ -112,9 +117,9 @@ export default function UserNamesForm({
         >
           Back
         </Button>
-        <Button type="submit" className="w-full rounded-full">
+        <SubmitButton formAction={formAction} className="w-full rounded-full">
           Submit
-        </Button>
+        </SubmitButton>
       </div>
     </form>
   );
