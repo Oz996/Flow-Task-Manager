@@ -6,7 +6,7 @@ import {
   SortType,
 } from "@/lib/types";
 import { ChevronRight } from "lucide-react";
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, useRef, useState } from "react";
 import SectionPopover from "./section-popover";
 import { useElementFocus } from "@/hooks/useElementFocus";
 import { SectionsProps } from "./sections";
@@ -21,7 +21,6 @@ import { updateSectionAction } from "@/app/(main)/actions";
 import TaskModal from "@/components/modals/task-modal/task-modal";
 
 export default function Listview({ sections, user }: SectionsProps) {
-  const [sectionList, setSectionList] = useState<Section[]>([]);
   const [editingSectionId, setEditingSectionId] = useState("");
   const [editingSectionValue, setEditingSectionValue] = useState("");
   const [filter, setFilter] = useState<FilterType>("");
@@ -41,10 +40,6 @@ export default function Listview({ sections, user }: SectionsProps) {
   useElementFocus(editingSectionId, reset, sectionInputRef);
 
   // sorting/filtering functions
-
-  useEffect(() => {
-    sortSectionTasks(sort, order, sections, setSectionList, user, filter);
-  }, [sections, sortOptions, filter]);
 
   function sortTasks(value?: SortType) {
     if (!value) return setSortOptions({ sort: "", order: "" });
@@ -102,6 +97,8 @@ export default function Listview({ sections, user }: SectionsProps) {
     reset();
   }
 
+  const sortedTasks = sortSectionTasks(sort, order, sections, user, filter);
+
   return (
     <div className="flex flex-col border-t border-t-gray-200 pt-4">
       <div className="flex gap-5 items-center">
@@ -151,7 +148,7 @@ export default function Listview({ sections, user }: SectionsProps) {
         </div>
 
         <div className="col-span-full space-y-10 pt-3">
-          {sectionList.map((section) => (
+          {sortedTasks.map((section) => (
             <div key={section.id} className="pb-2">
               <div className="flex gap-1 items-center">
                 <button

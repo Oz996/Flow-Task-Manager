@@ -49,8 +49,8 @@ export default function TaskModalForm({
 
   // fetch and set values if editing
   useEffect(() => {
-    if (!addModal) {
-      const fetchTask = async () => {
+    async function fetchTask() {
+      if (!addModal) {
         try {
           const supabase = createClient();
           const { data: task, error: taskError } = await supabase
@@ -67,9 +67,9 @@ export default function TaskModalForm({
         } catch (error: any) {
           console.error(error.message);
         }
-      };
-      fetchTask();
+      }
     }
+    fetchTask();
   }, []);
 
   function addSubtask() {

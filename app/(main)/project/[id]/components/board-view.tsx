@@ -19,7 +19,6 @@ import { updateSectionAction } from "@/app/(main)/actions";
 import TaskModal from "@/components/modals/task-modal/task-modal";
 
 export default function BoardView({ sections, user }: SectionsProps) {
-  const [sectionList, setSectionList] = useState<Section[]>([]);
   const [editingSectionId, setEditingSectionId] = useState("");
   const [editingSectionValue, setEditingSectionValue] = useState("");
   const [filter, setFilter] = useState<FilterType>("");
@@ -34,10 +33,6 @@ export default function BoardView({ sections, user }: SectionsProps) {
   useElementFocus(editingSectionId, reset, sectionInputRef);
 
   // sorting/filtering functions
-
-  useEffect(() => {
-    sortSectionTasks(sort, order, sections, setSectionList, user, filter);
-  }, [sections, sortOptions, filter]);
 
   function sortTasks(value?: SortType) {
     if (!value) return setSortOptions({ sort: "", order: "" });
@@ -73,6 +68,8 @@ export default function BoardView({ sections, user }: SectionsProps) {
     reset();
   }
 
+  const sortedTasks = sortSectionTasks(sort, order, sections, user, filter);
+
   return (
     <div className="flex flex-col border-t border-t-gray-200 pt-4">
       <div className="flex gap-5 items-center">
@@ -85,7 +82,7 @@ export default function BoardView({ sections, user }: SectionsProps) {
         <TaskFilterSelect setFilter={setFilter} filter={filter} />
       </div>
       <div className="flex gap-5 mt-5 pt-5 border-t border-t-gray-200">
-        {sectionList?.map((section) => (
+        {sortedTasks.map((section) => (
           <div key={section.id} className="min-w-[17.5rem] flex flex-col gap-5">
             <div className="flex justify-between">
               {editingSectionId === section.id ? (

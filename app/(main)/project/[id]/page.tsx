@@ -1,20 +1,19 @@
 import { createClient } from "@/lib/supabase/server";
 import { Project } from "@/lib/types";
 import React from "react";
-import TaskModal from "@/components/modals/task-modal/task-modal";
 import { UserObject, userSession } from "@/lib/supabase/user-session";
-import Container from "./components/container";
+import Container from "../../../../components/container";
 import Sections from "./components/sections";
 
 export async function generateMetadata({ params }: { params: { id: string } }) {
   const supabase = createClient();
-  const { data } = await supabase
+  const { data: project, error } = await supabase
     .from("projects")
     .select()
     .eq("id", params.id)
-    .single();
+    .single<Project>();
 
-  const project: Project = data;
+  if (error) return console.error(error);
 
   return {
     title: `${project.name} - Flow`,

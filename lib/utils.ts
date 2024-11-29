@@ -46,7 +46,6 @@ export function sortSectionTasks(
   sort: SortType,
   order: OrderType,
   sections: Section[],
-  setSectionList: Dispatch<SetStateAction<Section[]>>,
   user: UserObject,
   filter?: FilterType
 ) {
@@ -110,9 +109,9 @@ export function sortSectionTasks(
 
   if (filter) {
     const filteredList = filterSectionTasks(filter, sortedList, user);
-    setSectionList(filteredList);
+    return filteredList;
   } else {
-    setSectionList(sortedList);
+    return sortedList;
   }
 }
 

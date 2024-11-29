@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { UsernameEmailSchema } from "@/lib/schemas";
 import { UserObject } from "@/lib/supabase/user-session";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { toast } from "sonner";
 import { ZodError } from "zod";
 
@@ -21,25 +21,18 @@ interface UserForm {
   email: string;
 }
 
-const initialState: UserForm = {
-  username: "",
-  email: "",
-};
-
 export default function UserNamesForm({
   user,
   exitEditing,
   closeModal,
 }: UserNamesFormProps) {
+  const initialState: UserForm = {
+    username: user.user_metadata.username ?? "",
+    email: user.user_metadata.email ?? "",
+  };
+
   const [errors, setErrors] = useState<ZodError>();
   const [formData, setFormData] = useState(initialState);
-
-  useEffect(() => {
-    setFormData({
-      username: user.user_metadata.username,
-      email: user.user_metadata.email,
-    });
-  }, [user]);
 
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
     return setFormData((prevData) => ({
