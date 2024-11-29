@@ -1,11 +1,5 @@
-import {
-  FilterType,
-  OrderType,
-  Section,
-  SortOptionsType,
-  SortType,
-} from "@/lib/types";
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { FilterType, OrderType, SortOptionsType, SortType } from "@/lib/types";
+import { ChangeEvent, useRef, useState } from "react";
 import SectionPopover from "./section-popover";
 import TaskCard from "./task-card";
 import NewSectionDiv from "./new-section-div";
@@ -68,7 +62,7 @@ export default function BoardView({ sections, user }: SectionsProps) {
     reset();
   }
 
-  const sortedTasks = sortSectionTasks(sort, order, sections, user, filter);
+  const sortedTasks = sortSectionTasks(sortOptions, sections, user, filter);
 
   return (
     <div className="flex flex-col border-t border-t-gray-200 pt-4">

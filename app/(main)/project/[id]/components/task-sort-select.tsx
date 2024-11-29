@@ -55,21 +55,14 @@ export default function TaskSortSelect({
       )}
 
       <Select value={sort} onValueChange={handleSortChange}>
-        <SelectTrigger
-          className="w-[8rem] capitalize"
-          aria-label="Select sorting option"
-        >
+        <SelectTrigger className="w-[8rem]" aria-label="Select sorting option">
           <SelectValue placeholder="Sort" />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
             <SelectLabel>Sort by</SelectLabel>
             {taskSortOptions.map((option) => (
-              <SelectItem
-                key={option.value}
-                value={option.value}
-                className="capitalize"
-              >
+              <SelectItem key={option.value} value={option.value}>
                 {option.name}
               </SelectItem>
             ))}

@@ -21,7 +21,7 @@ export default function LayoutSelect() {
 
   return (
     <Select value={viewMode!} onValueChange={handleViewMode}>
-      <SelectTrigger className="w-[5rem]">
+      <SelectTrigger className="w-[5rem]" aria-label="Select layout view mode">
         <SelectValue />
       </SelectTrigger>
       <SelectContent>

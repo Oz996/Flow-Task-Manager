@@ -1,5 +1,4 @@
-import { ViewModeType } from "@/context/view-mode-context";
-import { FilterType, OrderType, Section, SortType, Task } from "./types";
+import { Section, Task } from "./types";
 
 export const projectTemplate: Section[] = [
   {
@@ -17,15 +16,12 @@ export const projectTemplate: Section[] = [
     created_at: "",
     name: "Completed",
   },
-];
+] as const;
 
-export const viewModeOptions: {
-  name: "Board" | "List";
-  value: ViewModeType;
-}[] = [
+export const viewModeOptions = [
   { name: "Board", value: "board" },
   { name: "List", value: "list" },
-];
+] as const;
 
 export const priorityOptions = [
   { name: "--", value: null },
@@ -48,26 +44,23 @@ export const initialTask: Task = {
   priority: null,
 };
 
-export const taskSortOptions: { name: SortType; value: SortType }[] = [
-  { name: "created", value: "created" },
-  { name: "assignee", value: "assignee" },
-  { name: "label", value: "label" },
-  { name: "name", value: "name" },
-  { name: "priority", value: "priority" },
-];
+export const taskSortOptions = [
+  { name: "Created", value: "created" },
+  { name: "Assignee", value: "assignee" },
+  { name: "Label", value: "label" },
+  { name: "Name", value: "name" },
+  { name: "Priority", value: "priority" },
+] as const;
 
-export const taskOrderOptions: {
-  name: "Ascending" | "Descending";
-  value: OrderType;
-}[] = [
+export const taskOrderOptions = [
   { name: "Ascending", value: "asc" },
   { name: "Descending", value: "desc" },
-];
+] as const;
 
-export const taskFilterOptions: { name: FilterType; value: FilterType }[] = [
-  { name: "uncompleted", value: "uncompleted" },
-  { name: "completed", value: "completed" },
-  { name: "my tasks", value: "my tasks" },
-];
+export const taskFilterOptions = [
+  { name: "Uncompleted", value: "uncompleted" },
+  { name: "Completed", value: "completed" },
+  { name: "My tasks", value: "my tasks" },
+] as const;
 
 export const iconSize = 18;

@@ -48,21 +48,14 @@ export default function TaskFilterSelect({
       )}
 
       <Select value={filter} onValueChange={handleChange}>
-        <SelectTrigger
-          className="w-[8rem] capitalize"
-          aria-label="Select filtering option"
-        >
+        <SelectTrigger className="w-[8rem" aria-label="Select filtering option">
           <SelectValue placeholder="Filter" />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
             <SelectLabel>Filter</SelectLabel>
             {taskFilterOptions.map((option) => (
-              <SelectItem
-                key={option.value}
-                value={option.value}
-                className="capitalize"
-              >
+              <SelectItem key={option.value} value={option.value}>
                 {option.name}
               </SelectItem>
             ))}

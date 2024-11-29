@@ -1,9 +1,8 @@
 import { clsx, type ClassValue } from "clsx";
 import { redirect } from "next/navigation";
 import { twMerge } from "tailwind-merge";
-import { FilterType, OrderType, Section, SortType, Subtask } from "./types";
+import { FilterType, Section, SortOptionsType, Subtask } from "./types";
 import { PriorityType } from "@/components/modals/task-modal/task-modal-form";
-import { Dispatch, SetStateAction } from "react";
 import { UserObject } from "./supabase/user-session";
 
 export function cn(...inputs: ClassValue[]) {
@@ -43,12 +42,13 @@ export function generateSubtask(): Subtask {
 }
 
 export function sortSectionTasks(
-  sort: SortType,
-  order: OrderType,
+  sortOptions: SortOptionsType,
   sections: Section[],
   user: UserObject,
   filter?: FilterType
 ) {
+  const { sort, order } = sortOptions;
+
   const sortedList = sections.map((section) => ({
     ...section,
     tasks: section.tasks?.slice().sort((a, b) => {
