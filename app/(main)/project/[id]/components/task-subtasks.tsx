@@ -82,7 +82,6 @@ export default function TaskSubtasks({
                 className={classNames({
                   "flex items-center gap-2 py-2 text-sm": true,
                   "border-b border-b-gray-200": true,
-                  "border-none": listView && index === arr.length - 1,
                 })}
               >
                 <button

@@ -51,7 +51,7 @@ export function sortSectionTasks(
 
   const sortedList = sections.map((section) => ({
     ...section,
-    tasks: section.tasks?.slice().sort((a, b) => {
+    tasks: section.tasks?.toSorted((a, b) => {
       if (sort === "name" && order === "asc") {
         return a.name.localeCompare(b.name);
       }
@@ -108,7 +108,7 @@ export function sortSectionTasks(
   }));
 
   if (filter) {
-    const filteredList = filterSectionTasks(filter, sortedList, user);
+    const filteredList = filterSectionTasks(sortedList, filter, user);
     return filteredList;
   } else {
     return sortedList;
@@ -123,13 +123,13 @@ function priorityValue(priority: PriorityType) {
 }
 
 function filterSectionTasks(
-  filter: FilterType,
   sortedList: Section[],
+  filter: FilterType,
   user: UserObject
 ) {
   const filteredList = sortedList.map((section) => ({
     ...section,
-    tasks: section.tasks?.slice().filter((task) => {
+    tasks: section.tasks?.filter((task) => {
       if (filter === "completed") {
         return task.completed;
       }

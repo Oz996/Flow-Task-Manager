@@ -16,7 +16,7 @@ export const projectTemplate: Section[] = [
     created_at: "",
     name: "Completed",
   },
-] as const;
+];
 
 export const viewModeOptions = [
   { name: "Board", value: "board" },

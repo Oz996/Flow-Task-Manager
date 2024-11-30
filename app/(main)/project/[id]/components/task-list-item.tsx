@@ -1,9 +1,10 @@
+"use client";
 import { Section, Task } from "@/lib/types";
 import classNames from "classnames";
 import { ChevronRight } from "lucide-react";
 import Image from "next/image";
 import TaskSubtasks from "./task-subtasks";
-import { startTransition, useOptimistic } from "react";
+import { startTransition, useOptimistic, useState } from "react";
 import { taskCompletedAction } from "@/app/(main)/actions";
 import TaskPopover from "./task-popover";
 import UserAvatar from "./user-avatar";
@@ -13,17 +14,11 @@ import { iconSize } from "@/lib/constants";
 
 interface TaskListItemProps {
   task: Task;
-  expandTask: (id: string) => void;
-  openTasks: Map<string, string>;
-  sections: Section[];
+  sections?: Section[];
 }
 
-export default function TaskListItem({
-  task,
-  sections,
-  expandTask,
-  openTasks,
-}: TaskListItemProps) {
+export default function TaskListItem({ task, sections }: TaskListItemProps) {
+  const [openTasks, setOpenTasks] = useState(new Map<string, string>());
   const [optimisticTask, addOptimisticTask] = useOptimistic(
     task,
     toggleCompleted
@@ -31,6 +26,17 @@ export default function TaskListItem({
 
   function toggleCompleted(state: Task) {
     return { ...state, completed: !state.completed };
+  }
+
+  function expandTask(id: string) {
+    const updatedMap = new Map(openTasks);
+
+    if (updatedMap.has(id)) {
+      updatedMap.delete(id);
+    } else {
+      updatedMap.set(id, id);
+    }
+    setOpenTasks(updatedMap);
   }
 
   async function taskAction(task: Task) {
@@ -45,12 +51,12 @@ export default function TaskListItem({
     <li
       key={task.id}
       className={classNames({
-        "flex flex-col text-sm duration-200": true,
+        "flex flex-col text-sm duration-200 first:border-t": true,
         "opacity-75": optimisticTask.completed,
       })}
     >
       <div className="grid grid-cols-5">
-        <div className="flex items-center gap-2 relative col-span-2 border p-1">
+        <div className="flex items-center gap-2 relative col-span-2 border-b border-r p-1">
           {task.subtasks.length > 0 && (
             <button
               onClick={() => expandTask(task.id)}
@@ -95,22 +101,25 @@ export default function TaskListItem({
           >
             {task.name}
           </span>
-          <div className="ml-auto">
-            <TaskPopover id={task.id} sections={sections} />
-          </div>
+
+          {sections && (
+            <div className="ml-auto">
+              <TaskPopover id={task.id} sections={sections} />
+            </div>
+          )}
         </div>
 
-        <div className="flex items-center gap-2 border p-1">
+        <div className="flex items-center gap-2 border-b border-r p-1">
           {task.profiles.map((user) => (
             <UserAvatar key={user.id} user={user} small />
           ))}
         </div>
 
-        <div className="flex items-center gap-2 border p-1">
+        <div className="flex items-center gap-2 border-b border-r p-1">
           <TaskPriority priority={task.priority} />
         </div>
 
-        <div className="flex items-center gap-2 border p-1">
+        <div className="flex items-center gap-2 border-b p-1">
           {task.labels.map((label) => (
             <TaskLabel key={label.id} label={label} />
           ))}
@@ -118,10 +127,8 @@ export default function TaskListItem({
       </div>
 
       {openTasks.has(task.id) && (
-        <div className="grid grid-cols-5">
-          <div className="col-span-2 pl-12">
-            <TaskSubtasks subtasks={task.subtasks} listView />
-          </div>
+        <div className="pl-12">
+          <TaskSubtasks subtasks={task.subtasks} listView />
         </div>
       )}
     </li>

@@ -27,7 +27,6 @@ export default function Listview({ sections, user }: SectionsProps) {
   const [closedSections, setClosedSections] = useState(
     new Map<string, string>()
   );
-  const [openTasks, setOpenTasks] = useState(new Map<string, string>());
 
   const sectionInputRef = useRef<HTMLInputElement>(null);
 
@@ -75,17 +74,6 @@ export default function Listview({ sections, user }: SectionsProps) {
     setClosedSections(updatedMap);
   }
 
-  function expandTask(id: string) {
-    const updatedMap = new Map(openTasks);
-
-    if (updatedMap.has(id)) {
-      updatedMap.delete(id);
-    } else {
-      updatedMap.set(id, id);
-    }
-    setOpenTasks(updatedMap);
-  }
-
   async function formAction(formData: FormData) {
     await updateSectionAction(editingSectionId, formData);
     reset();
@@ -105,7 +93,7 @@ export default function Listview({ sections, user }: SectionsProps) {
         <TaskFilterSelect setFilter={setFilter} filter={filter} />
       </div>
       <div className="grid grid-cols-5 mt-5 pt-5 border-t border-t-gray-200">
-        <div className="col-span-2 flex justify-between border p-1">
+        <div className="col-span-2 flex justify-between border-b border-t border-r p-1">
           <span>Task name</span>
           <TaskSortButtons
             sortOptions={sortOptions}
@@ -114,7 +102,7 @@ export default function Listview({ sections, user }: SectionsProps) {
           />
         </div>
 
-        <div className="flex justify-between border p-1">
+        <div className="flex justify-between border-b border-t border-r p-1">
           <span>Assignee</span>
           <TaskSortButtons
             sortOptions={sortOptions}
@@ -123,7 +111,7 @@ export default function Listview({ sections, user }: SectionsProps) {
           />
         </div>
 
-        <div className="flex justify-between border p-1">
+        <div className="flex justify-between border-b border-t border-r p-1">
           <span>Priority</span>
           <TaskSortButtons
             sortOptions={sortOptions}
@@ -132,7 +120,7 @@ export default function Listview({ sections, user }: SectionsProps) {
           />
         </div>
 
-        <div className="flex justify-between border p-1">
+        <div className="flex justify-between border-b border-t p-1">
           <span>Label</span>
           <TaskSortButtons
             sortOptions={sortOptions}
@@ -190,8 +178,6 @@ export default function Listview({ sections, user }: SectionsProps) {
                           key={task.id}
                           task={task}
                           sections={sections}
-                          openTasks={openTasks}
-                          expandTask={expandTask}
                         />
                       </>
                     ))}
