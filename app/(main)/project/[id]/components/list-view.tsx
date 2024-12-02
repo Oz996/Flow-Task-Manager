@@ -1,6 +1,6 @@
 import { FilterType, OrderType, SortOptionsType, SortType } from "@/lib/types";
 import { ChevronRight } from "lucide-react";
-import { ChangeEvent, useRef, useState } from "react";
+import { ChangeEvent, useMemo, useRef, useState } from "react";
 import SectionPopover from "./section-popover";
 import { useElementFocus } from "@/hooks/useElementFocus";
 import { SectionsProps } from "./sections";
@@ -79,7 +79,10 @@ export default function Listview({ sections, user }: SectionsProps) {
     reset();
   }
 
-  const sortedTasks = sortSectionTasks(sortOptions, sections, user, filter);
+  const sortedTasks = useMemo(
+    () => sortSectionTasks(sortOptions, sections, user, filter),
+    [sortOptions, sections, user, filter]
+  );
 
   return (
     <div className="flex flex-col border-t border-t-gray-200 pt-4">
