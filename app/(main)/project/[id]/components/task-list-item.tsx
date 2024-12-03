@@ -11,13 +11,19 @@ import UserAvatar from "./user-avatar";
 import TaskPriority from "./task-priority";
 import TaskLabel from "./task-label";
 import { iconSize } from "@/lib/constants";
+import TaskProjectInfo from "./task-project-info";
 
 interface TaskListItemProps {
   task: Task;
   sections?: Section[];
+  homeList?: boolean;
 }
 
-export default function TaskListItem({ task, sections }: TaskListItemProps) {
+export default function TaskListItem({
+  task,
+  sections,
+  homeList,
+}: TaskListItemProps) {
   const [openTasks, setOpenTasks] = useState(new Map<string, string>());
   const [optimisticTask, addOptimisticTask] = useOptimistic(
     task,
@@ -73,7 +79,7 @@ export default function TaskListItem({ task, sections }: TaskListItemProps) {
               />
             </button>
           )}
-          <div className="ml-[1.85rem] flex items-center">
+          <div className={`flex items-center ${!homeList && "ml-[1.85rem]"}`}>
             <button
               aria-label={
                 optimisticTask.completed
@@ -109,11 +115,19 @@ export default function TaskListItem({ task, sections }: TaskListItemProps) {
           )}
         </div>
 
-        <div className="flex items-center gap-2 border-b border-r p-1">
-          {task.profiles.map((user) => (
-            <UserAvatar key={user.id} user={user} small />
-          ))}
-        </div>
+        {homeList && task.section && (
+          <div className="flex items-center border-b border-r p-1">
+            <TaskProjectInfo project={task.section.project} />
+          </div>
+        )}
+
+        {!homeList && (
+          <div className="flex items-center gap-2 border-b border-r p-1">
+            {task.profiles.map((user) => (
+              <UserAvatar key={user.id} user={user} small />
+            ))}
+          </div>
+        )}
 
         <div className="flex items-center gap-2 border-b border-r p-1">
           <TaskPriority priority={task.priority} />

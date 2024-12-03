@@ -12,6 +12,7 @@ export interface Task {
   priority: PriorityType;
   labels: Label[];
   profiles: User[];
+  section?: TaskProjectObject;
 }
 
 export interface Project {
@@ -47,6 +48,13 @@ export interface User {
 export interface Label {
   id: string;
   name: string;
+}
+
+export interface TaskProjectObject {
+  project: {
+    id: string;
+    name: string;
+  };
 }
 
 export type SortType =

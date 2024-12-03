@@ -15,7 +15,9 @@ export default async function Home() {
 
   const { data, error } = await supabase
     .from("task_assignments")
-    .select("tasks (*, subtasks (*), profiles (*), labels (*))")
+    .select(
+      "tasks (*, section:sections (project:projects (id, name)), subtasks (*), profiles (*), labels (*))"
+    )
     .eq("user_id", user?.id);
 
   if (error) return console.error(error.message);
@@ -28,7 +30,7 @@ export default async function Home() {
       <Container>
         <GreetingDisplay user={user!} />
 
-        <div className="flex flex-col rounded-lg border p-6 mt-3">
+        <div className="flex flex-col rounded-lg border p-6 mt-10 w-[65%] mx-auto">
           <div className="flex items-center gap-4">
             <Image
               src={user?.user_metadata.avatar_url!}
@@ -46,14 +48,14 @@ export default async function Home() {
             </div>
           </div>
 
-          <div className="pt-5">
+          <div className={`mt-5 pt-5 ${tasks.length === 0 && "border-t"}`}>
             {tasks.length > 0 ? (
               <>
                 <TaskListCategories />
 
                 <div className="pt-5">
                   {tasks?.map((task) => (
-                    <TaskListItem key={task.id} task={task} />
+                    <TaskListItem key={task.id} task={task} homeList />
                   ))}
                 </div>
               </>
