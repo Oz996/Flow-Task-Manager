@@ -2,7 +2,6 @@
 import { ProjectSchema, TaskSchema } from "@/lib/schemas";
 import { createClient } from "@/lib/supabase/server";
 import { Label, Project, Subtask, Task, User } from "@/lib/types";
-import { getBaseUrl } from "@/lib/utils";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -33,7 +32,7 @@ export async function createProjectAction(formData: FormData) {
     }
   }
 
-  redirect(`${getBaseUrl()}/project/${data.id}`);
+  redirect(`/project/${data.id}`);
 }
 
 export async function createSectionAction(id: string, formData: FormData) {

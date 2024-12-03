@@ -10,7 +10,7 @@ export default async function Header() {
 
   return (
     <header className="w-screen h-12 bg-main fixed left-0 top-0 border-b-main-border border-b z-10">
-      <div className="container flex justify-between items-center h-full">
+      <div className="flex justify-between items-center h-full mx-5">
         <SidebarButton />
         <Searchbar />
         <div className="flex gap-1 items-center">

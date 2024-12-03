@@ -5,7 +5,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
 import { Settings2 } from "lucide-react";
 import HeaderAvatar from "./header-avatar";
 import ThemePicker from "./theme-picker";
@@ -19,10 +18,10 @@ export default async function ConfigSheet() {
   return (
     <Sheet>
       <SheetTrigger asChild className="flex gap-2 items-center">
-        <Button className="bg-transparent py-1 px-2">
+        <button className="py-1 px-2 text-white hover:bg-transparent/20 duration-200 rounded-lg">
           <HeaderAvatar />
           <Settings2 size={22} className="text-white" />
-        </Button>
+        </button>
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>

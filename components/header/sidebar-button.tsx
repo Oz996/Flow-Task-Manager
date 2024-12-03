@@ -1,5 +1,4 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import { useSidebar } from "@/hooks/useSidebar";
 import { Menu } from "lucide-react";
 
@@ -7,13 +6,13 @@ export default function SidebarButton() {
   const { sidebarOpen, setSidebarOpen } = useSidebar();
 
   return (
-    <Button
+    <button
       aria-controls="sidebar"
       aria-label={sidebarOpen ? "Close sidebar" : "Expand sidebar"}
-      className="text-white bg-transparent p-1 hover:bg-main-light"
+      className="p-2 text-white hover:bg-transparent/20 duration-200 rounded-lg"
       onClick={() => setSidebarOpen(!sidebarOpen)}
     >
       <Menu size={22} />
-    </Button>
+    </button>
   );
 }

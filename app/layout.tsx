@@ -1,4 +1,3 @@
-import { Plus_Jakarta_Sans } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import "@/app/globals.css";
 import { Metadata } from "next";
@@ -13,15 +12,13 @@ export const metadata: Metadata = {
   description: "Manage tasks with your team easily using Flow",
 };
 
-const plusJakarta = Plus_Jakarta_Sans({ subsets: ["latin"], display: "swap" });
-
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={plusJakarta.className} suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <body className="bg-background text-foreground">
         <ThemeProvider
           attribute="class"
