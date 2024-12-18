@@ -23,23 +23,24 @@ export default function SectionPopover({
     <Popover>
       <PopoverTrigger asChild>
         <button
-          aria-label="Task options"
+          aria-label="Section options"
           className="p-1 hover:bg-transparent/10 duration-200 rounded-lg text-main-light"
         >
           <Ellipsis size={iconSize} />
         </button>
       </PopoverTrigger>
       <PopoverContent align="start" className="w-[12rem]">
-        <div
-          className="p-1 flex items-center gap-2 hover:bg-slate-200 duration-200 cursor-pointer"
+        <button
+          className="flex items-center gap-2 p-1 w-full hover:bg-slate-200 duration-200 cursor-pointer"
           onClick={() => editSection(id, name)}
         >
           <Pencil size={iconSize} />
           <span>Rename section</span>
-        </div>
-        <div className="p-1 flex items-center gap-2 text-red-500 hover:bg-slate-200 duration-200 cursor-pointer">
+        </button>
+
+        <>
           <DeleteModal id={id} type="section" />
-        </div>
+        </>
       </PopoverContent>
     </Popover>
   );

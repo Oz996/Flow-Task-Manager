@@ -35,7 +35,10 @@ export default function TaskModal({
     <Dialog open={modalOpen} onOpenChange={setModalOpen}>
       <DialogTrigger asChild>
         {type === "edit" ? (
-          <button aria-label="Edit task" className="flex gap-2">
+          <button
+            aria-label="Edit task"
+            className="flex items-center gap-2 p-1 w-full hover:bg-slate-200 duration-200 cursor-pointer"
+          >
             <Pencil size={18} />
             <span>Edit task</span>
           </button>

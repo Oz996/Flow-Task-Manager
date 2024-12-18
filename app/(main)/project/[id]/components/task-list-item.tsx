@@ -79,7 +79,9 @@ export default function TaskListItem({
               />
             </button>
           )}
-          <div className={`flex items-center ${!homeList && "ml-[1.85rem]"}`}>
+          <div
+            className={`flex items-center ${(!homeList || task.subtasks.length > 0) && "ml-[1.85rem]"}`}
+          >
             <button
               aria-label={
                 optimisticTask.completed

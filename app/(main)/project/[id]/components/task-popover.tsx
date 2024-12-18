@@ -21,17 +21,21 @@ export default function TaskPopover({ id, sections }: TaskPopoverProps) {
   return (
     <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
       <PopoverTrigger asChild>
-        <button className="p-1 hover:bg-transparent/10 duration-200 rounded-lg text-main-light">
+        <button
+          aria-label="Task options"
+          className="p-1 hover:bg-transparent/10 duration-200 rounded-lg text-main-light"
+        >
           <Ellipsis size={iconSize} />
         </button>
       </PopoverTrigger>
       <PopoverContent align="start" className="w-[12rem]">
-        <div className="p-1 flex items-center gap-2 hover:bg-slate-200 duration-200 cursor-pointer">
+        <>
           <TaskModal id={id} sections={sections} type="edit" />
-        </div>
-        <div className="p-1 flex items-center gap-2 text-red-500 hover:bg-slate-200 duration-200 cursor-pointer">
+        </>
+
+        <>
           <DeleteModal id={id} type="task" />
-        </div>
+        </>
       </PopoverContent>
     </Popover>
   );

@@ -53,11 +53,11 @@ export default async function Home() {
               <>
                 <TaskListCategories />
 
-                <div className="pt-5">
+                <ul className="pt-5">
                   {tasks?.map((task) => (
                     <TaskListItem key={task.id} task={task} homeList />
                   ))}
-                </div>
+                </ul>
               </>
             ) : (
               <span>You are currently not assigned to any tasks.</span>
