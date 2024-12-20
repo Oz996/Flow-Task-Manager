@@ -9,7 +9,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ViewModeType } from "@/context/view-mode-context";
-import { useViewMode } from "@/hooks/useViewMode";
+import { useViewMode } from "@/hooks/use-view-mode";
 import { iconSize, viewModeOptions } from "@/lib/constants";
 import { Grip } from "lucide-react";
 

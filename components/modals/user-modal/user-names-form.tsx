@@ -4,7 +4,7 @@ import { SubmitButton } from "@/components/submit-button";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { UsernameEmailSchema } from "@/lib/schemas";
+import { usernameEmailSchema } from "@/lib/schemas";
 import { UserObject } from "@/lib/supabase/user-session";
 import { ChangeEvent, useState } from "react";
 import { toast } from "sonner";
@@ -51,7 +51,7 @@ export default function UserNamesForm({
     ) {
       return exitEditing();
     }
-    const result = UsernameEmailSchema.safeParse({ username, email });
+    const result = usernameEmailSchema.safeParse({ username, email });
 
     if (!result.success) {
       console.error(result.error.errors);

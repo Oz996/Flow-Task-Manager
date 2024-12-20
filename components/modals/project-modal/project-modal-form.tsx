@@ -7,7 +7,7 @@ import { Section } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
 import ProjectModalButtons from "./project-modal-buttons";
-import { ProjectSchema } from "@/lib/schemas";
+import { projectSchema } from "@/lib/schemas";
 import FormError from "@/app/(auth)/components/form-error";
 import { ZodError } from "zod";
 import { generateSection } from "@/lib/utils";
@@ -54,7 +54,7 @@ export default function ProjectModalForm({
     const projectName = formData.get("project-name")?.toString();
     const sectionNames = formData.getAll("section-name");
 
-    const result = ProjectSchema.safeParse({ projectName, sectionNames });
+    const result = projectSchema.safeParse({ projectName, sectionNames });
 
     if (!result.success) {
       setErrors(result.error);

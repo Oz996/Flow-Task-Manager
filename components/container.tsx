@@ -1,5 +1,5 @@
 "use client";
-import { useSidebar } from "@/hooks/useSidebar";
+import { useSidebar } from "@/hooks/use-sidebar";
 
 export default function Container({ children }: any) {
   const { sidebarOpen } = useSidebar();

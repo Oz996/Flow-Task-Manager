@@ -2,7 +2,7 @@ import { FilterType, OrderType, SortOptionsType, SortType } from "@/lib/types";
 import { ChevronRight } from "lucide-react";
 import { ChangeEvent, useMemo, useRef, useState } from "react";
 import SectionPopover from "./section-popover";
-import { useElementFocus } from "@/hooks/useElementFocus";
+import { useElementFocus } from "@/hooks/use-element-focus";
 import { SectionsProps } from "./sections";
 import classNames from "classnames";
 import TaskListItem from "./task-list-item";

@@ -1,6 +1,6 @@
 "use client";
 import { Section } from "@/lib/types";
-import { useViewMode } from "@/hooks/useViewMode";
+import { useViewMode } from "@/hooks/use-view-mode";
 import BoardView from "./board-view";
 import Listview from "./list-view";
 import { UserObject } from "@/lib/supabase/user-session";

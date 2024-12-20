@@ -1,5 +1,5 @@
 "use client";
-import { useSidebar } from "@/hooks/useSidebar";
+import { useSidebar } from "@/hooks/use-sidebar";
 import { Menu } from "lucide-react";
 
 export default function SidebarButton() {

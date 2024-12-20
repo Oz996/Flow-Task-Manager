@@ -1,5 +1,5 @@
 "use client";
-import { useSidebar } from "@/hooks/useSidebar";
+import { useSidebar } from "@/hooks/use-sidebar";
 import { ReactNode } from "react";
 
 // this component handles layout shifts for whenever sidebar opens and closes.

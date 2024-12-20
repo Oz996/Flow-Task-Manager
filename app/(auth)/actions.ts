@@ -1,5 +1,5 @@
 "use server";
-import { PasswordSchema, UsernameEmailSchema } from "@/lib/schemas";
+import { passwordSchema, usernameEmailSchema } from "@/lib/schemas";
 import { createClient } from "@/lib/supabase/server";
 import { userSession } from "@/lib/supabase/user-session";
 import { encodedNavigation } from "@/lib/utils";
@@ -111,7 +111,7 @@ export async function updateNamesAction(id: string, formData: FormData) {
   const email = formData.get("email")?.toString();
   const supabase = createClient();
 
-  const result = UsernameEmailSchema.safeParse({ username, email });
+  const result = usernameEmailSchema.safeParse({ username, email });
 
   if (!result.success) return console.error(result.error);
 
@@ -138,7 +138,7 @@ export async function updatePasswordAction(formData: FormData) {
   const confirm_password = formData.get("confirm_password")?.toString();
   const supabase = createClient();
 
-  const result = PasswordSchema.safeParse({ password, confirm_password });
+  const result = passwordSchema.safeParse({ password, confirm_password });
 
   if (!result.success) return console.error(result.error);
 

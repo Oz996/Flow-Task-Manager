@@ -1,6 +1,6 @@
 "use client";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useViewMode } from "@/hooks/useViewMode";
+import { useViewMode } from "@/hooks/use-view-mode";
 
 export default function ProjectSkeleton() {
   const { viewMode } = useViewMode();

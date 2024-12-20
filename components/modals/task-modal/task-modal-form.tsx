@@ -2,7 +2,7 @@ import { createTaskAction, updateTaskAction } from "@/app/(main)/actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { TaskSchema } from "@/lib/schemas";
+import { taskSchema } from "@/lib/schemas";
 import { Section, Subtask, Task } from "@/lib/types";
 import { generateSubtask } from "@/lib/utils";
 import { ChangeEvent, useEffect, useState } from "react";
@@ -115,7 +115,7 @@ export default function TaskModalForm({
     const subtaskNames = formData.getAll("subtask-name");
     const taskDescription = formData.get("description")?.toString();
 
-    const result = TaskSchema.safeParse({
+    const result = taskSchema.safeParse({
       taskName,
       subtaskNames,
       taskDescription,
@@ -142,7 +142,7 @@ export default function TaskModalForm({
     const subtaskNames = formData.getAll("subtask-name");
     const taskDescription = formData.get("description")?.toString();
 
-    const result = TaskSchema.safeParse({
+    const result = taskSchema.safeParse({
       taskName,
       subtaskNames,
       taskDescription,

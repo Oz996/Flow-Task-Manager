@@ -4,7 +4,7 @@ import { SubmitButton } from "@/components/submit-button";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { PasswordSchema } from "@/lib/schemas";
+import { passwordSchema } from "@/lib/schemas";
 import { ChangeEvent, useState } from "react";
 import { toast } from "sonner";
 import { ZodError } from "zod";
@@ -42,7 +42,7 @@ export default function UserPasswordForm({
     const password = formData.get("password")?.toString();
     const confirm_password = formData.get("confirm_password")?.toString();
 
-    const result = PasswordSchema.safeParse({ password, confirm_password });
+    const result = passwordSchema.safeParse({ password, confirm_password });
 
     if (!result.success) {
       console.error(result.error.errors);

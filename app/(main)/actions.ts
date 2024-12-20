@@ -1,5 +1,5 @@
 "use server";
-import { ProjectSchema, TaskSchema } from "@/lib/schemas";
+import { projectSchema, taskSchema } from "@/lib/schemas";
 import { createClient } from "@/lib/supabase/server";
 import { Label, Project, Subtask, Task, User } from "@/lib/types";
 import { revalidatePath } from "next/cache";
@@ -10,7 +10,7 @@ export async function createProjectAction(formData: FormData) {
   const sectionNames = formData.getAll("section-name");
   const supabase = createClient();
 
-  ProjectSchema.parse({ projectName, sectionNames });
+  projectSchema.parse({ projectName, sectionNames });
 
   const { data, error } = await supabase
     .from("projects")
@@ -74,7 +74,7 @@ export async function createTaskAction(
 
   const { priority, profiles, labels } = taskData;
 
-  TaskSchema.parse({
+  taskSchema.parse({
     taskName,
     subtaskNames,
     taskDescription,
@@ -136,7 +136,7 @@ export async function updateTaskAction(
 
   const { priority, profiles, labels } = taskData;
 
-  TaskSchema.parse({
+  taskSchema.parse({
     taskName,
     subtaskNames,
     taskDescription,

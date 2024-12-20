@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const ProjectSchema = z.object({
+export const projectSchema = z.object({
   projectName: z
     .string()
     .trim()
@@ -18,7 +18,7 @@ export const ProjectSchema = z.object({
     .nonempty({ message: "At least one section is required for a project" }),
 });
 
-export const TaskSchema = z.object({
+export const taskSchema = z.object({
   taskName: z
     .string()
     .trim()
@@ -41,7 +41,7 @@ export const TaskSchema = z.object({
     .max(150, { message: "Description should be less than 150 characters" }),
 });
 
-export const PasswordSchema = z
+export const passwordSchema = z
   .object({
     password: z
       .string()
@@ -54,7 +54,7 @@ export const PasswordSchema = z
     path: ["confirm_password"],
   });
 
-export const UsernameEmailSchema = z
+export const usernameEmailSchema = z
   .object({
     username: z
       .string()

@@ -1,5 +1,5 @@
 import { createSectionAction } from "@/app/(main)/actions";
-import { useElementFocus } from "@/hooks/useElementFocus";
+import { useElementFocus } from "@/hooks/use-element-focus";
 import { iconSize } from "@/lib/constants";
 import { Plus } from "lucide-react";
 import { useParams } from "next/navigation";

@@ -1,5 +1,5 @@
 "use client";
-import { useSidebar } from "@/hooks/useSidebar";
+import { useSidebar } from "@/hooks/use-sidebar";
 import { AnimatePresence, motion } from "framer-motion";
 import { ReactNode } from "react";
 
