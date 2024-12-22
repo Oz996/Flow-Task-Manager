@@ -13,7 +13,7 @@ import { ChangeEvent, ReactNode, useRef, useState } from "react";
 import SearchLists from "./search-lists";
 import { iconSize } from "@/lib/constants";
 import { useElementFocus } from "@/hooks/use-element-focus";
-import useSearchData from "./hooks/use-search-data";
+import useSearchData from "../hooks/use-search-data";
 
 export type FilterType = "tasks" | "projects" | "people";
 
@@ -136,7 +136,7 @@ export default function Searchbar() {
       {isActive && (
         <div
           className={classNames({
-            "fixed flex flex-col inset-0 right-10 w-[33rem] h-[30rem] mx-auto bg-white text-primary rounded shadow-2xl overflow-y-auto z-10":
+            "fixed flex flex-col inset-0 right-10 w-[33rem] h-[30rem] mx-auto bg-background text-primary rounded shadow-2xl overflow-y-auto z-10":
               true,
             "max-h-[12rem]": noResults || !searchValue,
           })}

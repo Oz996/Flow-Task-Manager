@@ -4,6 +4,7 @@ import React from "react";
 import { UserObject, userSession } from "@/lib/supabase/user-session";
 import Container from "../../../../components/container";
 import Sections from "./components/sections";
+import ProjectName from "./components/project-name";
 
 export async function generateMetadata({ params }: { params: { id: string } }) {
   const supabase = createClient();
@@ -49,7 +50,7 @@ export default async function ProjectPage({
   return (
     <section className="w-full px-8 absolute z-0">
       <Container>
-        <h1 className="font-bold text-xl">{project.name}</h1>
+        <ProjectName project={project} />
         {sections && <Sections sections={sections} user={user as UserObject} />}
       </Container>
     </section>

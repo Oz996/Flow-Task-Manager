@@ -1,12 +1,12 @@
+import PopoverButton from "@/components/popover-components/popover-button";
 import DeleteModal from "@/components/modals/delete-modal/delete-modal";
 import {
   Popover,
   PopoverTrigger,
   PopoverContent,
 } from "@/components/ui/popover";
-import { iconSize } from "@/lib/constants";
-import { Ellipsis, Pencil, Trash2 } from "lucide-react";
 import React from "react";
+import EditButton from "@/components/popover-components/edit-button";
 
 interface SectionPopoverProps {
   editSection: (id: string, name: string) => void;
@@ -22,25 +22,14 @@ export default function SectionPopover({
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <button
-          aria-label="Section options"
-          className="p-1 hover:bg-transparent/10 duration-200 rounded-lg text-main-light"
-        >
-          <Ellipsis size={iconSize} />
-        </button>
+        <PopoverButton labelFor="Section" />
       </PopoverTrigger>
       <PopoverContent align="start" className="w-[12rem]">
-        <button
-          className="flex items-center gap-2 p-1 w-full hover:bg-slate-200 duration-200 cursor-pointer"
-          onClick={() => editSection(id, name)}
-        >
-          <Pencil size={iconSize} />
-          <span>Rename section</span>
-        </button>
+        <EditButton labelFor="section" onClick={() => editSection(id, name)}>
+          Rename section
+        </EditButton>
 
-        <>
-          <DeleteModal id={id} type="section" />
-        </>
+        <DeleteModal id={id} type="section" />
       </PopoverContent>
     </Popover>
   );

@@ -6,11 +6,11 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Settings2 } from "lucide-react";
-import HeaderAvatar from "./header-avatar";
+import HeaderAvatar from "../header-avatar";
 import ThemePicker from "./theme-picker";
 import { userSession } from "@/lib/supabase/user-session";
 import SignOutButton from "./sign-out-button";
-import UserModal from "../modals/user-modal/user-modal";
+import UserModal from "../../modals/user-modal/user-modal";
 
 export default async function ConfigSheet() {
   const user = await userSession();

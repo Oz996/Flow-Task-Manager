@@ -8,9 +8,11 @@ import {
 } from "@/components/ui/dialog";
 import TaskModalForm from "./task-modal-form";
 import { Section } from "@/lib/types";
-import { Pencil, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import { useState } from "react";
 import { flushSync } from "react-dom";
+import { iconSize } from "@/lib/constants";
+import EditButton from "@/components/popover-components/edit-button";
 
 interface TaskModalProps {
   id: string;
@@ -35,13 +37,7 @@ export default function TaskModal({
     <Dialog open={modalOpen} onOpenChange={setModalOpen}>
       <DialogTrigger asChild>
         {type === "edit" ? (
-          <button
-            aria-label="Edit task"
-            className="flex items-center gap-2 p-1 w-full hover:bg-slate-200 duration-200 cursor-pointer"
-          >
-            <Pencil size={18} />
-            <span>Edit task</span>
-          </button>
+          <EditButton labelFor="task">Edit task</EditButton>
         ) : type === "add" && listView ? (
           <button
             aria-label="Create task"
@@ -54,7 +50,7 @@ export default function TaskModal({
             aria-label="Create task"
             className="p-1 hover:bg-transparent/10 duration-200 rounded-lg text-main-light"
           >
-            <Plus size={18} />
+            <Plus size={iconSize} />
           </button>
         )}
       </DialogTrigger>

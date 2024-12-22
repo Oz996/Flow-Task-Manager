@@ -5,7 +5,10 @@ import ProjectModal from "../modals/project-modal/project-modal";
 
 export default async function SidebarProjects() {
   const supabase = createClient();
-  const { data: projects } = await supabase.from("projects").select("id, name");
+  const { data: projects } = await supabase
+    .from("projects")
+    .select("id, name")
+    .order("created_at", { ascending: true });
 
   return (
     <nav className="py-5 px-4">

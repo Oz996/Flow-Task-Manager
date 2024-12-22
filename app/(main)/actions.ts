@@ -35,6 +35,21 @@ export async function createProjectAction(formData: FormData) {
   redirect(`/project/${data.id}`);
 }
 
+export async function updateProjectAction(id: string, formData: FormData) {
+  const name = formData.get("name")?.toString();
+  const supabase = createClient();
+
+  const { error } = await supabase
+    .from("projects")
+    .update({ name })
+    .eq("id", id);
+
+  console.log("dataa", name, id);
+  if (error) return console.error(error);
+
+  revalidatePath("/project");
+}
+
 export async function createSectionAction(id: string, formData: FormData) {
   const name = formData.get("new-section")?.toString();
   const supabase = createClient();

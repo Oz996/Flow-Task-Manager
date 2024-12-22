@@ -90,11 +90,11 @@ export default function BoardView({ sections, user }: SectionsProps) {
                     ref={sectionInputRef}
                     value={editingSectionValue}
                     onChange={handleChange}
-                    className="w-full"
+                    className="p-1 w-full"
                   />
                 </form>
               ) : (
-                <span className="font-semibold">{section.name}</span>
+                <span className="font-semibold h-8">{section.name}</span>
               )}
               <div className="flex gap-3">
                 <TaskModal id={section.id} sections={sections} type="add" />

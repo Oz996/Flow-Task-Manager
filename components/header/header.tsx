@@ -1,8 +1,8 @@
-import Searchbar from "./search-bar";
+import Searchbar from "./search-bar/search-bar";
 import SidebarButton from "./sidebar-button";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import ConfigSheet from "./config-sheet";
+import ConfigSheet from "./sheet/config-sheet";
 import { userSession } from "@/lib/supabase/user-session";
 
 export default async function Header() {

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { FilterType } from "./search-bar";
-import { SearchData } from "./hooks/use-search-data";
+import { SearchData } from "../hooks/use-search-data";
 import SearchList from "./search-list";
 
 interface SearchListsProps {

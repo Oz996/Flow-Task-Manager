@@ -18,6 +18,8 @@ export const projectSchema = z.object({
     .nonempty({ message: "At least one section is required for a project" }),
 });
 
+export const editProjectSchema = projectSchema.pick({ projectName: true });
+
 export const taskSchema = z.object({
   taskName: z
     .string()

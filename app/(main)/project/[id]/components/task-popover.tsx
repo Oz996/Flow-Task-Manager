@@ -1,3 +1,4 @@
+import PopoverButton from "@/components/popover-components/popover-button";
 import DeleteModal from "@/components/modals/delete-modal/delete-modal";
 import TaskModal from "@/components/modals/task-modal/task-modal";
 import {
@@ -5,9 +6,7 @@ import {
   PopoverTrigger,
   PopoverContent,
 } from "@/components/ui/popover";
-import { iconSize } from "@/lib/constants";
 import { Section } from "@/lib/types";
-import { Ellipsis } from "lucide-react";
 import { useState } from "react";
 
 interface TaskPopoverProps {
@@ -20,13 +19,8 @@ export default function TaskPopover({ id, sections }: TaskPopoverProps) {
 
   return (
     <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
-      <PopoverTrigger asChild>
-        <button
-          aria-label="Task options"
-          className="p-1 hover:bg-transparent/10 duration-200 rounded-lg text-main-light"
-        >
-          <Ellipsis size={iconSize} />
-        </button>
+      <PopoverTrigger>
+        <PopoverButton labelFor="Task" />
       </PopoverTrigger>
       <PopoverContent align="start" className="w-[12rem]">
         <>
