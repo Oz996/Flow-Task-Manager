@@ -5,13 +5,13 @@ import { ChevronRight } from "lucide-react";
 import Image from "next/image";
 import TaskSubtasks from "./task-subtasks";
 import { startTransition, useOptimistic, useState } from "react";
-import { taskCompletedAction } from "@/app/(main)/actions";
 import TaskPopover from "../../../../../components/popovers/task-popover";
 import UserAvatar from "./user-avatar";
 import TaskPriority from "./task-priority";
 import TaskLabel from "./task-label";
 import { iconSize } from "@/lib/constants";
 import TaskProjectInfo from "./task-project-info";
+import { taskCompletedAction } from "@/app/actions/task-actions";
 
 interface TaskListItemProps {
   task: Task;

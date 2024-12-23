@@ -4,11 +4,11 @@ import Image from "next/image";
 import TaskSubtasks from "./task-subtasks";
 import TaskPopover from "../../../../../components/popovers/task-popover";
 import { startTransition, useOptimistic } from "react";
-import { taskCompletedAction } from "@/app/(main)/actions";
 import classNames from "classnames";
 import UserAvatar from "./user-avatar";
 import TaskPriority from "./task-priority";
 import TaskLabel from "./task-label";
+import { taskCompletedAction } from "@/app/actions/task-actions";
 
 interface TaskCardProps {
   task: Task;

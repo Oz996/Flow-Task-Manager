@@ -1,5 +1,5 @@
 "use client";
-import { updateProjectAction } from "@/app/(main)/actions";
+import { updateProjectAction } from "@/app/actions/project-actions";
 import ProjectPopover from "@/components/popovers/project-popover";
 import { useElementFocus } from "@/hooks/use-element-focus";
 import { editProjectSchema } from "@/lib/schemas";

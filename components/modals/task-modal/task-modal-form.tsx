@@ -1,4 +1,3 @@
-import { createTaskAction, updateTaskAction } from "@/app/(main)/actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -19,6 +18,7 @@ import TaskModalSections from "./task-modal-sections";
 import { initialTask } from "@/lib/constants";
 import { toast } from "sonner";
 import { SubmitButton } from "@/components/submit-button";
+import { createTaskAction, updateTaskAction } from "@/app/actions/task-actions";
 
 interface TaskModalFormProps {
   addModal: boolean;

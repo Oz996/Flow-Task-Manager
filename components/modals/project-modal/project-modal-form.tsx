@@ -2,7 +2,6 @@ import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { SubmitButton } from "../../submit-button";
-import { createProjectAction } from "@/app/(main)/actions";
 import { Section } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
@@ -12,6 +11,7 @@ import FormError from "@/app/(auth)/components/form-error";
 import { ZodError } from "zod";
 import { generateSection } from "@/lib/utils";
 import { motion } from "framer-motion";
+import { createProjectAction } from "@/app/actions/project-actions";
 
 interface ProjectModalFormProps {
   closeModal: () => void;

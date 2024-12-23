@@ -8,15 +8,13 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import {
-  deleteProjectAction,
-  deleteSectionAction,
-  deleteTaskAction,
-} from "@/app/(main)/actions";
-import { deleteUserAction } from "@/app/(auth)/actions";
 import { toast } from "sonner";
 import { useState } from "react";
 import DeleteButton from "./delete-button";
+import { deleteTaskAction } from "@/app/actions/task-actions";
+import { deleteSectionAction } from "@/app/actions/section-actions";
+import { deleteProjectAction } from "@/app/actions/project-actions";
+import { deleteUserAction } from "@/app/(auth)/actions";
 
 interface DeleteModalProps {
   id: string;
@@ -38,16 +36,16 @@ export default function DeleteModal({ id, type }: DeleteModalProps) {
     closeModal();
     switch (type) {
       case "Task": {
-        await deleteToast(deleteTaskAction, id);
+        return await deleteToast(deleteTaskAction, id);
       }
       case "Section": {
-        await deleteToast(deleteSectionAction, id);
+        return await deleteToast(deleteSectionAction, id);
       }
       case "Project": {
-        await deleteToast(deleteProjectAction, id);
+        return await deleteToast(deleteProjectAction, id);
       }
       default: {
-        await deleteToast(deleteUserAction, id);
+        return await deleteToast(deleteUserAction, id);
       }
     }
   }

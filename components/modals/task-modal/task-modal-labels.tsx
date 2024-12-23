@@ -1,4 +1,4 @@
-import { createLabelAction } from "@/app/(main)/actions";
+import { createLabelAction } from "@/app/actions/task-actions";
 import TooltipContainer from "@/components/tooltip-container";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";

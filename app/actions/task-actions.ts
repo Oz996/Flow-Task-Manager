@@ -1,91 +1,8 @@
 "use server";
-import { projectSchema, taskSchema } from "@/lib/schemas";
+import { taskSchema } from "@/lib/schemas";
 import { createClient } from "@/lib/supabase/server";
-import { Label, Project, Subtask, Task, User } from "@/lib/types";
+import { Label, Subtask, Task, User } from "@/lib/types";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
-
-export async function createProjectAction(formData: FormData) {
-  const projectName = formData.get("project-name")?.toString();
-  const sectionNames = formData.getAll("section-name");
-  const supabase = createClient();
-
-  projectSchema.parse({ projectName, sectionNames });
-
-  const { data, error } = await supabase
-    .from("projects")
-    .insert([{ name: projectName }])
-    .select("id")
-    .single<Project>();
-
-  if (error) return console.error(error);
-
-  if (sectionNames.length > 0) {
-    for (const name of sectionNames) {
-      const { error } = await supabase.from("sections").insert([
-        {
-          name,
-          project_id: data?.id,
-        },
-      ]);
-      if (error) console.error(error);
-    }
-  }
-
-  redirect(`/project/${data.id}`);
-}
-
-export async function updateProjectAction(id: string, formData: FormData) {
-  const name = formData.get("name")?.toString();
-  const supabase = createClient();
-
-  const { error } = await supabase
-    .from("projects")
-    .update({ name })
-    .eq("id", id);
-
-  console.log("dataa", name, id);
-  if (error) return console.error(error);
-
-  revalidatePath("/project");
-}
-
-export async function deleteProjectAction(id: string) {
-  const supabase = createClient();
-
-  const { error } = await supabase.from("projects").delete().eq("id", id);
-
-  if (error) return console.error(error);
-
-  redirect("/home");
-}
-
-export async function createSectionAction(id: string, formData: FormData) {
-  const name = formData.get("new-section")?.toString();
-  const supabase = createClient();
-
-  const { error } = await supabase
-    .from("sections")
-    .insert([{ name, project_id: id }]);
-
-  if (error) return console.error(error);
-
-  revalidatePath("/project");
-}
-
-export async function updateSectionAction(id: string, formData: FormData) {
-  const name = formData.get("section-name")?.toString();
-  const supabase = createClient();
-
-  const { error } = await supabase
-    .from("sections")
-    .update({ name })
-    .eq("id", id);
-
-  if (error) return console.error(error);
-
-  revalidatePath("/project");
-}
 
 export async function createTaskAction(
   id: string,
@@ -290,16 +207,6 @@ export async function removeLabelAction(labelId: string, taskId: string) {
     .eq("label_id", labelId);
 
   if (error) console.error(error);
-}
-
-export async function deleteSectionAction(id: string) {
-  const supabase = createClient();
-
-  const { error } = await supabase.from("sections").delete().eq("id", id);
-
-  if (error) return console.error(error);
-
-  revalidatePath("/project");
 }
 
 export async function deleteTaskAction(id: string) {

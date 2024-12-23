@@ -1,10 +1,10 @@
-import { subtaskCompletedAction } from "@/app/(main)/actions";
 import { Subtask } from "@/lib/types";
 import classNames from "classnames";
 import { ChevronRight, List } from "lucide-react";
 import { startTransition, useOptimistic, useState } from "react";
 import Image from "next/image";
 import { iconSize } from "@/lib/constants";
+import { subtaskCompletedAction } from "@/app/actions/task-actions";
 
 interface TaskSubtasksProps {
   subtasks: Subtask[];

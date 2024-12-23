@@ -9,8 +9,8 @@ import LayoutSelect from "./layout-select";
 import { sortSectionTasks } from "@/lib/utils";
 import TaskSortSelect from "./task-sort-select";
 import TaskFilterSelect from "./task-filter-select";
-import { updateSectionAction } from "@/app/(main)/actions";
 import TaskModal from "@/components/modals/task-modal/task-modal";
+import { updateSectionAction } from "@/app/actions/section-actions";
 
 export default function BoardView({ sections, user }: SectionsProps) {
   const [editingSectionId, setEditingSectionId] = useState("");

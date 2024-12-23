@@ -1,4 +1,4 @@
-import { createSectionAction } from "@/app/(main)/actions";
+import { createSectionAction } from "@/app/actions/section-actions";
 import { useElementFocus } from "@/hooks/use-element-focus";
 import { iconSize } from "@/lib/constants";
 import { Plus } from "lucide-react";
