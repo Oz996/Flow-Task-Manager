@@ -1,12 +1,6 @@
 "use client";
 import { updateProjectAction } from "@/app/(main)/actions";
-import EditButton from "@/components/popover-components/edit-button";
-import PopoverButton from "@/components/popover-components/popover-button";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import ProjectPopover from "@/components/popovers/project-popover";
 import { useElementFocus } from "@/hooks/use-element-focus";
 import { editProjectSchema } from "@/lib/schemas";
 import { Project } from "@/lib/types";
@@ -65,16 +59,7 @@ export default function ProjectName({ project }: ProjectNameProps) {
         <h1 className="font-bold text-xl">{project.name}</h1>
       )}
 
-      <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
-        <PopoverTrigger asChild>
-          <PopoverButton labelFor="Project" />
-        </PopoverTrigger>
-        <PopoverContent align="start" className="w-[12rem]">
-          <EditButton labelFor="project" onClick={() => setIsEditing(true)}>
-            Edit project
-          </EditButton>
-        </PopoverContent>
-      </Popover>
+      <ProjectPopover setIsEditing={setIsEditing} />
     </div>
   );
 }

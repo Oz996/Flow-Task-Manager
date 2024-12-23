@@ -2,7 +2,7 @@ import { Card } from "@/components/ui/card";
 import { Section, Task } from "@/lib/types";
 import Image from "next/image";
 import TaskSubtasks from "./task-subtasks";
-import TaskPopover from "./task-popover";
+import TaskPopover from "../../../../../components/popovers/task-popover";
 import { startTransition, useOptimistic } from "react";
 import { taskCompletedAction } from "@/app/(main)/actions";
 import classNames from "classnames";

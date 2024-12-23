@@ -1,6 +1,6 @@
 import { FilterType, OrderType, SortOptionsType, SortType } from "@/lib/types";
 import { ChangeEvent, useMemo, useRef, useState } from "react";
-import SectionPopover from "./section-popover";
+import SectionPopover from "../../../../../components/popovers/section-popover";
 import TaskCard from "./task-card";
 import NewSectionDiv from "./new-section-div";
 import { useElementFocus } from "@/hooks/use-element-focus";

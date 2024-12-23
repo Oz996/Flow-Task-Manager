@@ -1,7 +1,7 @@
 import { FilterType, OrderType, SortOptionsType, SortType } from "@/lib/types";
 import { ChevronRight } from "lucide-react";
 import { ChangeEvent, useMemo, useRef, useState } from "react";
-import SectionPopover from "./section-popover";
+import SectionPopover from "../../../../../components/popovers/section-popover";
 import { useElementFocus } from "@/hooks/use-element-focus";
 import { SectionsProps } from "./sections";
 import classNames from "classnames";

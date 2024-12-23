@@ -12,7 +12,7 @@ import { Plus } from "lucide-react";
 import { useState } from "react";
 import { flushSync } from "react-dom";
 import { iconSize } from "@/lib/constants";
-import EditButton from "@/components/popover-components/edit-button";
+import EditButton from "@/components/popovers/edit-button";
 
 interface TaskModalProps {
   id: string;
