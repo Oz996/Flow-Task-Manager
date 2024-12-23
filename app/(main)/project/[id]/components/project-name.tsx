@@ -59,7 +59,7 @@ export default function ProjectName({ project }: ProjectNameProps) {
         <h1 className="font-bold text-xl">{project.name}</h1>
       )}
 
-      <ProjectPopover setIsEditing={setIsEditing} />
+      <ProjectPopover id={project.id} setIsEditing={setIsEditing} />
     </div>
   );
 }

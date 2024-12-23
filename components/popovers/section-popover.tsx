@@ -17,15 +17,15 @@ export default function SectionPopover({
 }: SectionPopoverProps) {
   return (
     <PopoverContainer
-      trigger={<PopoverButton labelFor="Section" />}
+      trigger={<PopoverButton label="Section" />}
       align="start"
       className="w-[12rem]"
     >
-      <EditButton labelFor="section" onClick={() => editSection(id, name)}>
+      <EditButton onClick={() => editSection(id, name)}>
         Rename section
       </EditButton>
 
-      <DeleteModal id={id} type="section" />
+      <DeleteModal id={id} type="Section" />
     </PopoverContainer>
   );
 }

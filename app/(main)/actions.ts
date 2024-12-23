@@ -50,6 +50,16 @@ export async function updateProjectAction(id: string, formData: FormData) {
   revalidatePath("/project");
 }
 
+export async function deleteProjectAction(id: string) {
+  const supabase = createClient();
+
+  const { error } = await supabase.from("projects").delete().eq("id", id);
+
+  if (error) return console.error(error);
+
+  redirect("/home");
+}
+
 export async function createSectionAction(id: string, formData: FormData) {
   const name = formData.get("new-section")?.toString();
   const supabase = createClient();
@@ -72,7 +82,7 @@ export async function updateSectionAction(id: string, formData: FormData) {
     .update({ name })
     .eq("id", id);
 
-  if (error) console.error(error);
+  if (error) return console.error(error);
 
   revalidatePath("/project");
 }
@@ -287,7 +297,7 @@ export async function deleteSectionAction(id: string) {
 
   const { error } = await supabase.from("sections").delete().eq("id", id);
 
-  if (error) console.error(error);
+  if (error) return console.error(error);
 
   revalidatePath("/project");
 }
@@ -297,7 +307,7 @@ export async function deleteTaskAction(id: string) {
 
   const { error } = await supabase.from("tasks").delete().eq("id", id);
 
-  if (error) console.error(error);
+  if (error) return console.error(error);
 
   revalidatePath("/project");
 }
@@ -361,7 +371,7 @@ export async function taskCompletedAction(completed: boolean, id: string) {
     .update({ completed: !completed })
     .eq("id", id);
 
-  if (error) console.error(error);
+  if (error) return console.error(error);
 
   revalidatePath("/project");
 }
@@ -374,7 +384,7 @@ export async function subtaskCompletedAction(completed: boolean, id: string) {
     .update({ completed: !completed })
     .eq("id", id);
 
-  if (error) console.error(error);
+  if (error) return console.error(error);
 
   revalidatePath("/project");
 }

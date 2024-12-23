@@ -12,13 +12,13 @@ interface TaskPopoverProps {
 export default function TaskPopover({ id, sections }: TaskPopoverProps) {
   return (
     <PopoverContainer
-      trigger={<PopoverButton labelFor="Task" />}
+      trigger={<PopoverButton label="Task" />}
       align="start"
       className="w-[12rem]"
     >
       <TaskModal id={id} sections={sections} type="edit" />
 
-      <DeleteModal id={id} type="task" />
+      <DeleteModal id={id} type="Task" />
     </PopoverContainer>
   );
 }

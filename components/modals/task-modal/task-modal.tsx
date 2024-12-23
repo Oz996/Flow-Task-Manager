@@ -37,7 +37,7 @@ export default function TaskModal({
     <Dialog open={modalOpen} onOpenChange={setModalOpen}>
       <DialogTrigger asChild>
         {type === "edit" ? (
-          <EditButton labelFor="task">Edit task</EditButton>
+          <EditButton>Edit task</EditButton>
         ) : type === "add" && listView ? (
           <button
             aria-label="Create task"
