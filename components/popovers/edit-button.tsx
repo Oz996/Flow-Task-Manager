@@ -14,7 +14,7 @@ const EditButton = forwardRef<HTMLButtonElement, EditButtonProps>(
         ref={ref}
         {...props}
         onClick={onClick}
-        className="flex items-center gap-2 p-1 w-full hover:bg-slate-200 duration-200 cursor-pointer"
+        className="flex items-center gap-2 py-1 px-2 w-full hover:bg-slate-200 dark:hover:bg-main duration-200 cursor-pointer"
       >
         <Pencil size={iconSize} />
         {children}

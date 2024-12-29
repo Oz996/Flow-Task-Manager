@@ -124,7 +124,7 @@ export default function Searchbar() {
           onChange={handleSearch}
           aria-label="Search for tasks/projects/people"
           className={classNames({
-            "rounded-full w-[30rem] pl-10 placeholder:text-white bg-main-light border-none h-[2.1rem]":
+            "rounded-full w-[30rem] pl-10 placeholder:text-white bg-[#494a54] border-none h-[2.1rem]":
               true,
             "pl-5 bg-white placeholder:text-black text-black ring-2 ring-ring ring-offset-2":
               isActive,

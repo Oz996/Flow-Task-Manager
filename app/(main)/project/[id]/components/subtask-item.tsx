@@ -13,7 +13,7 @@ export default function SubtaskItem({
   return (
     <li
       key={subtask.id}
-      className="flex items-center gap-2 py-2 text-sm border-b border-b-gray-200"
+      className="flex items-center gap-2 py-2 text-sm border-b border-main-border"
     >
       <button
         aria-label="Mark subtask as complete"

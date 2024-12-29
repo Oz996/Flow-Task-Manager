@@ -12,7 +12,7 @@ const DeleteButton = forwardRef<HTMLButtonElement, DeleteButtonProps>(
       <button
         ref={ref}
         {...props}
-        className="flex items-center gap-2 p-1 w-full text-red-500 hover:bg-slate-200 duration-200 cursor-pointer"
+        className="flex items-center gap-2 py-1 px-2 w-full text-red-500 hover:bg-slate-200 dark:hover:bg-main duration-200 cursor-pointer"
       >
         <Trash2 size={iconSize} />
         {children}

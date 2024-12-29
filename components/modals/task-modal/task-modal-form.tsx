@@ -170,8 +170,8 @@ export default function TaskModalForm({
 
   return (
     <div>
-      <form>
-        <div className="flex flex-col gap-2">
+      <form className="flex flex-col gap-2">
+        <div className="flex flex-col gap-3">
           <Label htmlFor="name">Task name</Label>
           <Input
             id="name"
@@ -182,7 +182,7 @@ export default function TaskModalForm({
           />
         </div>
 
-        <div className="flex flex-col gap-2 mt-2">
+        <div className="flex flex-col gap-3 mt-2">
           <Label htmlFor="description">Task description (optional)</Label>
           <Textarea
             id="description"

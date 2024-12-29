@@ -38,7 +38,7 @@ export default function TaskModalSections({
   }
 
   return (
-    <div className="flex flex-col gap-2 py-2">
+    <div className="flex flex-col gap-3 py-2">
       <Label>Task status</Label>
       <Select value={sectionId ?? sections[0].id} onValueChange={handleChange}>
         <SelectTrigger className="w-full">

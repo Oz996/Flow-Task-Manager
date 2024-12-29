@@ -92,9 +92,9 @@ export default function TaskModalLabels({
           </p>
           <button
             type="button"
-            className="text-main-light"
             onClick={() => removeAssignedLabel(label)}
-            aria-label="Assign or add a label"
+            className="text-main-light"
+            aria-label={`Remove ${label.name} label`}
           >
             <X size={18} />
           </button>
@@ -109,6 +109,7 @@ export default function TaskModalLabels({
               <button
                 type="button"
                 className="px-2 py-2 h-10 rounded border text-main-light"
+                aria-label="Assign or add a label"
               >
                 <Plus size={18} />
               </button>

@@ -27,7 +27,7 @@ export default function UserModalForm({
       <div className="flex flex-col gap-3">
         <Button onClick={() => setEditing("names")}>Edit username/email</Button>
         <Button onClick={() => setEditing("password")}>Change password</Button>
-        <DeleteModal id={user.id} type="user" />
+        <DeleteModal id={user.id} type="User" />
       </div>
     );
 

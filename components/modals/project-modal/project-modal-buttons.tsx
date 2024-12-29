@@ -77,7 +77,8 @@ export default function ProjectModalButtons({
             type="button"
             onClick={setTemplateState}
             className={classNames({
-              "size-24 bg-transparent hover:bg-transparent shadow": true,
+              "size-24 bg-transparent hover:bg-transparent dark:hover:bg-white shadow bg-white":
+                true,
               "border border-blue-400": active === 2,
             })}
           >

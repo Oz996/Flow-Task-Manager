@@ -79,10 +79,7 @@ export default function TaskSubtasks({
             {optimisticSubtasks.map((subtask, index, arr) => (
               <li
                 key={subtask.id}
-                className={classNames({
-                  "flex items-center gap-2 py-2 text-sm": true,
-                  "border-b border-b-gray-200": true,
-                })}
+                className="flex items-center gap-2 py-2 text-sm border-b border-main-border"
               >
                 <button
                   aria-label={

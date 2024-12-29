@@ -85,7 +85,7 @@ export default function Listview({ sections, user }: SectionsProps) {
   );
 
   return (
-    <div className="flex flex-col border-t border-t-gray-200 pt-4">
+    <div className="flex flex-col border-t border-main-border pt-4">
       <div className="flex gap-5 items-center">
         <LayoutSelect />
         <TaskSortSelect
@@ -95,8 +95,8 @@ export default function Listview({ sections, user }: SectionsProps) {
         />
         <TaskFilterSelect setFilter={setFilter} filter={filter} />
       </div>
-      <div className="grid grid-cols-5 mt-5 pt-5 border-t border-t-gray-200">
-        <div className="col-span-2 flex justify-between border-b border-t border-r p-1">
+      <div className="grid grid-cols-5 mt-5 pt-5 border-t border-main-border">
+        <div className="col-span-2 flex justify-between border-b border-t border-r border-main-border p-1">
           <span>Task name</span>
           <TaskSortButtons
             sortOptions={sortOptions}
@@ -105,7 +105,7 @@ export default function Listview({ sections, user }: SectionsProps) {
           />
         </div>
 
-        <div className="flex justify-between border-b border-t border-r p-1">
+        <div className="flex justify-between border-b border-t border-r border-main-border p-1">
           <span>Assignee</span>
           <TaskSortButtons
             sortOptions={sortOptions}
@@ -114,7 +114,7 @@ export default function Listview({ sections, user }: SectionsProps) {
           />
         </div>
 
-        <div className="flex justify-between border-b border-t border-r p-1">
+        <div className="flex justify-between border-b border-t border-r border-main-border p-1">
           <span>Priority</span>
           <TaskSortButtons
             sortOptions={sortOptions}
@@ -123,7 +123,7 @@ export default function Listview({ sections, user }: SectionsProps) {
           />
         </div>
 
-        <div className="flex justify-between border-b border-t p-1">
+        <div className="flex justify-between border-b border-t border-main-border p-1">
           <span>Label</span>
           <TaskSortButtons
             sortOptions={sortOptions}
@@ -158,6 +158,7 @@ export default function Listview({ sections, user }: SectionsProps) {
                       ref={sectionInputRef}
                       value={editingSectionValue}
                       onChange={handleChange}
+                      className="px-1"
                     />
                   </form>
                 ) : (

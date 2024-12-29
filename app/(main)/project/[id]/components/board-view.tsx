@@ -68,7 +68,7 @@ export default function BoardView({ sections, user }: SectionsProps) {
   );
 
   return (
-    <div className="flex flex-col border-t border-t-gray-200 pt-4">
+    <div className="flex flex-col border-t pt-4">
       <div className="flex gap-5 items-center">
         <LayoutSelect />
         <TaskSortSelect
@@ -78,7 +78,7 @@ export default function BoardView({ sections, user }: SectionsProps) {
         />
         <TaskFilterSelect setFilter={setFilter} filter={filter} />
       </div>
-      <div className="flex gap-5 mt-5 pt-5 border-t border-t-gray-200">
+      <div className="flex gap-5 mt-5 pt-5 border-t">
         {sortedTasks.map((section) => (
           <div key={section.id} className="min-w-[17.5rem] flex flex-col gap-5">
             <div className="flex justify-between">

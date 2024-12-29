@@ -93,6 +93,7 @@ export default function TaskModalUsers({
               <TooltipTrigger asChild>
                 <button
                   className="p-1 bg-transparent hover:bg-transparent/10 rounded-lg"
+                  aria-label="Assign or unassign users"
                   onClick={() => setPopoverOpen(true)}
                   type="button"
                 >

@@ -73,11 +73,11 @@ export default function DeleteModal({ id, type }: DeleteModalProps) {
         )}
       </DialogTrigger>
       <DialogContent className="sm:max-w-[20rem] p-0 space-y-2">
-        <DialogHeader className="border-b border-gray-200">
+        <DialogHeader className="border-b border-border">
           <DialogTitle className="px-4 py-6 capitalize">{`Delete ${type}?`}</DialogTitle>
         </DialogHeader>
         <p className="px-4">This action is irreversible</p>
-        <DialogFooter className="border-t border-gray-200">
+        <DialogFooter className="border-t border-border">
           <div className="flex gap-2 p-4">
             <Button
               variant="ghost"

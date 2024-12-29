@@ -57,12 +57,13 @@ export default function TaskListItem({
     <li
       key={task.id}
       className={classNames({
-        "flex flex-col text-sm duration-200 first:border-t": true,
+        "flex flex-col text-sm duration-200 first:border-t border-main-border":
+          true,
         "opacity-75": optimisticTask.completed,
       })}
     >
       <div className="grid grid-cols-5">
-        <div className="flex items-center gap-2 relative col-span-2 border-b border-r p-1">
+        <div className="flex items-center gap-2 relative col-span-2 border-b border-r border-main-border p-1">
           {task.subtasks.length > 0 && (
             <button
               onClick={() => expandTask(task.id)}
@@ -118,24 +119,24 @@ export default function TaskListItem({
         </div>
 
         {homeList && task.section && (
-          <div className="flex items-center border-b border-r p-1">
+          <div className="flex items-center border-b border-r border-main-border p-1">
             <TaskProjectInfo project={task.section.project} />
           </div>
         )}
 
         {!homeList && (
-          <div className="flex items-center gap-2 border-b border-r p-1">
+          <div className="flex items-center gap-2 border-b border-r border-main-border p-1">
             {task.profiles.map((user) => (
               <UserAvatar key={user.id} user={user} small />
             ))}
           </div>
         )}
 
-        <div className="flex items-center gap-2 border-b border-r p-1">
+        <div className="flex items-center gap-2 border-b border-r border-main-border p-1">
           <TaskPriority priority={task.priority} />
         </div>
 
-        <div className="flex items-center gap-2 border-b p-1">
+        <div className="flex items-center gap-2 border-b border-main-border p-1">
           {task.labels.map((label) => (
             <TaskLabel key={label.id} label={label} />
           ))}
