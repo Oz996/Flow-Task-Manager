@@ -59,7 +59,7 @@ export default function NewSectionDiv() {
         onClick={() => setAddMode(true)}
         role="button"
       >
-        <div className="flex gap-1 p-1 pr-2 duration-200 rounded-lg text-main-light items-start group-hover:text-black">
+        <div className="flex gap-1 p-1 pr-2 duration-200 rounded-lg text-main-light items-start group-hover:text-black dark:group-hover:text-white">
           <Plus size={iconSize} />
           <span className="font-semibold leading-none">Add section</span>
         </div>

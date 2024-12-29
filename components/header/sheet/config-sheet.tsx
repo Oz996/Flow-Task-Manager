@@ -28,7 +28,7 @@ export default async function ConfigSheet() {
           <SheetTitle>Configurations</SheetTitle>
         </SheetHeader>
 
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-3 pt-5">
           <ThemePicker />
           <UserModal user={user!} />
           <SignOutButton />

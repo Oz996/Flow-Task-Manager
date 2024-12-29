@@ -37,7 +37,7 @@ export default function TaskCard({ task, sections }: TaskCardProps) {
   return (
     <Card
       className={classNames({
-        "flex flex-col gap-5 p-4 min-h-[8rem] rounded-lg duration-200 dark:bg-[#191a26]":
+        "flex flex-col gap-5 p-4 min-h-[8rem] rounded-lg duration-200 dark:bg-main":
           true,
         "opacity-75": optimisticTask.completed,
       })}

@@ -28,7 +28,7 @@ export default function TaskFilterSelect({
 
   return (
     <div className="flex gap-1 items-center">
-      <ListFilter size={iconSize} />
+      <ListFilter size={iconSize + 5} />
 
       {filter && (
         <TooltipContainer

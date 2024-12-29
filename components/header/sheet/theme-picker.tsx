@@ -14,7 +14,7 @@ export default function ThemePicker() {
   }
 
   return (
-    <div className="flex items-center gap-3 py-5">
+    <div className="flex items-center gap-3 py-5 self-center">
       <Label htmlFor="theme" className="sr-only">
         Airplane Mode
       </Label>
