@@ -28,7 +28,7 @@ export default function TaskFilterSelect({
 
   return (
     <div className="flex gap-1 items-center">
-      <ListFilter size={iconSize + 5} />
+      <ListFilter size={iconSize} className="shrink-0" />
 
       {filter && (
         <TooltipContainer
@@ -48,7 +48,7 @@ export default function TaskFilterSelect({
       )}
 
       <Select value={filter} onValueChange={handleChange}>
-        <SelectTrigger className="w-[8rem" aria-label="Select filtering option">
+        <SelectTrigger aria-label="Select filtering option">
           <SelectValue placeholder="Filter" />
         </SelectTrigger>
         <SelectContent>

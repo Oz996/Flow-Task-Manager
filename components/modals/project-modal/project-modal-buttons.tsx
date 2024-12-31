@@ -1,22 +1,11 @@
 import { projectTemplate } from "@/lib/constants";
 import Image from "next/image";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
-import {
-  Dispatch,
-  ReactNode,
-  RefObject,
-  SetStateAction,
-  useState,
-} from "react";
+import { Dispatch, RefObject, SetStateAction, useState } from "react";
 import { Section } from "@/lib/types";
 import classNames from "classnames";
 import { generateSection } from "@/lib/utils";
+import TooltipContainer from "@/components/tooltip-container";
 
 interface ProjectModalButtonsProps {
   inputRef: RefObject<HTMLInputElement>;
@@ -30,9 +19,7 @@ export default function ProjectModalButtons({
   const [active, setActive] = useState(1);
 
   function focusInput() {
-    if (inputRef.current?.value === "") {
-      inputRef.current.focus();
-    }
+    inputRef.current?.focus();
   }
 
   function setInitialState() {
@@ -49,7 +36,9 @@ export default function ProjectModalButtons({
 
   return (
     <div className="flex gap-2 mb-5">
-      <ProjectModalTooltip
+      <TooltipContainer
+        side="bottom"
+        className="bg-main text-white"
         trigger={
           <Button
             type="button"
@@ -69,10 +58,13 @@ export default function ProjectModalButtons({
             />
           </Button>
         }
-        content={<p>Blank project</p>}
-      />
+      >
+        <p>Blank project</p>
+      </TooltipContainer>
 
-      <ProjectModalTooltip
+      <TooltipContainer
+        side="bottom"
+        className="bg-main text-white"
         trigger={
           <Button
             type="button"
@@ -92,27 +84,9 @@ export default function ProjectModalButtons({
             />
           </Button>
         }
-        content={<p>Use a template</p>}
-      />
+      >
+        <p>Use a template</p>
+      </TooltipContainer>
     </div>
   );
-
-  function ProjectModalTooltip({
-    trigger,
-    content,
-  }: {
-    trigger: ReactNode;
-    content: ReactNode;
-  }) {
-    return (
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger asChild>{trigger}</TooltipTrigger>
-          <TooltipContent side="bottom" className="bg-main text-white">
-            {content}
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
-    );
-  }
 }

@@ -18,18 +18,6 @@ export const projectTemplate: Section[] = [
   },
 ];
 
-export const viewModeOptions = [
-  { name: "Board", value: "board" },
-  { name: "List", value: "list" },
-] as const;
-
-export const priorityOptions = [
-  { name: "--", value: null },
-  { name: "Low", value: "low" },
-  { name: "Medium", value: "medium" },
-  { name: "High", value: "high" },
-] as const;
-
 export const initialTask: Task = {
   id: "",
   created_at: "",
@@ -43,6 +31,18 @@ export const initialTask: Task = {
   subtasks: [],
   priority: null,
 };
+
+export const viewModeOptions = [
+  { name: "Board", value: "board" },
+  { name: "List", value: "list" },
+] as const;
+
+export const priorityOptions = [
+  { name: "--", value: null },
+  { name: "Low", value: "low" },
+  { name: "Medium", value: "medium" },
+  { name: "High", value: "high" },
+] as const;
 
 export const taskSortOptions = [
   { name: "Created", value: "created" },

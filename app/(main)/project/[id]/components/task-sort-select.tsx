@@ -35,7 +35,7 @@ export default function TaskSortSelect({
 
   return (
     <div className="flex gap-1 items-center">
-      <ArrowUpDown size={iconSize} />
+      <ArrowUpDown size={iconSize} className="shrink-0" />
 
       {sortOptions.sort !== "" && (
         <TooltipContainer
@@ -46,7 +46,7 @@ export default function TaskSortSelect({
               aria-label="Reset task sorting"
               className="flex items-center gap-1 p-1 bg-transparent hover:bg-transparent/10 duration-200 rounded lg"
             >
-              <X size={iconSize} />
+              <X size={iconSize} className="shrink-0" />
             </button>
           }
         >
@@ -55,7 +55,7 @@ export default function TaskSortSelect({
       )}
 
       <Select value={sort} onValueChange={handleSortChange}>
-        <SelectTrigger className="w-[8rem]" aria-label="Select sorting option">
+        <SelectTrigger aria-label="Select sorting option">
           <SelectValue placeholder="Sort" />
         </SelectTrigger>
         <SelectContent>
@@ -73,7 +73,7 @@ export default function TaskSortSelect({
       {sort && (
         <Select value={order} onValueChange={handleOrderChange}>
           <SelectTrigger
-            className="w-[8rem] capitalize"
+            className="capitalize"
             aria-label="Select sorting order option"
           >
             <SelectValue />

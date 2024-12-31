@@ -1,10 +1,9 @@
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Subtask } from "@/lib/types";
 import { motion } from "framer-motion";
-import { X } from "lucide-react";
 import { ChangeEvent, Dispatch, SetStateAction } from "react";
+import RemoveButton from "../remove-button";
 
 interface TaskModalSubtasksProps {
   subtasks: Subtask[];
@@ -59,14 +58,7 @@ export default function TaskModalSubtasks({
               onChange={(e) => handleSubtaskChange(e, subtask.id, index)}
             />
             {subtasks.length > 0 && (
-              <Button
-                type="button"
-                className="bg-transparent hover:bg-transparent px-1 py-2 text-main-light"
-                aria-label="Remove this subtask"
-                onClick={() => removeSubtask(subtask.id)}
-              >
-                <X />
-              </Button>
+              <RemoveButton onClick={() => removeSubtask(subtask.id)} />
             )}
           </div>
         </motion.div>

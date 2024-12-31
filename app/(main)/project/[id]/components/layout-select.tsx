@@ -22,13 +22,10 @@ export default function LayoutSelect() {
 
   return (
     <div className="flex gap-1 items-center">
-      <Grip size={iconSize} />
+      <Grip size={iconSize} className="shrink-0" />
 
       <Select value={viewMode!} onValueChange={handleViewMode}>
-        <SelectTrigger
-          className="w-[5rem]"
-          aria-label="Select layout view mode"
-        >
+        <SelectTrigger aria-label="Select layout view mode">
           <SelectValue />
         </SelectTrigger>
         <SelectContent>
