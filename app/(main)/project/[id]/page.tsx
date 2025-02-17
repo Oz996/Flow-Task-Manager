@@ -6,17 +6,12 @@ import Container from "../../../../components/container";
 import Sections from "./components/sections";
 import ProjectName from "./components/project-name";
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
+export async function generateMetadata({ params }: { params: { id: string } }) {
   const supabase = createClient();
-  const id = (await params).id;
   const { data: project, error } = await supabase
     .from("projects")
     .select()
-    .eq("id", id)
+    .eq("id", params.id)
     .single<Project>();
 
   if (error) return console.error(error);
@@ -30,10 +25,9 @@ export async function generateMetadata({
 export default async function ProjectPage({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: { id: string };
 }) {
   const supabase = createClient();
-  const id = (await params).id;
   const user = await userSession();
 
   // fetching project and sections
@@ -42,7 +36,7 @@ export default async function ProjectPage({
     .select(
       `*, sections (*, tasks (*, subtasks (*), profiles (*), labels (*)))`
     )
-    .eq("id", id)
+    .eq("id", params.id)
     .order("created_at", { ascending: true })
     .order("created_at", { referencedTable: "sections", ascending: true })
     .single<Project>();

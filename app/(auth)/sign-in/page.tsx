@@ -8,10 +8,8 @@ import FormError from "../components/form-error";
 export default async function Login({
   searchParams,
 }: {
-  searchParams: Promise<{ error: string }>;
+  searchParams: { error: string };
 }) {
-  const error = (await searchParams).error;
-
   return (
     <>
       <form className="flex flex-col">
@@ -33,7 +31,7 @@ export default async function Login({
             <Label htmlFor="password">Password</Label>
           </div>
           <Input type="password" name="password" placeholder="Your password" />
-          <FormError error={error} />
+          <FormError error={searchParams.error} />
           <SubmitButton loader formAction={signInAction} className="mt-2">
             Sign in
           </SubmitButton>

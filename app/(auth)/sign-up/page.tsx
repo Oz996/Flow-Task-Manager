@@ -9,10 +9,8 @@ import RequiredLabel from "@/components/required-label";
 export default async function Signup({
   searchParams,
 }: {
-  searchParams: Promise<{ error: string }>;
+  searchParams: { error: string };
 }) {
-  const error = (await searchParams).error;
-
   return (
     <>
       <form className="flex flex-col">
@@ -46,7 +44,7 @@ export default async function Signup({
             id="confirm-password"
             placeholder="Confirm password"
           />
-          <FormError error={error} />
+          <FormError error={searchParams.error} />
           <SubmitButton loader formAction={signUpAction} className="mt-2">
             Sign up
           </SubmitButton>
