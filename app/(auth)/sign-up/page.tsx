@@ -6,11 +6,13 @@ import Link from "next/link";
 import FormError from "../components/form-error";
 import RequiredLabel from "@/components/required-label";
 
-export default function Signup({
+export default async function Signup({
   searchParams,
 }: {
-  searchParams: { error: string };
+  searchParams: Promise<{ error: string }>;
 }) {
+  const error = (await searchParams).error;
+
   return (
     <>
       <form className="flex flex-col">
@@ -44,7 +46,7 @@ export default function Signup({
             id="confirm-password"
             placeholder="Confirm password"
           />
-          <FormError error={searchParams.error} />
+          <FormError error={error} />
           <SubmitButton loader formAction={signUpAction} className="mt-2">
             Sign up
           </SubmitButton>

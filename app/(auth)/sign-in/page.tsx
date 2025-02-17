@@ -5,11 +5,13 @@ import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import FormError from "../components/form-error";
 
-export default function Login({
+export default async function Login({
   searchParams,
 }: {
-  searchParams: { error: string };
+  searchParams: Promise<{ error: string }>;
 }) {
+  const error = (await searchParams).error;
+
   return (
     <>
       <form className="flex flex-col">
@@ -31,7 +33,7 @@ export default function Login({
             <Label htmlFor="password">Password</Label>
           </div>
           <Input type="password" name="password" placeholder="Your password" />
-          <FormError error={searchParams.error} />
+          <FormError error={error} />
           <SubmitButton loader formAction={signInAction} className="mt-2">
             Sign in
           </SubmitButton>
