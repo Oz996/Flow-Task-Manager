@@ -4,14 +4,19 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import FormError from "../components/form-error";
-import GuestButton from "../components/guest-button";
+import dynamic from "next/dynamic";
+
+// Disabling server-side rendering for the guest button to avoid server errors
+
+const GuestButton = dynamic(() => import("../components/guest-button"), {
+  ssr: false,
+});
 
 export default async function Login({
   searchParams,
 }: {
   searchParams: { error: string };
 }) {
-  console.log("searchParams", searchParams);
   return (
     <form className="flex flex-col">
       <h1 className="text-2xl font-medium">Sign in</h1>
