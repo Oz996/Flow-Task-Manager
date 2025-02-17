@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/tooltip";
 import { createClient } from "@/lib/supabase/client";
 import { Task, User } from "@/lib/types";
+import { handleUserImage } from "@/lib/utils";
 import classNames from "classnames";
 import { UserPlus2 } from "lucide-react";
 import Image from "next/image";
@@ -133,7 +134,7 @@ export default function TaskModalUsers({
                   <Image
                     width={50}
                     height={50}
-                    src={user.avatar_url}
+                    src={handleUserImage(user.avatar_url)}
                     alt="User avatar"
                     className="size-7 rounded-full"
                   />
@@ -154,7 +155,7 @@ export default function TaskModalUsers({
             <Image
               width={50}
               height={50}
-              src={user.avatar_url}
+              src={handleUserImage(user.avatar_url)}
               alt="User avatar"
               className="size-7 rounded-full"
             />

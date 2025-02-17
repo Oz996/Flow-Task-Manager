@@ -8,6 +8,7 @@ import { Check } from "lucide-react";
 import { iconSize } from "@/lib/constants";
 import TaskListCategories from "./components/task-list-categories";
 import GreetingDisplay from "./components/greeting-display";
+import { handleUserImage } from "@/lib/utils";
 
 export default async function Home() {
   const supabase = createClient();
@@ -23,6 +24,7 @@ export default async function Home() {
   if (error) return console.error(error.message);
 
   const tasks = data?.flatMap((item) => item.tasks) as Task[];
+  console.log("useee", user?.user_metadata.avatar_url);
   const completedTasks = tasks?.flat().filter((task) => task.completed);
 
   return (
@@ -33,7 +35,7 @@ export default async function Home() {
         <div className="flex flex-col rounded-lg border p-6 mt-10 w-[65%] mx-auto">
           <div className="flex items-center gap-4">
             <Image
-              src={user?.user_metadata.avatar_url!}
+              src={handleUserImage(user?.user_metadata.avatar_url!)}
               width={50}
               height={50}
               alt=""

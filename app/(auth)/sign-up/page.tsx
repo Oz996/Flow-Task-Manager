@@ -6,7 +6,7 @@ import Link from "next/link";
 import FormError from "../components/form-error";
 import RequiredLabel from "@/components/required-label";
 
-export default function Signup({
+export default async function Signup({
   searchParams,
 }: {
   searchParams: { error: string };

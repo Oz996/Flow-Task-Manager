@@ -6,6 +6,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { handleUserImage } from "@/lib/utils";
 
 export default async function HeaderAvatar() {
   const user = await userSession();
@@ -26,27 +27,21 @@ export default async function HeaderAvatar() {
   //   return data?.avatar_url;
   // };
 
-  const avatar = user?.user_metadata?.avatar_url;
-
   return (
     <>
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>
-            {avatar ? (
-              <div className="size-8 rounded-full">
-                <Image
-                  priority
-                  width={100}
-                  height={200}
-                  alt="User image"
-                  src={avatar}
-                  className="w-full h-full object-cover rounded-full"
-                />
-              </div>
-            ) : (
-              <div className="size-8 rounded-full bg-main-light" />
-            )}
+            <div className="size-8 rounded-full">
+              <Image
+                priority
+                width={100}
+                height={200}
+                alt="User image"
+                src={handleUserImage(user?.user_metadata?.avatar_url!)}
+                className="w-full h-full object-cover rounded-full"
+              />
+            </div>
           </TooltipTrigger>
           <TooltipContent className="text-left">
             <p>{user?.user_metadata?.username}</p>

@@ -18,6 +18,12 @@ export function encodedNavigation(path: string, message: string) {
   return redirect(`/${path}?error=${encodeURIComponent(message)}`);
 }
 
+export function handleUserImage(image: string) {
+  if (image.endsWith("undefined")) return "/no-image.webp";
+
+  return image;
+}
+
 export function generateSection(): Section {
   return {
     id: crypto.randomUUID(),

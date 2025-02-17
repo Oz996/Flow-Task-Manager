@@ -1,5 +1,6 @@
 import TooltipContainer from "@/components/tooltip-container";
 import { User } from "@/lib/types";
+import { handleUserImage } from "@/lib/utils";
 import classNames from "classnames";
 import Image from "next/image";
 
@@ -16,7 +17,7 @@ export default function UserAvatar({ user, small }: UserAvatarProps) {
         <Image
           width={100}
           height={100}
-          src={user.avatar_url}
+          src={handleUserImage(user.avatar_url)}
           alt="User avatar"
           className={classNames({
             "size-7 rounded-full": true,
