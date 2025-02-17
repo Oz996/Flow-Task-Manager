@@ -8,7 +8,7 @@ import FormError from "../components/form-error";
 export default async function Login({
   searchParams,
 }: {
-  searchParams: Promise<{ error: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const error = (await searchParams).error;
 
