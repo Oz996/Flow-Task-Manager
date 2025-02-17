@@ -44,7 +44,6 @@ export async function updateProjectAction(id: string, formData: FormData) {
     .update({ name })
     .eq("id", id);
 
-  console.log("dataa", name, id);
   if (error) return console.error(error);
 
   revalidatePath("/project");

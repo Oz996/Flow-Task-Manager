@@ -24,15 +24,14 @@ export default async function Home() {
   if (error) return console.error(error.message);
 
   const tasks = data?.flatMap((item) => item.tasks) as Task[];
-  console.log("useee", user?.user_metadata.avatar_url);
   const completedTasks = tasks?.flat().filter((task) => task.completed);
 
   return (
-    <section className="px-8 pt-10">
+    <section className="md:px-8 pt-10">
       <Container>
         <GreetingDisplay user={user!} />
 
-        <div className="flex flex-col rounded-lg border p-6 mt-10 w-[65%] mx-auto">
+        <div className="flex flex-col rounded-lg border p-6 mt-10 w-[90%] md:w-[65%] mx-auto">
           <div className="flex items-center gap-4">
             <Image
               src={handleUserImage(user?.user_metadata.avatar_url!)}

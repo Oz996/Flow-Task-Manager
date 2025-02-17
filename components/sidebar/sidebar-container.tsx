@@ -16,7 +16,7 @@ export default function SidebarContainer({
         <motion.aside
           key="sidebar"
           aria-expanded={sidebarOpen}
-          className="bg-main fixed w-[18.5rem] left-0 bottom-0 top-12 h-screen z-10"
+          className="bg-main hidden md:block fixed w-[18.5rem] left-0 bottom-0 top-12 h-screen z-10"
           initial={{ left: "-18.5rem" }}
           animate={{ left: 0 }}
           exit={{ left: "-18.5rem" }}

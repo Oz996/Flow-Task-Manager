@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import ConfigSheet from "./sheet/config-sheet";
 import { userSession } from "@/lib/supabase/user-session";
+import SidebarModal from "../sidebar/sidebar-modal";
 
 export default async function Header() {
   const user = await userSession();
@@ -11,7 +12,13 @@ export default async function Header() {
   return (
     <header className="w-screen h-12 bg-main fixed left-0 top-0 z-10">
       <div className="flex justify-between items-center h-full mx-5">
-        <SidebarButton />
+        <div className="hidden md:block">
+          <SidebarButton />
+        </div>
+        <div className="md:hidden">
+          <SidebarModal />
+        </div>
+
         <Searchbar />
         <div className="flex gap-1 items-center">
           {!user && (
