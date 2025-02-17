@@ -9,7 +9,7 @@ import RequiredLabel from "@/components/required-label";
 export default async function Signup({
   searchParams,
 }: {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+  searchParams: Promise<{ error: string }>;
 }) {
   const error = (await searchParams).error;
 
