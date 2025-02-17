@@ -1,6 +1,5 @@
-import { PriorityType } from "@/components/modals/task-modal/task-modal-form";
 import TooltipContainer from "@/components/tooltip-container";
-import { Task } from "@/lib/types";
+import { PriorityType } from "@/lib/types";
 import classNames from "classnames";
 
 interface TaskPriorityProps {

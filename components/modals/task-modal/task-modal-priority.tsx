@@ -8,9 +8,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { priorityOptions } from "@/lib/constants";
-import { PriorityType } from "./task-modal-form";
 import { Dispatch, SetStateAction } from "react";
-import { Task } from "@/lib/types";
+import { Task, PriorityType } from "@/lib/types";
 
 interface TaskModalPriorityProps {
   priority: PriorityType;

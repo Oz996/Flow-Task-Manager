@@ -31,8 +31,6 @@ export interface EditTaskState {
   description?: string;
 }
 
-export type PriorityType = "low" | "medium" | "high" | null;
-
 export default function TaskModalForm({
   id,
   addModal,

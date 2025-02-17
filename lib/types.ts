@@ -1,5 +1,3 @@
-import { PriorityType } from "@/components/modals/task-modal/task-modal-form";
-
 export interface Task {
   id: string;
   section_id: string;
@@ -71,5 +69,7 @@ export interface SortOptionsType {
   sort: SortType;
   order: OrderType;
 }
+
+export type PriorityType = "low" | "medium" | "high" | null;
 
 export type FilterType = "completed" | "uncompleted" | "my tasks" | "";
