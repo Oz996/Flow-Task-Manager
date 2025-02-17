@@ -94,6 +94,22 @@ export const signInAction = async (formData: FormData) => {
   return redirect("/home");
 };
 
+export const signInAsGuestAction = async () => {
+  const supabase = createClient();
+
+  const { error } = await supabase.auth.signInWithPassword({
+    email: "guest@mail.com",
+    password: "guest123",
+  });
+
+  if (error) {
+    console.error(error.message);
+    return encodedNavigation("sign-in", error.message);
+  }
+
+  return redirect("/home");
+};
+
 export const signOutAction = async () => {
   const supabase = createClient();
 

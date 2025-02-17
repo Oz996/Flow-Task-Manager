@@ -1,15 +1,20 @@
-import { signInAction } from "@/app/(auth)/actions";
+import { signInAction, signInAsGuestAction } from "@/app/(auth)/actions";
 import { SubmitButton } from "@/components/submit-button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import FormError from "../components/form-error";
+import GuestButton from "../components/guest-button";
 
 export default function Login({
   searchParams,
 }: {
   searchParams: { error: string };
 }) {
+  async function handleGuestLogin() {
+    await signInAsGuestAction();
+  }
+
   return (
     <form className="flex flex-col">
       <h1 className="text-2xl font-medium">Sign in</h1>
@@ -30,6 +35,7 @@ export default function Login({
         <SubmitButton loader formAction={signInAction} className="mt-2">
           Sign in
         </SubmitButton>
+        <GuestButton />
       </div>
     </form>
   );

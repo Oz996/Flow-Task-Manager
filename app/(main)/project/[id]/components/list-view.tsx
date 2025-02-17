@@ -177,13 +177,11 @@ export default function Listview({ sections, user }: SectionsProps) {
                 <>
                   <ul>
                     {section.tasks?.map((task) => (
-                      <>
-                        <TaskListItem
-                          key={task.id}
-                          task={task}
-                          sections={sections}
-                        />
-                      </>
+                      <TaskListItem
+                        key={task.id}
+                        task={task}
+                        sections={sections}
+                      />
                     ))}
                   </ul>
                   <TaskModal

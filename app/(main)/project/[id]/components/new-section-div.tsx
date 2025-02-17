@@ -47,7 +47,7 @@ export default function NewSectionDiv() {
           value={sectionValue}
           onChange={handleChange}
           placeholder="Section name"
-          className="w-full"
+          className="w-full p-1"
         />
       </form>
     );

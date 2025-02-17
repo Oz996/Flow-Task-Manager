@@ -49,21 +49,21 @@ export default function ProjectSkeleton() {
             <div className="mb-10">
               <Skeleton className="h-6 w-24 mb-2" />
               {new Array(3).fill(0).map((_, index) => (
-                <Skeleton className="h-9 w-full" />
+                <Skeleton key={index} className="h-9 w-full" />
               ))}
             </div>
 
             <div className="mb-10">
               <Skeleton className="h-6 w-24 mb-2" />
               {new Array(2).fill(0).map((_, index) => (
-                <Skeleton className="h-9 w-full" />
+                <Skeleton key={index} className="h-9 w-full" />
               ))}
             </div>
 
             <div className="mb-10">
               <Skeleton className="h-6 w-24 mb-2" />
               {new Array(1).fill(0).map((_, index) => (
-                <Skeleton className="h-9 w-full" />
+                <Skeleton key={index} className="h-9 w-full" />
               ))}
             </div>
           </div>
