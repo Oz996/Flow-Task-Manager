@@ -17,10 +17,16 @@ export const metadata: Metadata = {
   description: "Manage tasks with your team easily using Flow",
 };
 
+const style = {
+  background: "hsl(var(--main))",
+  border: "1px solid hsl(var(--main))",
+  color: "white",
+};
+
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <SidebarContextProvider>
-      <Toaster />
+      <Toaster toastOptions={{ style }} />
       <ViewModeContextProvider>
         <MainLayout>
           <Header />
